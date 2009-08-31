@@ -179,6 +179,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\EngineFoundation\Math\Matrix3.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\EngineFoundation\Math\Vector3.cpp"
 				>
 			</File>
@@ -190,6 +194,10 @@
 			>
 			<File
 				RelativePath="..\include\EngineFoundation\Math\Math.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\include\EngineFoundation\Math\Matrix3.hpp"
 				>
 			</File>
 			<File
