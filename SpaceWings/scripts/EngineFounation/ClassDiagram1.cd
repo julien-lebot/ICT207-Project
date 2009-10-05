@@ -1,0 +1,550 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Phoenix::Camera" Collapsed="true">
+    <Position X="18" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACQCogwAgQAACACAUAAQgQAjAgIAAMgggAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Camera.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::Console" Collapsed="true">
+    <Position X="8.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgSgQQAACEEAAAAAARCABQQgAAAAAAAgAQAAhIVYAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Console.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::ConsoleGL" Collapsed="true">
+    <Position X="8.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAEAQAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\ConsoleGL.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::NullType" Collapsed="true">
+    <Position X="18" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Empty.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::DefaultFactoryError&lt;IdentifierType, AbstractProduct&gt;" Collapsed="true">
+    <Position X="18" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Factory.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::ObjectFactory&lt;AbstractProduct, IdentifierType, ProductCreator, FactoryErrorPolicy&gt;" Collapsed="true">
+    <Position X="19.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAABAAABAEAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Factory.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::GameEntity" Collapsed="true">
+    <Position X="11.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABIAAAAAAAAAAAIAAAEAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\GameEntity.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::TextureOps" Collapsed="true">
+    <Position X="5.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAIAAAAAAAAQAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\GLTexture.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::GLObject&lt;TextureOps, ObjectBase&gt;" Collapsed="true">
+    <Position X="5.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAIAAAACAAAAAAEAAAAABBAAAAABAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\GLTexture.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::GLTexture" Collapsed="true">
+    <Position X="19.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAIAAAAAAAAAAAAAAAAAAAQACAAAAAAIAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\GLTexture.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::GLTextureManager" Collapsed="true">
+    <Position X="21.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACACAAAAAAACAAAAAAAAAQAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\GLTextureManager.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::HardwareBuffer" Collapsed="true">
+    <Position X="23.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAEAAAAJAIAACAAAAAAAAAAAEIAAAAAAAAAAAAJAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\HardwareBuffer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::NonCopyable" Collapsed="true">
+    <Position X="7.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\NonCopyable.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::Renderer" Collapsed="true">
+    <Position X="2.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABQkACAAgQAAAAABRAGAAABAAAAQAAAAAACIBCAQABA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Renderer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::Resolution&lt;T&gt;" Collapsed="true">
+    <Position X="15.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAEAAAAAAABAAAAAAAAQAAAAAgQAAAAAAAAAAAAAI=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Resolution.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::Root" Collapsed="true">
+    <Position X="5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgCAAEAAAACKBAAEAAABAAgCIAAgC0AAgAAAIIGA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Root.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::SingleThreadPolicy&lt;T&gt;" Collapsed="true">
+    <Position X="21.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::MultiThreadPolicy&lt;T&gt;" Collapsed="true">
+    <Position X="25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::SingletonWithLongevity&lt;T&gt;" Collapsed="true">
+    <Position X="23.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::Singleton&lt;T, CreationPolicy, LifetimePolicy&gt;" Collapsed="true">
+    <Position X="4" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAQAAAAAIAAAAAAAAAAAABAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::Singleton&lt;T, CustomCreated, LifetimePolicy&gt;" Collapsed="true">
+    <Position X="7.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAQAAAAAIAAAAAAAAAAAABAAAEAAAAAIAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::Window" Collapsed="true">
+    <Position X="9.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQEAACQAEICAAIAAIEAAECAAQAGiABKAAgUKAAABQE=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Window.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::PlayerEntity" Collapsed="true">
+    <Position X="11.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\PlayerEntity.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ConsoleStreamBuffer&lt;InputPolicy, OutputPolicy&gt;" Collapsed="true">
+    <Position X="25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAIAAAAkAAAAAAAAAIAQAAAACAAsggAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\ConsoleStreamBuffer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ConsoleInStream&lt;InputPolicy, OutputPolicy&gt;" Collapsed="true">
+    <Position X="19.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\ConsoleStreamBuffer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ConsoleOutStream&lt;InputPolicy, OutputPolicy&gt;" Collapsed="true">
+    <Position X="23.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\ConsoleStreamBuffer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ConsoleIOStream&lt;InputPolicy, OutputPolicy&gt;" Collapsed="true">
+    <Position X="21.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\ConsoleStreamBuffer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::Math::Matrix3&lt;T&gt;" Collapsed="true">
+    <Position X="7.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQBEAAAAAAkAAYAECAQAAIAAAABgACgAAEABAAyA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Matrix3.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::Math::Matrix4&lt;T&gt;" Collapsed="true">
+    <Position X="13.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAIAQAEAAAAAAAAAAAgAAgAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Matrix4.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::Math::Quaternion&lt;qType&gt;" Collapsed="true">
+    <Position X="3.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAACAAAEIAAAAQAAAAAAAAAAQAhgAQAQAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Quaternion.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::Math::Vector3&lt;T&gt;" Collapsed="true">
+    <Position X="9.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GgAAAAAAAIAQAAAIYAUIAQAAAAAAAMgAAQBggQUAY6E=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Vector3.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::Details::LifetimeTracker" Collapsed="true">
+    <Position X="2.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAABAAAAAAAAAAAAAAAAAAAAAIQAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Phoenix::Details::ConcreteLifetimeTracker&lt;T, Destroyer&gt;" Collapsed="true">
+    <Position X="2.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAQAAAAAAAAAAAAAAAAABAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Phoenix::Color" Collapsed="true">
+    <Position X="19.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAIFAAAAAAAAAAAoAQABgAAABiA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Color.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Phoenix::EmptyType" Collapsed="true">
+    <Position X="23.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Empty.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Phoenix::CustomCreated&lt;T&gt;" Collapsed="true">
+    <Position X="18" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Phoenix::CreateUsingNew&lt;T&gt;" Collapsed="true">
+    <Position X="25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Phoenix::CreateUsing&lt;Alloc&gt;" Collapsed="true">
+    <Position X="21.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Phoenix::CreateUsingMalloc&lt;T&gt;" Collapsed="true">
+    <Position X="23.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Phoenix::DefaultLifetime&lt;T&gt;" Collapsed="true">
+    <Position X="19.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Phoenix::NoDestroy&lt;T&gt;" Collapsed="true">
+    <Position X="25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Phoenix::Details::Deleter&lt;T&gt;" Collapsed="true">
+    <Position X="21.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Phoenix::Details::Adapter&lt;T&gt;" Collapsed="true">
+    <Position X="18" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="Phoenix::GLTexturePtr" Collapsed="true">
+    <Position X="18" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\GLTexture.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::Arcminutes" Collapsed="true">
+    <Position X="19.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::Arcseconds" Collapsed="true">
+    <Position X="25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::Degrees" Collapsed="true">
+    <Position X="23.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::Gradians" Collapsed="true">
+    <Position X="21.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::Radians" Collapsed="true">
+    <Position X="18" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::Revolutions" Collapsed="true">
+    <Position X="23.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::Steradians" Collapsed="true">
+    <Position X="19.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::arcsecond_plane_angle" Collapsed="true">
+    <Position X="23.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::degree_plane_angle" Collapsed="true">
+    <Position X="21.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::arcsecondsystem_" Collapsed="true">
+    <Position X="18" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::degreesystem_" Collapsed="true">
+    <Position X="25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::arcminutesystem_" Collapsed="true">
+    <Position X="21.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::gradian_plane_angle" Collapsed="true">
+    <Position X="19.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::gradiansystem_" Collapsed="true">
+    <Position X="23.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::radian_plane_angle" Collapsed="true">
+    <Position X="25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::radiansystem_" Collapsed="true">
+    <Position X="19.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::revolutionsystem_" Collapsed="true">
+    <Position X="25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::revolution_plane_angle" Collapsed="true">
+    <Position X="21.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::steradian_plane_angle" Collapsed="true">
+    <Position X="18" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::arcminute_plane_angle" Collapsed="true">
+    <Position X="18" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Units::steradiansystem_" Collapsed="true">
+    <Position X="21.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Math.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Matrix3f" Collapsed="true">
+    <Position X="6.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Matrix3.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Matrix3d" Collapsed="true">
+    <Position X="7.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Matrix3.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Matrix4f" Collapsed="true">
+    <Position X="14.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Matrix4.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Matrix4d" Collapsed="true">
+    <Position X="13.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Matrix4.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Quaternionf" Collapsed="true">
+    <Position X="0.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Quaternion.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Quaterniond" Collapsed="true">
+    <Position X="3.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Quaternion.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Resolution_us" Collapsed="true">
+    <Position X="15.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Resolution.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::atexit_pfn_t" Collapsed="true">
+    <Position X="19.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Details::TrackerArray" Collapsed="true">
+    <Position X="23.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Vector3f" Collapsed="true">
+    <Position X="11.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Vector3.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::Math::Vector3d" Collapsed="true">
+    <Position X="9.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Vector3.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Phoenix::WindowPtr" Collapsed="true">
+    <Position X="25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\Window.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="Phoenix::Math::__unnamed_004c" Collapsed="true">
+    <Position X="18" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAIAAAAAQAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>d:\uni\ict207\SpaceWings\include\Phoenix\VectorCommon.hpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>
