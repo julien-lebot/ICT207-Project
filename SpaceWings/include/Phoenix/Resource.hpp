@@ -5,6 +5,8 @@
 *	Inspired by Scott Bilas, Mark DeLoura; “Game Programming Gems - A Generic Handle-Based Resource Manager”
 *	http://gyurchev.com/docs/resource2.doc
 *
+*	TODO: Create a Source object which will present a uniform interface between filesystem and virtual filesystem.
+*
 *  Created by Julien Lebot on 16/09/09.
 *  Copyright 2009 Julien Lebot. All rights reserved.
 *
@@ -15,7 +17,11 @@
 
 #include <Phoenix/Base.h>
 #include <Phoenix/Atomic.hpp>
+#include <Phoenix/Filesystem.hpp>
 #include <string>
+
+// Optional ?
+//#include <boost/signals2/signal.hpp>
 
 // #include "ResourceManager.h"
 
@@ -30,20 +36,6 @@ namespace Phoenix
 	class Resource
 	{
 	public:
-
-		/// Loading state of the resource
-		enum LoadingState
-		{
-			/// Not loaded
-			UNLOADED,
-			/// Loading is in progress
-			LOADING,
-			/// Fully loaded
-			LOADED,
-			/// Currently unloading
-			UNLOADING
-		};
-
 		/**
 		 * Virtual destructor.
 		 * Subclasses should deallocate resources in the unload method.
@@ -51,56 +43,52 @@ namespace Phoenix
 		virtual ~Resource();
 
 		/**
-		 * Constructor.
+		 * Constructor. Does not apply the RAII idiom since resource initialization can be very expensive; rely on prepare for that.
 		 * @param creator The creator of that resource.
 		 * @param name Specifies the name of the resource.
 		 * @param handle Specifies the resource handle. Must be > 0.
 		 */
-		Resource(ResourceManager* creator, const std::string& name, const ResourceHandleType handle);
+		Resource(const ResourceManager* const creator, const std::string& name, const ResourceHandleType handle);
+
+		/// Prepare the resource for loading.
+		void prepare();
 
 		/// Start the loading process for that resource
-		virtual void load();
+		void load();
 
 		/// Reloads the resource
-		virtual void reload();
+		void reload();
 
 		/// Start the unloading process for that resource
-		virtual void unload();
+		void unload();
 
 		///Returns whether the Resource has been loaded or not.
-		virtual bool isLoaded() const 
+		bool isLoaded() const 
 		{ 
-			return (mLoadingState.get() == LOADED); 
+			return (mIsLoaded.get()); 
 		}
 
-		/**
-		 * Returns whether the resource is currently in the process of loading.
-		 */
-		virtual bool isLoading() const
-		{
-			return (mLoadingState.get() == LOADING);
-		}
-
-		/// Returns the current loading state.
-		virtual LoadingState getLoadingState() const
-		{
-			return mLoadingState.get();
-		}
+		/// Sets the file path this resource will use.
+#if defined(_USE_BOOST_)
+		void setFilePath(const tr2::filesystem::path& path) { mFilePath = path; }
+#endif
+		/// Sets the file path this resource will use.
+		void setFilePath(const std::string& path) { mFilePath = path; }
 
 		/// Returns the handle associated with that resource.
-		virtual ResourceHandleType getHandle() const
+		ResourceHandleType getHandle() const
 		{
 			return mHandle;
 		}
 
 		/// Returns the name associated with that resource.
-		virtual const std::string& getName() const
+		const std::string& getName() const
 		{
 			return mName;
 		}
 
 		/// Gets the manager which created this resource
-		virtual ResourceManager* getCreator(void)
+		const ResourceManager* const getCreator(void)
 		{
 			return mResourceManager;
 		}
@@ -108,18 +96,26 @@ namespace Phoenix
 		/// Public mutex for multithreading
 		_AUTO_MUTEX;
 
+		// Protected methods
 	protected:
 		/// Disable default construction
 		Resource() 
 		: mResourceManager(NULL),
 		  mHandle(0),
-		  mLoadingState(UNLOADED)
+		  mIsLoaded(false)
 		{ 
 		}
 
+		/// Actual preparation implementation. Must be defined.
+		virtual void prepareImpl() = 0;
+
+		/// Actual loading implementation. Must be defined.
 		virtual void loadImpl() = 0;
+
+		/// Actual unloading implementation. Must be defined.
 		virtual void unloadImpl() = 0;
 
+		// Protected data members
 	protected:
 		/// Handle for quick lookups.0 designates an invalid handle, thus handles are >0.
 		ResourceHandleType mHandle;
@@ -128,10 +124,17 @@ namespace Phoenix
 		std::string mName;
 
 		/// The creator of that resource
-		ResourceManager* mResourceManager;
+		const ResourceManager* mResourceManager;
 
-		/// Tracks the state of the loading process for that resource. It is atomic for multithreading safety.
-		Atomic<LoadingState> mLoadingState;
+		/// Is this resource loaded ?
+		Atomic<bool> mIsLoaded;
+
+		/// The file where this resource loads from. 
+#if defined(_USE_BOOST_)
+		tr2::filesystem::path mFilePath;
+#else
+		const std::string mFilePath;
+#endif
 	};
 
 	typedef tr1::shared_ptr<Resource> ResourcePtr;

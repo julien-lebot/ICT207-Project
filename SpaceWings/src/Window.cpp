@@ -45,7 +45,6 @@ void Window::initialize()
 	glutInitDisplayMode(mDisplayFlags);
 	glutInitWindowSize(mResolution.getWidth(), mResolution.getHeight());
 	glutInitWindowPosition(0, 0);
-
 	if (mParent != NULL)
 		mHandle = glutCreateSubWindow(mParent->getHandle(), 0, 0, mResolution.getWidth(), mResolution.getHeight());
 	else
@@ -57,7 +56,9 @@ void Window::initialize()
 		glutFullScreen();
 
 	mInitialised = true;
+	assert(checkGLErrors());
 	initializeImpl();
+	assert(checkGLErrors());
 }
 
 void Window::destroy()

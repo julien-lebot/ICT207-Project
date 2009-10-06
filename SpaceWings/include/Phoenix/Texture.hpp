@@ -1,7 +1,7 @@
 /*
 *	Texture.hpp
 *
-*	An API independent texture class.
+*	A texture class.
 *
 *  Created by Julien Lebot on 11/09/09.
 *  Copyright 2009 Julien Lebot. All rights reserved.
@@ -18,83 +18,80 @@
 
 namespace Phoenix
 {
-	/**
-	 * @brief An API independent abstract texture class.
-	 */
 	class Texture
-		: public Resource
 	{
-	public:
-		Texture(ResourceManager* creator, const std::string& name, const ResourceHandleType handle)
-		: Resource(creator, name, handle),
-		  mHeight(0),
-		  mWidth(0),
-		  mDepth(0),
-		  mNumRequestedMipmaps(0),
-		  mNumMipmaps(0),
-		  mMipmapsHardwareGenerated(false),
-		  mTarget(TEXTURE_2D)
-		{
-		}
+		public:
+			Texture(TextureTarget target = TEXTURE_2D);
+			Texture(const Texture &copy);
+			Texture &operator = (const Texture &);
+			~Texture();
 
-		virtual ~Texture()
-		{
+			/// Load one texture from a file
+			void load(const std::string& path, bool mipmap = true);
 
-		}
+			/// Load a texture from an image
+			void load(const ImagePtr image, bool mipmap = true);
 
-		virtual void loadImage(const ImagePtr image) {}
+			/// Load a cube or 3D texture
+			void load(const ImageList images, bool mipmap = true);
 
-		virtual void loadImages(const ImageList images) {}
+			/// Creates a 1D texture
+			void create(const std::string& name,
+						GLuint width,
+						GLuint internalFormat = GL_RGBA8,
+						GLuint format = GL_RGBA);
 
-		/** Sets the type of texture; can only be changed before load() 
-		*/
-		virtual void setTextureTarget(TextureTarget target) { mTarget = target; }
+			/// Creates a 2D texture
+			void create(const std::string& name,
+						GLuint width,
+						GLuint height,
+						GLuint internalFormat = GL_RGBA8,
+						GLuint format = GL_RGBA);
 
-		/** Gets the type of texture 
-		*/
-		virtual TextureTarget getTextureTarget(void) const { return mTarget; }
+			/// Creates a Cube texture
+			void create(const std::string& name,
+						GLuint width,
+						GLuint height,
+						GLuint depth,
+						GLuint internalFormat = GL_RGBA8,
+						GLuint format = GL_RGBA);
 
-		/** Gets the number of mipmaps to be used for this texture.
-		*/
-		virtual size_t getNumMipmaps(void) const {return mNumMipmaps;}
+			//void copyCurrentBuffer(int newTarget = -1);
 
-		/** Sets the number of mipmaps to be used for this texture.
-		@note
-		Must be set before calling any 'load' method.
-		*/
-		virtual void setNumMipmaps(size_t num) { mNumRequestedMipmaps = mNumMipmaps = num;}
+			void bind(const int textureUnit = -1);
+			void unbind();
 
-		/** Are mipmaps hardware generated?
-		@remarks
-		Will only be accurate after texture load, or createInternalResources
-		*/
-		virtual bool getMipmapsHardwareGenerated(void) const { return mMipmapsHardwareGenerated; }
+			//void bind(HardwarePixelBuffer *buffer);
 
-		/** Returns the height of the texture.
-		*/
-		virtual size_t getHeight(void) const { return mHeight; }
+			const  GLuint  getID() const;
 
-		/** Returns the width of the texture.
-		*/
-		virtual size_t getWidth(void) const { return mWidth; }
+			const GLuint  getTarget() const;
+			const GLuint  getHeight() const;
+			const GLuint  getWidth()  const;
+			const GLuint  getDepth()  const;
 
-		/** Returns the depth of the texture (only applicable for 3D textures).
-		*/
-		virtual size_t getDepth(void) const { return mDepth; }
+			//void    setAnisoLevel(int level);
+			GLuint  getAnisoLevel();
+			void    destroy();
 
-	protected:
-		size_t mHeight;
-		size_t mWidth;
-		size_t mDepth;
+		protected:
+			GLuint			mHeight,
+							mWidth,
+							mDepth,
+							mAniso,
+							mID;
 
-		size_t mNumRequestedMipmaps;
-		size_t mNumMipmaps;
-		bool mMipmapsHardwareGenerated;
+			TextureTarget	mTarget;
 
-		TextureTarget mTarget;
+			int				mCurrtUnit;
+
+			void loadImpl(const ImagePtr image, GLuint target, bool mipmap);
+
+			GLenum getGLTextureTarget() const;
+
+			int getValidWrapMode (int clamp);
+			int getValidMagFilter(int filter);
+			int getValidMinFilter(int filter);
 	};
-
-	typedef tr1::shared_ptr<Texture> TexturePtr;
 }
-
-#endif // __Texture_hpp__
+#endif

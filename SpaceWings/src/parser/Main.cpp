@@ -26,19 +26,24 @@ int main( int argc, char *argv[] )
 	}
 
 	Model model;
-	ObjReader objR;
-	SwmWriter swmW;
+
 	SwmReader swmR;
+
+	std::cout << argc;
 
 	for ( int i = 1; i < argc; i++ )
 	{
+	ObjReader objR;
+	SwmWriter swmW;
+
 		objR.readFile ( argv[i], model );
-		model.setCollision();
-		model.setPossition();
+		//model.setCollision();
+		//model.setPossition();
+
 		if ( !model.isEmpty () )
 			swmW.writeFile ( genOutFileStr ( argv[i] ), model );
 	}
 
-	Model model2;
-	swmR.readFile ( genOutFileStr ( argv[1] ) , model2 );
+	//Model model2;
+	//swmR.readFile ( genOutFileStr ( argv[1] ) , model2 );
 }

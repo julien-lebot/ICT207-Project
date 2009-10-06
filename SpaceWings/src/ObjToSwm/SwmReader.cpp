@@ -155,46 +155,50 @@ void SwmReader::parseFace ( std::ifstream& inFile, FaceGroup& fg )
 
 void SwmReader::parseMaterial ( std::ifstream& inFile, Model& model )
 {
-	Material tempMtl;
+	Phoenix::Material tempMtl;
+	Phoenix::Color tempColor;
 	
 	setNextTokens ( inFile , 0);
-	tempMtl.materialName = m_token.getNext ();
+	tempMtl.setName( m_token.getNext () );
 	
 	setNextTokens ( inFile  );
-	tempMtl.materialAmbient.r = ( float ) atof ( ( ( m_token.getElement (1) ).c_str () ) );
-	tempMtl.materialAmbient.g = ( float ) atof ( ( ( m_token.getElement (2) ).c_str () ) );
-	tempMtl.materialAmbient.b = ( float ) atof ( ( ( m_token.getElement (3) ).c_str () ) );
+	tempColor.r = ( float ) atof ( ( ( m_token.getElement (1) ).c_str () ) );
+	tempColor.g = ( float ) atof ( ( ( m_token.getElement (2) ).c_str () ) );
+	tempColor.b = ( float ) atof ( ( ( m_token.getElement (3) ).c_str () ) );
+	tempMtl.setMaterialAmbient(tempColor);
 	
 	setNextTokens ( inFile  );
-	tempMtl.materialDiffuse.r = ( float ) atof ( ( ( m_token.getElement (1) ).c_str () ) );
-	tempMtl.materialDiffuse.g = ( float ) atof ( ( ( m_token.getElement (2) ).c_str () ) );
-	tempMtl.materialDiffuse.b = ( float ) atof ( ( ( m_token.getElement (3) ).c_str () ) );
-	
-	setNextTokens ( inFile );
-	tempMtl.materialSpecular.r = ( float )atof ( ( ( m_token.getElement (1) ).c_str () ) );
-	tempMtl.materialSpecular.g = ( float )atof ( ( ( m_token.getElement (2) ).c_str () ) );
-	tempMtl.materialSpecular.b = ( float )atof ( ( ( m_token.getElement (3) ).c_str () ) );
-	
-	setNextTokens ( inFile );
-	tempMtl.transparency = ( float ) atof ( ( ( m_token.getElement ( 1 ) ).c_str () ) );
+	tempColor.r = ( float ) atof ( ( ( m_token.getElement (1) ).c_str () ) );
+	tempColor.g = ( float ) atof ( ( ( m_token.getElement (2) ).c_str () ) );
+	tempColor.b = ( float ) atof ( ( ( m_token.getElement (3) ).c_str () ) );
+	tempMtl.setMaterialDiffuse(tempColor);
 
 	setNextTokens ( inFile );
-	tempMtl.shininess = ( float ) atof ( ( ( m_token.getElement ( 1 ) ).c_str () ) );
+	tempColor.r = ( float )atof ( ( ( m_token.getElement (1) ).c_str () ) );
+	tempColor.g = ( float )atof ( ( ( m_token.getElement (2) ).c_str () ) );
+	tempColor.b = ( float )atof ( ( ( m_token.getElement (3) ).c_str () ) );
+	tempMtl.setMaterialSpecular(tempColor);
 
 	setNextTokens ( inFile );
-	tempMtl.illumination = atoi ( ( ( m_token.getElement( 1 ) ).c_str() ) );
+	tempMtl.setTransparency ( ( float ) atof ( ( ( m_token.getElement ( 1 ) ).c_str () ) ) );
 
 	setNextTokens ( inFile );
-	tempMtl.ambientMap = m_token.getElement ( 1 );
+	tempMtl.setShininess ( ( float ) atof ( ( ( m_token.getElement ( 1 ) ).c_str () ) ) );
 
 	setNextTokens ( inFile );
-	tempMtl.diffuseMap = m_token.getElement ( 1 );
+	tempMtl.setIllum( atoi ( ( ( m_token.getElement( 1 ) ).c_str() ) ) );
 
 	setNextTokens ( inFile );
-	tempMtl.specularMap = m_token.getElement ( 1 ); 
+	tempMtl.setAmbientMap ( m_token.getElement ( 1 ) );
 
 	setNextTokens ( inFile );
-	tempMtl.bumpMap = m_token.getElement ( 1 );
+	tempMtl.setDiffuseMap ( m_token.getElement ( 1 ) );
+
+	setNextTokens ( inFile );
+	tempMtl.setSpecularMap ( m_token.getElement ( 1 ) ); 
+
+	setNextTokens ( inFile );
+	tempMtl.setBumpMap ( m_token.getElement ( 1 ) );
 
 	model.addMaterial(tempMtl);
 }

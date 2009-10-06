@@ -13,6 +13,7 @@
 #include <iostream>
 #include <string>
 #include <Phoenix\Color.hpp>
+#include <Phoenix\Material.hpp>
 
 namespace Phoenix
 {
@@ -47,22 +48,6 @@ namespace Phoenix
 	public:
 		std::string groupName;
 		std::vector<Phoenix::FaceCollection> faces;
-	};
-
-	struct Material
-	{
-	public:
-		std::string materialName;
-		Phoenix::Color materialAmbient;
-		Phoenix::Color materialDiffuse;
-		Phoenix::Color materialSpecular;
-		float transparency;
-		float shininess;
-		int illumination;
-		std::string ambientMap;
-		std::string diffuseMap;
-		std::string specularMap;
-		std::string bumpMap;
 	};
 
 	/*
@@ -194,6 +179,11 @@ namespace Phoenix
 		 */
 		const Phoenix::Possition getPossition () const { return pos; }
 
+		/*
+		 *
+		 */
+		const unsigned getVerticeSize() { return vertices.size(); }
+
 		/* returns if object is static
 		 * @return bool value 
 		 */
@@ -207,11 +197,11 @@ namespace Phoenix
 		/// vertice vector
 		std::vector<float> vertices;
 		
-		/// vertice texture vector
-		std::vector<float> vTextures;
-
 		/// vertice normal vector
 		std::vector<float> vNormals;
+
+		/// vertice texture vector
+		std::vector<float> vTextures;
 
 		/// facegroup vector
 		std::vector<Phoenix::FaceGroup> faceGroups;

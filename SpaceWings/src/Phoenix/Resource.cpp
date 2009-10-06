@@ -14,11 +14,13 @@
 
 using namespace Phoenix;
 
-Resource::Resource(ResourceManager* creator, const std::string& name, const ResourceHandleType handle)
+Resource::Resource(const ResourceManager* const creator,
+				   const std::string& name,
+				   const ResourceHandleType handle)
 : mResourceManager(creator),
   mName(name),
   mHandle(handle),
-  mLoadingState(UNLOADED)
+  mIsLoaded(false)
 {
 
 }
@@ -28,34 +30,46 @@ Resource::~Resource()
 
 }
 
-void Resource::load()
+void Resource::prepare()
 {
-	if (mLoadingState.get() != UNLOADED)
+	if (!mIsLoaded.get())
 		return;
 	else
-		mLoadingState.set(LOADING);
+	{
+		_LOCK_AUTO_MUTEX;
+		if (!mIsLoaded.get())
+			return;
+
+		prepareImpl();
+	}
+}
+
+void Resource::load()
+{
+	if (mIsLoaded.get())
+		return;
 
 	try
 	{
 		_LOCK_AUTO_MUTEX;
-		if (mLoadingState.get() != UNLOADED)
+		if (mIsLoaded.get())
 			return;
 
 		loadImpl();
 
 		// Do something ? Like notify manager of resource creation success ?
-		mLoadingState.set(LOADED);
+		mIsLoaded.set(true);
 	}
 	catch (...)
 	{
-		mLoadingState.set(UNLOADED);
+		mIsLoaded.set(false);
 		throw;
 	}
 }
 
 void Resource::reload()
 {
-	if (mLoadingState.get() != UNLOADED)
+	if (mIsLoaded.get())
 	{
 		unload();
 		load();
@@ -64,15 +78,15 @@ void Resource::reload()
 
 void Resource::unload()
 {
-	if (mLoadingState.get() != LOADED)
+	if (!mIsLoaded.get())
 		return;
 	else
 	{
 		_LOCK_AUTO_MUTEX;
-		if (mLoadingState.get() != LOADED)
+		if (!mIsLoaded.get())
 			return;
 
 		unloadImpl();
-		mLoadingState.set(UNLOADED);
+		mIsLoaded.set(false);
 	}
 }

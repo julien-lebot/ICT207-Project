@@ -11,6 +11,7 @@
 
 #include <Phoenix\NonCopyable.hpp>
 #include <Phoenix\model.hpp>
+#include <Phoenix\Material.hpp>
 #include <string>
 
 namespace Phoenix

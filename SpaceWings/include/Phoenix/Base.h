@@ -227,6 +227,24 @@ _EXTERN_C_BEGIN_
 
 #define _VERSION_    ((_VERSION_MAJOR_ << 16) | (_VERSION_MINOR_ << 8) | _VERSION_PATCH_)
 
+#define checkGLErrors()	checkGLErrors_(__FILE__,__LINE__,__FUNCTION__)
+
+static
+bool checkGLErrors_(const char* file, const unsigned int line, const char* function)
+{
+	GLenum errCode;
+	const GLubyte *errString;
+
+	if ((errCode = glGetError()) != GL_NO_ERROR)
+	{
+		errString = gluErrorString(errCode);
+		printf("OpenGL Error: %s::%s::%d->%s\n", file, function, line, errString);
+		return false;
+	}
+	return true;
+}
+
+
 _EXTERN_C_END_
 
 #endif // __Base_h__

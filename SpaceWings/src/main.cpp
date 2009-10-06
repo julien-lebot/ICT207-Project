@@ -6,12 +6,95 @@
 #include <Phoenix/Camera.hpp>
 #include <Phoenix/Factory.hpp>
 #include <Phoenix/PlayerEntity.hpp>
+#include <Phoenix/Model.hpp>
+#include <Phoenix/Texture.hpp>
 #include <Shay/Shay.h>
 #include <fstream>
 
 #include <list>
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
+#if !defined(ARRAY_SIZE)
+#define ARRAY_SIZE(x) (sizeof((x)) / sizeof((x)[0]))
+#endif
+
+enum BufferElementSemantic
+{
+	POSITION = 1,
+	//BLEND_WEIGHTS = 2,
+	//BLEND_INDICES = 3,
+	NORMAL = 4,
+	DIFFUSE = 5,
+	SPECULAR = 6,
+	TEXTURE_COORDINATES = 7,
+	//BINORMAL = 8,
+	//TANGENT = 9
+};
+
+enum BufferElementType
+{
+	FLOAT1,
+	FLOAT2,
+	FLOAT3,
+	FLOAT4,
+	COLOUR,
+	SHORT1,
+	SHORT2,
+	SHORT3,
+	SHORT4,
+	UBYTE4
+};
+
+unsigned short getTypeCount(BufferElementType etype)
+{
+	switch (etype)
+	{
+	case COLOUR:
+		return 1;
+	case FLOAT1:
+		return 1;
+	case FLOAT2:
+		return 2;
+	case FLOAT3:
+		return 3;
+	case FLOAT4:
+		return 4;
+	case SHORT1:
+		return 1;
+	case SHORT2:
+		return 2;
+	case SHORT3:
+		return 3;
+	case SHORT4:
+		return 4;
+	case UBYTE4:
+		return 4;
+	default:
+		return 3;
+	}
+}
+
+GLenum getGLType(unsigned int type)
+{
+	switch(type)
+	{
+	case FLOAT1:
+	case FLOAT2:
+	case FLOAT3:
+	case FLOAT4:
+		return GL_FLOAT;
+	case SHORT1:
+	case SHORT2:
+	case SHORT3:
+	case SHORT4:
+		return GL_SHORT;
+	case COLOUR:
+	case UBYTE4:
+		return GL_UNSIGNED_BYTE;
+	default:
+		return 0;
+	};
+}
 
 template <typename T>
 struct glTraits {};
@@ -65,7 +148,7 @@ struct glTraits<double>
 };
 
 template <class T>
-void gpuVertexPointer(const int size, const int stride = 0, const T* pointer = NULL)
+void gpuVertexPointer(int size, const int stride = 0, const T* pointer = NULL)
 {
 	glVertexPointer(size, glTraits<T>::GL_TYPE, stride, pointer);
 };
@@ -111,38 +194,28 @@ void gpuFogCoordPointer(const int stride = 0, const T* pointer = NULL)
 using namespace Phoenix;
 using namespace Phoenix::Math;
 
-enum BufferElementSemantic
-{
-	BES_POSITION = 1,
-	//BES_BLEND_WEIGHTS = 2,
-	//BES_BLEND_INDICES = 3,
-	BES_NORMAL = 4,
-	BES_DIFFUSE = 5,
-	BES_SPECULAR = 6,
-	BES_TEXTURE_COORDINATES = 7,
-	//BES_BINORMAL = 8,
-	//BES_TANGENT = 9
-};
-
 class BufferElement
 {
 public:
 	BufferElement(unsigned short source,
 				  std::size_t offset,
 				  BufferElementSemantic semantic,
+				  BufferElementType type,
 				  unsigned short index=0)
-				  : mSourceID(source), mIndex(index), mOffset(offset), mSemantic(semantic)
+				  : mSourceID(source), mIndex(index), mOffset(offset), mSemantic(semantic), mType(type)
 	{}
 
-	unsigned short getSource() { return mSourceID; }
-	unsigned short getIndex() { return mIndex; }
-	std::size_t getOffset() { return mOffset; }
-	BufferElementSemantic getSemantic() { return mSemantic; }
+	unsigned short getSource() const { return mSourceID; }
+	unsigned short getIndex() const { return mIndex; }
+	std::size_t getOffset() const { return mOffset; }
+	BufferElementSemantic getSemantic() const { return mSemantic; }
+	BufferElementType getType() const { return mType; }
 
 protected:
 	unsigned short mSourceID, mIndex;
 	std::size_t mOffset;
 	BufferElementSemantic mSemantic;
+	BufferElementType mType;
 };
 
 class BufferElementGroup
@@ -153,9 +226,10 @@ public:
 	void addElement(unsigned short source,
 					std::size_t offset,
 					BufferElementSemantic semantic,
+					BufferElementType type,
 					unsigned short index=0)
 	{
-		mElementList.push_back(BufferElement(source, offset, semantic, index));
+		mElementList.push_back(BufferElement(source, offset, semantic, type, index));
 	}
 
 	const ElementList& getElements() { return mElementList; }
@@ -181,33 +255,40 @@ struct VertexData
 	}
 };
 
+struct IndexData
+{
+	std::size_t start, count;
+	HardwareBuffer* indexBuffer;	// make me shared_ptr
+};
+
 struct RenderOperation
 {
 	enum PrimitiveType
 	{
-	  PT_POINTS = 1,
-	  PT_LINES = 2,
-	  PT_LINE_STRIP = 3,
-	  PT_TRIANGLES = 4,
-	  PT_TRIANGLE_STRIP = 5,
-	  PT_TRIANGLE_FAN = 6
+	  POINTS,
+	  LINES,
+	  LINE_STRIP,
+	  TRIANGLES,
+	  TRIANGLE_STRIP,
+	  TRIANGLE_FAN
 	};
 
 	VertexData *vertexData;
+	IndexData *indexData;
 	PrimitiveType primitiveType;
 	bool indexed;
 };
 
 typedef std::map<unsigned short, HardwareBuffer*> VertexBufferList;
 VertexBufferList vbl;
-/*
+
 struct Renderer
 {
 	void render(const RenderOperation &rop)
 	{
 		void* buffer = 0;
 
-		const BufferElementGroup::ElementList& elmtList = op.vertexData->bufferElementGroup->getElements();
+		const BufferElementGroup::ElementList& elmtList = rop.vertexData->bufferElementGroup->getElements();
 		BufferElementGroup::ElementList::const_iterator elem, elemEnd;
 		elemEnd = elmtList.end();
 
@@ -226,40 +307,30 @@ struct Renderer
 			// fixed-function & built in attribute support
 			switch(elem->getSemantic())
 			{
-			case BES_POSITION:
-				glVertexPointer(VertexElement::getTypeCount(elem->getType()), 
-					GLHardwareBufferManager::getGLType(elem->getType()), 
-					static_cast<GLsizei>(vertexBuffer->getVertexSize()), 
-					pBufferData);
-				glEnableClientState( GL_VERTEX_ARRAY );
+			case POSITION:
+				glVertexPointer(getTypeCount(elem->getType()), getGLType(elem->getType()), 0, buffer);
+				glEnableClientState(GL_VERTEX_ARRAY);
 				break;
-			case BES_NORMAL:
-				glNormalPointer(
-					GLHardwareBufferManager::getGLType(elem->getType()), 
-					static_cast<GLsizei>(vertexBuffer->getVertexSize()), 
-					pBufferData);
-				glEnableClientState( GL_NORMAL_ARRAY );
+			case NORMAL:
+				glNormalPointer(getGLType(elem->getType()),	0, buffer);
+				glEnableClientState(GL_NORMAL_ARRAY);
 				break;
-			case VES_DIFFUSE:
+			case DIFFUSE:
 				glColorPointer(4, 
-					GLHardwareBufferManager::getGLType(elem->getType()), 
-					static_cast<GLsizei>(vertexBuffer->getVertexSize()), 
-					pBufferData);
-				glEnableClientState( GL_COLOR_ARRAY );
+					getGLType(elem->getType()), 0, buffer);
+				glEnableClientState(GL_COLOR_ARRAY);
 				break;
-			case VES_SPECULAR:
-				if (GLEW_EXT_secondary_color)
+			case SPECULAR:
+				if (GLEE_EXT_secondary_color)
 				{
 					glSecondaryColorPointerEXT(4, 
-						GLHardwareBufferManager::getGLType(elem->getType()), 
-						static_cast<GLsizei>(vertexBuffer->getVertexSize()), 
-						pBufferData);
-					glEnableClientState( GL_SECONDARY_COLOR_ARRAY );
+						getGLType(elem->getType()), 0, buffer);
+					glEnableClientState(GL_SECONDARY_COLOR_ARRAY);
 				}
 				break;
-			case VES_TEXTURE_COORDINATES:
+			case TEXTURE_COORDINATES:
 
-				if (mCurrentVertexProgram)
+				/*if (mCurrentVertexProgram)
 				{
 					// Programmable pipeline - direct UV assignment
 					glClientActiveTextureARB(GL_TEXTURE0 + elem->getIndex());
@@ -289,15 +360,97 @@ struct Renderer
 							glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 						}
 					}
-				}
+				}*/
 				break;
 			default:
 				break;
 			};
 		}
+
+		// Find the correct type to render
+		GLint primType;
+
+		switch (rop.primitiveType)
+		{
+		case RenderOperation::POINTS:
+			primType = GL_POINTS;
+			break;
+		case RenderOperation::LINES:
+			primType = GL_LINES;
+			break;
+		case RenderOperation::LINE_STRIP:
+			primType = GL_LINE_STRIP;
+			break;
+		default:
+		case RenderOperation::TRIANGLES:
+			primType = GL_TRIANGLES;
+			break;
+		case RenderOperation::TRIANGLE_STRIP:
+			primType = GL_TRIANGLE_STRIP;
+			break;
+		case RenderOperation::TRIANGLE_FAN:
+			primType = GL_TRIANGLE_FAN;
+			break;
+		}
+
+		if (rop.indexed)
+		{
+			if(1) // Use VBO
+			{
+				rop.indexData->indexBuffer->bind();
+				buffer = BUFFER_OFFSET(rop.indexData->start * rop.indexData->indexBuffer->getSize());
+			}
+
+			GLenum indexType = GL_UNSIGNED_INT /*: GL_UNSIGNED_SHORT GL_UNSIGNED_INT*/;
+
+			do
+			{
+				glDrawElements(primType, rop.indexData->count, indexType, buffer);
+			} while (0);
+
+		}
+		else
+		{
+			do
+			{
+				glDrawArrays(primType, 0, rop.vertexData->count);
+			} while (0);
+		}
+
+		glDisableClientState(GL_VERTEX_ARRAY);
+		// only valid up to GL_MAX_TEXTURE_COORDS, which is recorded in mFixedFunctionTextureUnits
+		/*if (0) // multitexturing
+		{
+			for (int i = 0; i < mFixedFunctionTextureUnits; i++)
+			{
+				glClientActiveTextureARB(GL_TEXTURE0 + i);
+				glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+			}
+			glClientActiveTextureARB(GL_TEXTURE0);
+		}
+		else*/
+		{
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		}
+		glDisableClientState(GL_NORMAL_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+		if (GLEE_EXT_secondary_color)
+		{
+			glDisableClientState(GL_SECONDARY_COLOR_ARRAY);
+		}
+		// unbind any custom attributes
+		/*for (std::vector<GLuint>::iterator ai = attribsBound.begin(); ai != attribsBound.end(); ++ai)
+		{
+			glDisableVertexAttribArrayARB(*ai); 
+		}*/
+
+		glColor4f(1,1,1,1);
+		if (GLEE_EXT_secondary_color)
+		{
+			glSecondaryColor3fEXT(0.0f, 0.0f, 0.0f);
+		}
 	}
 };
-*/
 
 class CGLShaderObject
 {
@@ -673,6 +826,11 @@ class DemoWindow
 	HardwareBuffer *indexBuffer;
 	gpuAtmosphericScattering atm;
 	bool mSwitchWorld;
+	RenderOperation rop;
+	Renderer renderer;
+	Model model;
+	SwmReader swmR;
+	Texture texture;
 public:
 	DemoWindow(const std::string& name,
 		const Resolution_us& res,
@@ -682,41 +840,69 @@ public:
 	{
 	}
 
+	void drawFlatPatch(float rows, float columns, float size)
+	{
+		const float m = 1.0f/columns;
+		const float n = 1.0f/rows;
+		int i, j;
+
+		for (i = 0; i < columns; i++)
+		{
+			glBegin(GL_QUAD_STRIP);
+			for (j = 0; j <= rows; j++)
+			{
+				glTexCoord2f(i, j);
+				glVertex2f(i * m * size, j * n * size);
+				glTexCoord2f((i+1), j);
+				glVertex2f((i + 1) * m * size, j * n * size);
+			}
+			glTexCoord2f(i, 0);
+			glVertex2f(i * m * size, 0);
+			glTexCoord2f((i+1), 0);
+			glVertex2f((i + 1) * size * m, 0);
+			glEnd();
+		}
+	}
+
 	void onDisplay()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		c.doLook();
+		
 		if (!mSwitchWorld)
 		{
 			glClearColor(97.0/255.0, 140.0/255.0, 185.0/255.0, 1.0);
 			glPushMatrix();
-			s.DrawBackdrop();
+			//s.DrawBackdrop();
 			glPopMatrix();
 		}
 		else
 		{
 			atm.Update(c);
 		}
-#if 0
-		//glPushMatrix();
-		//glColor3f(0.8, 0.1, 0.3);
-		//glutSolidTeapot(20.0);
-		//glPopMatrix();
+		renderer.render(rop);
+
+		//glEnable(GL_TEXTURE_2D);
+		texture.bind(0);
 		glPushMatrix();
-		glColor3f(0.2, 0.6, 0.7);
-		//glTranslatef(-50.0, 1.0, 3.0f);
-		glEnableClientState(GL_VERTEX_ARRAY);
-		vertexBuffer->bind();
-		glVertexPointer(3, GL_FLOAT, 0, 0);
-		indexBuffer->bind();
-		//glEnableClientState(GL_ELEMENT_ARRAY_BUFFER);
-		glIndexPointer(GL_UNSIGNED_SHORT, 0, 0);
-		//glDrawArrays(GL_QUADS, 
-		glDrawElements(GL_QUADS, 24, GL_UNSIGNED_BYTE, 0);
-		glDisableClientState(GL_VERTEX_ARRAY);
-		//glDisableClientState(GL_ELEMENT_ARRAY_BUFFER);
+		glTranslatef(70.0, 35.0, 0.0);
+		drawFlatPatch(16.0f,16.0f,256.0f);
 		glPopMatrix();
-#endif
+		texture.unbind();
+
+		/*
+		texture.bind(0);
+		glColor4f(1, 1, 1, 1);
+		float backRect[4] = { 50 - 24, 50 - 128, 196, 180 };
+		glBegin (GL_QUADS);
+		glTexCoord2f(-1.0, -1.0); glVertex2f(-1.0 * backRect[2], -1.0 * backRect[3]);
+		glTexCoord2f( 1.0, -1.0); glVertex2f( 1.0 * backRect[2], -1.0 * backRect[3]);
+		glTexCoord2f( 1.0,  1.0); glVertex2f( 1.0 * backRect[2],  1.0 * backRect[3]);
+		glTexCoord2f(-1.0,  1.0); glVertex2f(-1.0 * backRect[2],  1.0 * backRect[3]);
+		glEnd();
+		texture.unbind();
+		*/
+
 		glutSwapBuffers();
 	}
 
@@ -798,24 +984,48 @@ public:
 protected:
 	void initializeImpl()
 	{
-		vertexBuffer = new HardwareBuffer(sizeof(vertices), HardwareBuffer::STATIC_DRAW, HardwareBuffer::VERTEX);
-		vertexBuffer->upload(vertices);
+		swmR.readFile("raider.swm", model);
+		const std::vector<GLfloat> &mdlVertices = model.getVerticeVec();
+		vertexBuffer = new HardwareBuffer(sizeof(&mdlVertices[0]) * mdlVertices.size(), HardwareBuffer::STATIC_DRAW, HardwareBuffer::VERTEX);
+		vertexBuffer->upload(&mdlVertices[0]);
+		const std::vector<FaceGroup>& fg = model.getFaceGroupVec();
+		std::vector<GLuint> mdlIndices;
+		for(std::vector<FaceGroup>::const_iterator groupIter = fg.begin(); groupIter != fg.end(); ++groupIter)
+		{
+			for(std::vector<FaceCollection>::const_iterator faceIter = (*groupIter).faces.begin(); faceIter != (*groupIter).faces.end(); faceIter++ )
+			{
+				mdlIndices.insert(mdlIndices.end(), (*faceIter).v.begin(), (*faceIter).v.end()); 
+			}
+		}
+		indexBuffer = new HardwareBuffer(sizeof(&mdlIndices[0]) * mdlIndices.size(), HardwareBuffer::STATIC_DRAW, HardwareBuffer::INDEX);
+		indexBuffer->upload(&mdlIndices[0]);
 
-		indexBuffer = new HardwareBuffer(sizeof(indices), HardwareBuffer::STATIC_DRAW, HardwareBuffer::INDEX);
-		indexBuffer->upload(indices);
+		vbl[0] = vertexBuffer;
+
+		rop.indexData = new IndexData();
+		rop.indexData->indexBuffer = indexBuffer;
+		rop.indexData->count = mdlIndices.size();
+		rop.indexData->start = 0;
+		rop.indexed = true;
+
+		rop.vertexData = new VertexData();
+		rop.vertexData->count = mdlVertices.size();
+		rop.vertexData->bufferElementGroup->addElement(0,0,POSITION,FLOAT3);
+
+		rop.primitiveType = RenderOperation::TRIANGLES;
 
 		glShadeModel(GL_SMOOTH);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glEnable(GL_DEPTH_TEST);
-		//glClearColor(0.5, 0.5, 0.5, 1.0);
 		glEnable(GL_TEXTURE_2D);
-		s.myinit();
+		//s.myinit();
 		//c.move(Vector3f(0.0, 10450.0, 0.0));
-		c.setPosition(Vector3f(4000.0, 10450.0, 20620.0));
-		c.setDirection(Vector3f(3999.0, 10450.0, 20620.0));
+		//c.setPosition(Vector3f(4000.0, 10450.0, 20620.0));
+		//c.setDirection(Vector3f(3999.0, 10450.0, 20620.0));
 		//c.rotate(Vector3f::Y, static_cast<Math::Units::Radians>(270 * Math::Units::degrees));
 
+		texture.load("floor_color_map.tga", false);
 		atm.Start();
 	}
 

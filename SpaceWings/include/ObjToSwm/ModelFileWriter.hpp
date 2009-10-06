@@ -10,6 +10,7 @@
 #define MODELFILEWRITER_HPP
 
 #include <Phoenix\NonCopyable.hpp>
+#include <Phoenix\Material.hpp>
 #include <Phoenix\model.hpp>
 #include <string>
 

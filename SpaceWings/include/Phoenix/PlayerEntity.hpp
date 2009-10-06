@@ -22,6 +22,8 @@ namespace Phoenix
 	class PlayerEntity : public GameEntity
 	{
 	public:
+		PlayerEntity () { modelFile = "Raider.swm"; }
+		
 		/* Creates a new PlayerEntity. Used by the Object Factory
 		 * @return PlayerEntity* to the new object
 		 */
@@ -30,12 +32,7 @@ namespace Phoenix
 		/* Loads the model of the object.
 		 * @param reader object to be used for file reading.
 		 */
-		void load ( Phoenix::ModelFileReader& reader )
-		{
-			reader.readFile("raider.swm", m_model);
-			if (m_model.isStatic())
-				m_pos = m_model.getPossition();
-		}
+
 	};
 }
 

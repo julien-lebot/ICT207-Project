@@ -339,6 +339,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\Phoenix\Filesystem.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\Phoenix\GameEntity.hpp"
 				>
 			</File>
@@ -347,19 +351,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\include\Phoenix\GLTexture.hpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\Phoenix\GLTextureManager.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\include\Phoenix\HardwareBuffer.hpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\include\Phoenix\Image.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\Phoenix\Material.hpp"
 				>
 			</File>
 			<File
@@ -423,10 +423,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\include\Phoenix\TextureManager.hpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\include\Phoenix\Timer.hpp"
 				>
 			</File>
@@ -459,11 +455,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\GameEntity.cpp"
+				RelativePath="..\..\src\Phoenix\DDSCodec.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Phoenix\GameEntity.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\Phoenix\HardwareBuffer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Phoenix\Image.cpp"
 				>
 			</File>
 			<File
@@ -487,7 +491,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Phoenix\Resource.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Phoenix\Root.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Phoenix\Texture.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Phoenix\TGACodec.cpp"
 				>
 			</File>
 			<File

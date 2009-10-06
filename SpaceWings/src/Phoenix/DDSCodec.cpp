@@ -33,7 +33,7 @@ using namespace Phoenix;
 #define DDS_DXT1 ('D'|('X'<<8)|('T'<<16)|('1'<<24))
 #define DDS_DXT3 ('D'|('X'<<8)|('T'<<16)|('3'<<24))
 #define DDS_DXT5 ('D'|('X'<<8)|('T'<<16)|('5'<<24))
-
+/*
 #ifndef GL_COMPRESSED_RGBA_S3TC_DXT1_EXT
 #define GL_COMPRESSED_RGBA_S3TC_DXT1_EXT 0x83F1
 #endif
@@ -45,7 +45,7 @@ using namespace Phoenix;
 #ifndef GL_COMPRESSED_RGBA_S3TC_DXT5_EXT
 #define GL_COMPRESSED_RGBA_S3TC_DXT5_EXT 0x83F3
 #endif
-
+*/
 typedef struct
 {
 	unsigned short col0, col1;

@@ -106,7 +106,7 @@ namespace Phoenix
 	};
 
 	class ResourceManager
-		: private NonCopyable
+	: private NonCopyable
 	{
 	public:
 		/// Mutex for object-wise locking

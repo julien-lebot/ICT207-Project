@@ -11,6 +11,7 @@
 
 #include <Phoenix\base.h>
 #include <Phoenix\NonCopyable.hpp>
+#include <Phoenix\HardwareBuffer.hpp>
 #include <Phoenix\Model.hpp>
 #include <ObjToSwm\SwmReader.hpp>
 
@@ -24,12 +25,19 @@ namespace Phoenix
 	{
 	public:
 		GameEntity () {}
-		virtual GameEntity* create() {}
-		virtual void load( Phoenix::ModelFileReader& reader ){}
+		virtual GameEntity* create() = 0 {}
+		bool load ();
+		void genIndicesBuffer( const std::vector<FaceGroup>& fg);
+		void display();
 		void setPossition( float x, float y, float z ) { m_pos.x = x; m_pos.y = y; m_pos.z = z; }
 	protected:
-		Phoenix::Model m_model;
+		std::string modelFile;
 		Possition m_pos;
+
+		HardwareBuffer *verticeBuffer;
+		HardwareBuffer *indexBuffer;
+
+		std::vector<unsigned> materialOffsets;
 	};
 }
 

@@ -106,22 +106,22 @@ void SwmWriter::writeFaceGroup ( const std::vector<FaceGroup>& groupVec )
 	}
 }
 
-void SwmWriter::writeMaterial ( const std::vector<Material>& mtlVec )
+void SwmWriter::writeMaterial ( const std::vector<Phoenix::Material>& mtlVec )
 {
-	for( std::vector<Material>::const_iterator mtlIter = mtlVec.begin (); mtlIter != mtlVec.end (); mtlIter++ )
+	for( std::vector<Phoenix::Material>::const_iterator mtlIter = mtlVec.begin (); mtlIter != mtlVec.end (); mtlIter++ )
 	{
 		outFile << startTag( "material" ) << std::endl;
-		outFile << tab ( 1 ) << ( *mtlIter ).materialName << std::endl;
-		outFile << tab ( 1 ) << "mtlAmbient " << ( *mtlIter ).materialAmbient.b << " " << ( *mtlIter ).materialAmbient.g << " " << ( *mtlIter ).materialAmbient.b << std::endl;
-		outFile << tab ( 1 ) << "mtlDiffuse " << ( *mtlIter ).materialDiffuse.r << " "<< ( *mtlIter ).materialDiffuse.g << " " << ( *mtlIter ).materialDiffuse.b << std::endl;
-		outFile << tab ( 1 ) << "mtlSpecular " << ( *mtlIter ).materialSpecular.r << " "<< ( *mtlIter ).materialSpecular.g << " " << ( *mtlIter ).materialSpecular.b << std::endl;
-		outFile << tab ( 1 ) << "transparency " << ( *mtlIter ).transparency << std::endl;
-		outFile << tab ( 1 ) << "shininess " << ( *mtlIter ).shininess << std::endl;
-		outFile << tab ( 1 ) << "illumination " << ( *mtlIter ).illumination << std::endl;
-		outFile << tab ( 1 ) << "ambientMap " << ( *mtlIter ).ambientMap << std::endl;
-		outFile << tab ( 1 ) << "diffuseMap " << ( *mtlIter ).diffuseMap << std::endl;
-		outFile << tab ( 1 ) << "specularMap " << ( *mtlIter ).ambientMap << std::endl;
-		outFile << tab ( 1 ) << "bumpMap " << ( *mtlIter ).ambientMap << std::endl;
+		outFile << tab ( 1 ) << ( *mtlIter ).getName () << std::endl;
+		outFile << tab ( 1 ) << "mtlAmbient " << ( ( *mtlIter ).getMaterialAmbient () ).b << " " << (( *mtlIter ).getMaterialAmbient () ).g << " " << ( ( *mtlIter ).getMaterialAmbient () ).b << std::endl;
+		outFile << tab ( 1 ) << "mtlDiffuse " << ( ( *mtlIter ).getMaterialDiffuse () ).r << " "<< ( ( *mtlIter ).getMaterialDiffuse () ).g << " " << ( ( *mtlIter ).getMaterialDiffuse () ).b << std::endl;
+		outFile << tab ( 1 ) << "mtlSpecular " << ( ( *mtlIter ).getMaterialSpecular () ).r << " "<< ( ( *mtlIter ).getMaterialSpecular () ).g << " " << ( ( *mtlIter ).getMaterialSpecular () ).b << std::endl;
+		outFile << tab ( 1 ) << "transparency " << ( *mtlIter ).getTransparency () << std::endl;
+		outFile << tab ( 1 ) << "shininess " << ( *mtlIter ).getShininess () << std::endl;
+		outFile << tab ( 1 ) << "illumination " << ( *mtlIter ).getIllum () << std::endl;
+		outFile << tab ( 1 ) << "ambientMap " << ( *mtlIter ).getAmbientMap () << std::endl;
+		outFile << tab ( 1 ) << "diffuseMap " << ( *mtlIter ).getDiffuseMap () << std::endl;
+		outFile << tab ( 1 ) << "specularMap " << ( *mtlIter ).getAmbientMap () << std::endl;
+		outFile << tab ( 1 ) << "bumpMap " << ( *mtlIter ).getAmbientMap () << std::endl;
 		outFile << endTag( "material" ) << std::endl;
 	}
 }

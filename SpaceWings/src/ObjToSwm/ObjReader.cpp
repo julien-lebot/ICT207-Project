@@ -97,9 +97,9 @@ void ObjReader::readFaceLine ( Token& t ) const
 		t2.tokenizeStr( t.getNext (), "/" );
 		while( !t2.allFetched () )
 		{
-			tempV.push_back ( atoi ( t2.getNext ().c_str () ) );
-			tempVn.push_back ( atoi ( t2.getNext ().c_str () ) );
-			tempVt.push_back (atoi ( t2.getNext ().c_str() ) );
+			tempV.push_back ( ( atoi ( t2.getNext ().c_str () ) ) - 1 );
+			tempVn.push_back ( ( atoi ( t2.getNext ().c_str () ) ) - 1 );
+			tempVt.push_back ( ( atoi ( t2.getNext ().c_str() ) ) - 1 );
 		}
 	}
 	
@@ -117,7 +117,7 @@ void ObjReader::readFaceLine ( Token& t ) const
 		trianglesFromQuadV = quadToTriangle ( tempV );
 		trianglesFromQuadVn = quadToTriangle ( tempVn );
 		trianglesFromQuadVt = quadToTriangle ( tempVt );
-				
+
 		( *m_activeCollection ).v.insert ( ( *m_activeCollection ).v.end (), trianglesFromQuadV.begin (), trianglesFromQuadV.end () );
 		( *m_activeCollection ).vn.insert ( ( *m_activeCollection ).vn.end (), trianglesFromQuadVn.begin (), trianglesFromQuadVn.end () );
 		( *m_activeCollection ).vt.insert ( ( *m_activeCollection ).vt.end (), trianglesFromQuadVt.begin (), trianglesFromQuadVt.end () );
@@ -151,20 +151,21 @@ std::vector<int> ObjReader::quadToTriangle( std::vector<int> quad ) const
 
 	returnVec.push_back( quad[0] );
 	returnVec.push_back( quad[1] );
-	returnVec.push_back( quad[2] );
+	returnVec.push_back( quad[3] );
+	returnVec.push_back( quad[1] );
 	returnVec.push_back( quad[2] );
 	returnVec.push_back( quad[3] );
-	returnVec.push_back( quad[0] );
 
 	return returnVec;
 }
 
-Material ObjReader::readNewMaterial ( std::ifstream& inFile, Token& t ) const
+Phoenix::Material ObjReader::readNewMaterial ( std::ifstream& inFile, Token& t ) const
 {
-	Material tempMtl;
+	Phoenix::Material tempMtl;
+	Phoenix::Color tempColor;
 	std::string line,prefix;
 
-	tempMtl.materialName = t.getNext ();
+	tempMtl.setName ( t.getNext () );
 	
 	do
 	{
@@ -174,36 +175,39 @@ Material ObjReader::readNewMaterial ( std::ifstream& inFile, Token& t ) const
 
 		if ( prefix == "Ka" )
 		{
-			tempMtl.materialAmbient.r = ( float )atof ( ( ( t.getNext () ).c_str () ) );
-			tempMtl.materialAmbient.g = ( float ) atof ( ( (t.getNext () ).c_str () ) );
-			tempMtl.materialAmbient.b = ( float )atof ( ( ( t.getNext () ).c_str () ) );
+			tempColor.r = ( float )atof ( ( ( t.getNext () ).c_str () ) );
+			tempColor.g = ( float ) atof ( ( (t.getNext () ).c_str () ) );
+			tempColor.b = ( float )atof ( ( ( t.getNext () ).c_str () ) );
+			tempMtl.setMaterialAmbient(tempColor);
 		}
 		else if ( prefix == "Kd" )
 		{
-			tempMtl.materialDiffuse.r = ( float ) atof ( ( ( t.getNext () ).c_str () ) );
-			tempMtl.materialDiffuse.g = ( float ) atof ( ( ( t.getNext () ).c_str () ) );
-			tempMtl.materialDiffuse.b = ( float ) atof ( ( ( t.getNext () ).c_str () ) );
+			tempColor.r = ( float ) atof ( ( ( t.getNext () ).c_str () ) );
+			tempColor.g = ( float ) atof ( ( ( t.getNext () ).c_str () ) );
+			tempColor.b = ( float ) atof ( ( ( t.getNext () ).c_str () ) );
+			tempMtl.setMaterialDiffuse(tempColor);
 		}
 		else if ( prefix == "Ks" )
 		{
-			tempMtl.materialSpecular.r = ( float ) atof ( ( ( t.getNext () ).c_str () ) );
-			tempMtl.materialSpecular.g = ( float ) atof ( ( ( t.getNext () ).c_str () ) );
-			tempMtl.materialSpecular.b = ( float ) atof ( ( ( t.getNext () ).c_str () ) );
+			tempColor.r = ( float ) atof ( ( ( t.getNext () ).c_str () ) );
+			tempColor.g = ( float ) atof ( ( ( t.getNext () ).c_str () ) );
+			tempColor.b = ( float ) atof ( ( ( t.getNext () ).c_str () ) );
+			tempMtl.setMaterialSpecular(tempColor);
 		}		
 		else if ( prefix == "d" || prefix == "Tr" )
-			tempMtl.transparency = ( float ) atof ( ( ( t.getNext () ).c_str () ) );
+			tempMtl.setTransparency( ( float ) atof ( ( ( t.getNext () ).c_str () ) ) );
 		else if ( prefix == "Ns" )
-			tempMtl.shininess = ( float ) atof ( ( ( t.getNext () ).c_str () ) );
+			tempMtl.setShininess( ( float ) atof ( ( ( t.getNext () ).c_str () ) ) );
 		else if ( prefix == "illum" )
-			tempMtl.illumination = atoi ( ( ( t.getNext() ).c_str() ) );
+			tempMtl.setIllum ( atoi ( ( ( t.getNext() ).c_str() ) ) );
 		else if ( prefix == "map_Ka" )
-			tempMtl.ambientMap = t.getNext ();
+			tempMtl.setAmbientMap ( t.getNext () );
 		else if ( prefix == "map_Kd" )
-			tempMtl.diffuseMap = t.getNext ();
+			tempMtl.setDiffuseMap ( t.getNext () );
 		else if ( prefix == "map_Ks" )
-			tempMtl.specularMap = t.getNext();
+			tempMtl.setSpecularMap ( t.getNext() );
 		else if ( prefix == "map_bump" )
-			tempMtl.bumpMap = t.getNext ();
+			tempMtl.setBumpMap ( t.getNext () );
 	}while ( !inFile.eof () && prefix != "" );
 
 	return tempMtl;
