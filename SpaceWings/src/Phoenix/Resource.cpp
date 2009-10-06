@@ -32,14 +32,8 @@ Resource::~Resource()
 
 void Resource::prepare()
 {
-	if (!mIsLoaded.get())
-		return;
-	else
 	{
 		_LOCK_AUTO_MUTEX;
-		if (!mIsLoaded.get())
-			return;
-
 		prepareImpl();
 	}
 }

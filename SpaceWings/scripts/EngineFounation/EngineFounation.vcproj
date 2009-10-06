@@ -359,6 +359,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\Phoenix\Log.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\Phoenix\Material.hpp"
 				>
 			</File>
@@ -468,6 +472,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Phoenix\Image.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Phoenix\Log.cpp"
 				>
 			</File>
 			<File

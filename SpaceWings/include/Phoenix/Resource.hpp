@@ -69,11 +69,10 @@ namespace Phoenix
 		}
 
 		/// Sets the file path this resource will use.
-#if defined(_USE_BOOST_)
-		void setFilePath(const tr2::filesystem::path& path) { mFilePath = path; }
-#endif
-		/// Sets the file path this resource will use.
 		void setFilePath(const std::string& path) { mFilePath = path; }
+
+		/// Gets the file path this resource will use.
+		const std::string getFilePath() { return mFilePath.string(); }
 
 		/// Returns the handle associated with that resource.
 		ResourceHandleType getHandle() const
@@ -130,11 +129,7 @@ namespace Phoenix
 		Atomic<bool> mIsLoaded;
 
 		/// The file where this resource loads from. 
-#if defined(_USE_BOOST_)
 		tr2::filesystem::path mFilePath;
-#else
-		const std::string mFilePath;
-#endif
 	};
 
 	typedef tr1::shared_ptr<Resource> ResourcePtr;

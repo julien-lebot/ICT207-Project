@@ -830,7 +830,7 @@ class DemoWindow
 	Renderer renderer;
 	Model model;
 	SwmReader swmR;
-	Texture texture;
+	ResourcePtr texture;
 public:
 	DemoWindow(const std::string& name,
 		const Resolution_us& res,
@@ -883,12 +883,12 @@ public:
 		renderer.render(rop);
 
 		//glEnable(GL_TEXTURE_2D);
-		texture.bind(0);
+		static_cast<Texture*>(texture.get())->bind(0);
 		glPushMatrix();
 		glTranslatef(70.0, 35.0, 0.0);
 		drawFlatPatch(16.0f,16.0f,256.0f);
 		glPopMatrix();
-		texture.unbind();
+		static_cast<Texture*>(texture.get())->unbind();
 
 		/*
 		texture.bind(0);
@@ -1025,7 +1025,10 @@ protected:
 		//c.setDirection(Vector3f(3999.0, 10450.0, 20620.0));
 		//c.rotate(Vector3f::Y, static_cast<Math::Units::Radians>(270 * Math::Units::degrees));
 
-		texture.load("floor_color_map.tga", false);
+		texture = TexturePtr(new Texture(NULL, "floor_texture", 0, TEXTURE_2D));
+		texture->setFilePath("floor_color_map.tga");
+		texture->prepare();
+		texture->load();
 		atm.Start();
 	}
 
