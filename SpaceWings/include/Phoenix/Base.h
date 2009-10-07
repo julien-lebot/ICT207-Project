@@ -227,6 +227,11 @@ _EXTERN_C_BEGIN_
 
 #define _VERSION_    ((_VERSION_MAJOR_ << 16) | (_VERSION_MINOR_ << 8) | _VERSION_PATCH_)
 
+#define BUFFER_OFFSET(i) ((char *)NULL + (i))
+#if !defined(ARRAY_SIZE)
+#define ARRAY_SIZE(x) (sizeof((x)) / sizeof((x)[0]))
+#endif
+
 #define checkGLErrors()	checkGLErrors_(__FILE__,__LINE__,__FUNCTION__)
 
 static
@@ -243,7 +248,6 @@ bool checkGLErrors_(const char* file, const unsigned int line, const char* funct
 	}
 	return true;
 }
-
 
 _EXTERN_C_END_
 

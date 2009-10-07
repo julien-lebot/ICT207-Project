@@ -69,7 +69,7 @@ void SwmWriter::writeVertice ( const std::vector<float>& verticeVec )
 void SwmWriter::writeVTexture ( const std::vector<float>& vTextureVec )
 {
 	outFile << startTag( "vtexture" ) << std::endl;
-	writeFloatVec( vTextureVec,3 , 1  );
+	writeFloatVec( vTextureVec,2 , 1  );
 	outFile << endTag( "vtexture" ) << std::endl;
 }
 

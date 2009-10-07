@@ -35,8 +35,10 @@ void ObjReader::readLines( std::ifstream& inFile, Model& model )
 			while( !t.allFetched () )
 				model.addVertice ( ( float ) atof ( ( t.getNext () ).c_str () ) );
 		else if ( prefix == "vt" )
-			while( !t.allFetched () )
-				model.addVTexture( ( float )atof( ( t.getNext () ).c_str() ) );
+		{
+			model.addVTexture( ( float )atof( ( t.getNext () ).c_str() ) );
+			model.addVTexture( ( float )atof( ( t.getNext () ).c_str() ) );
+		}
 		else if (prefix == "vn" )
 			while( !t.allFetched () )
 				model.addvNormals ( ( float ) atof ( ( t.getNext () ).c_str () ) );

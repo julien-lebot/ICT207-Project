@@ -15,6 +15,7 @@
 #include <Phoenix/Color.hpp>
 #include <Phoenix/ConfigOpts.hpp>
 #include <Phoenix/RendererCommon.hpp>
+#include <Phoenix/RenderOperation.hpp>
 #include <Phoenix/Singleton.hpp>
 #include <string>
 
@@ -26,6 +27,7 @@ namespace Phoenix
 	class Renderer
 	: public Singleton<Renderer>
 	{
+		friend struct CreateUsingNew<Renderer>;
 	private:
 		bool mStopRendering;
 
@@ -39,19 +41,13 @@ namespace Phoenix
 
 		void setConfigOption(const std::string &name, const ConfigOption &option);
 
-		void initialize(bool autoCreateWindow, const std::string& windowTitle = "Render Window");
-
-		void reinitialize(); // Used if settings changed mid-rendering
-
-		void shutdown();
-
 		void setAmbientLight(float r, float g, float b);
 
 		void setShadingType(ShadingType st);
 	
 		void setLightingEnabled(bool enabled);
 
-		std::string getErrorDescription(/*long errorNumber*/) const;
+		std::string getErrorDescription() const;
 
 		void setnormalizeNormals(bool normalize);
 
@@ -59,7 +55,7 @@ namespace Phoenix
 
 		void beginFrame();
 
-		void render();
+		void render(const RenderOperation &rop);
 
 		void endFrame();
 

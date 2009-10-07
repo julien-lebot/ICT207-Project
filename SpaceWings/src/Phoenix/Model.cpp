@@ -53,3 +53,70 @@ const std::string Model::getStr ( const std::string& requestStr ) const
 
 	return returnStr;
 }
+
+void Model::loadTextures()
+{/*
+	for (std::vector<Phoenix::Material>::iterator iter = mtlList.begin(); iter != mtlList.end(); ++iter)
+	{
+		(*iter).loadTextures();
+	}*/
+}
+
+std::vector<int> Model::genIndices()
+{
+	std::vector<int> tempV,tempVn,tempVt, returnVec;
+
+	for(std::vector<FaceGroup>::const_iterator groupIter = faceGroups.begin(); groupIter != faceGroups.end(); ++groupIter)
+	{
+		for(std::vector<FaceCollection>::const_iterator faceIter = (*groupIter).faces.begin(); faceIter != (*groupIter).faces.end(); ++faceIter )
+		{
+			tempV.insert(tempV.end(), (*faceIter).v.begin(), (*faceIter).v.end()); 
+			//materialOffsets.push_back(indices.size());
+			tempVn.insert(tempVn.end(), (*faceIter).vn.begin(), (*faceIter).vn.end()); 
+			tempVt.insert(tempVt.end(), (*faceIter).vt.begin(), (*faceIter).vt.end()); 
+		}
+	}
+	
+	returnVec.insert(returnVec.end(), tempV.begin(), tempV.end()); 
+	returnVec.insert(returnVec.end(), tempVn.begin(), tempVn.end()); 
+	returnVec.insert(returnVec.end(), tempVt.begin(), tempVt.end()); 
+
+	return returnVec;
+}
+
+std::vector<int> Model::genIndices2()
+{
+	std::vector<int> tempV,tempVn,tempVt, returnVec;
+
+	for(std::vector<FaceGroup>::const_iterator groupIter = faceGroups.begin(); groupIter != faceGroups.end(); ++groupIter)
+	{
+		for(std::vector<FaceCollection>::const_iterator faceIter = (*groupIter).faces.begin(); faceIter != (*groupIter).faces.end(); ++faceIter )
+		{
+			for(std::vector<int>::const_iterator vIter = (*faceIter).v.begin(); vIter != (*faceIter).v.end(); )
+			{
+				tempV.push_back(*vIter++);
+				tempV.push_back(*vIter++);
+				tempV.push_back(*vIter++);
+			}
+			
+			for(std::vector<int>::const_iterator vnIter = (*faceIter).vn.begin(); vnIter != (*faceIter).vn.end(); )
+			{
+				tempVn.push_back(*vnIter++);
+				tempVn.push_back(*vnIter++);
+				tempVn.push_back(*vnIter++);
+			}
+			for(std::vector<int>::const_iterator vtIter = (*faceIter).vt.begin(); vtIter != (*faceIter).vt.end(); )
+			{
+				tempVt.push_back(*vtIter++);
+				tempVt.push_back(*vtIter++);
+				tempVt.push_back(*vtIter++);
+			}
+		}
+	}
+	
+	returnVec.insert(returnVec.end(), tempV.begin(), tempV.end()); 
+	returnVec.insert(returnVec.end(), tempVn.begin(), tempVn.end()); 
+	returnVec.insert(returnVec.end(), tempVt.begin(), tempVt.end()); 
+
+	return returnVec;
+}

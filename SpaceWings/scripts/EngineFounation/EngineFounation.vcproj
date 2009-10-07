@@ -303,6 +303,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\Phoenix\BufferElementGroup.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\Phoenix\Camera.hpp"
 				>
 			</File>
@@ -355,6 +359,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\Phoenix\HarwareBufferData.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\Phoenix\Image.hpp"
 				>
 			</File>
@@ -400,6 +408,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\Phoenix\RendererCommon.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\Phoenix\RenderOperation.hpp"
 				>
 			</File>
 			<File
@@ -496,6 +508,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Phoenix\PlayerEntity.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Phoenix\Renderer.cpp"
 				>
 			</File>
 			<File

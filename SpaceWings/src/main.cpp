@@ -8,93 +8,11 @@
 #include <Phoenix/PlayerEntity.hpp>
 #include <Phoenix/Model.hpp>
 #include <Phoenix/Texture.hpp>
+#include <Phoenix/RenderOperation.hpp>
+#include <Phoenix/BufferElementGroup.hpp>
+#include <Phoenix/Renderer.hpp>
 #include <Shay/Shay.h>
 #include <fstream>
-
-#include <list>
-
-#define BUFFER_OFFSET(i) ((char *)NULL + (i))
-#if !defined(ARRAY_SIZE)
-#define ARRAY_SIZE(x) (sizeof((x)) / sizeof((x)[0]))
-#endif
-
-enum BufferElementSemantic
-{
-	POSITION = 1,
-	//BLEND_WEIGHTS = 2,
-	//BLEND_INDICES = 3,
-	NORMAL = 4,
-	DIFFUSE = 5,
-	SPECULAR = 6,
-	TEXTURE_COORDINATES = 7,
-	//BINORMAL = 8,
-	//TANGENT = 9
-};
-
-enum BufferElementType
-{
-	FLOAT1,
-	FLOAT2,
-	FLOAT3,
-	FLOAT4,
-	COLOUR,
-	SHORT1,
-	SHORT2,
-	SHORT3,
-	SHORT4,
-	UBYTE4
-};
-
-unsigned short getTypeCount(BufferElementType etype)
-{
-	switch (etype)
-	{
-	case COLOUR:
-		return 1;
-	case FLOAT1:
-		return 1;
-	case FLOAT2:
-		return 2;
-	case FLOAT3:
-		return 3;
-	case FLOAT4:
-		return 4;
-	case SHORT1:
-		return 1;
-	case SHORT2:
-		return 2;
-	case SHORT3:
-		return 3;
-	case SHORT4:
-		return 4;
-	case UBYTE4:
-		return 4;
-	default:
-		return 3;
-	}
-}
-
-GLenum getGLType(unsigned int type)
-{
-	switch(type)
-	{
-	case FLOAT1:
-	case FLOAT2:
-	case FLOAT3:
-	case FLOAT4:
-		return GL_FLOAT;
-	case SHORT1:
-	case SHORT2:
-	case SHORT3:
-	case SHORT4:
-		return GL_SHORT;
-	case COLOUR:
-	case UBYTE4:
-		return GL_UNSIGNED_BYTE;
-	default:
-		return 0;
-	};
-}
 
 template <typename T>
 struct glTraits {};
@@ -189,268 +107,8 @@ void gpuFogCoordPointer(const int stride = 0, const T* pointer = NULL)
 	glFogCoordPointer(glTraits<T>::GL_TYPE, stride, pointer);
 };
 
-//typedef std::set<HardwareIndexBuffer*> IndexBufferList;
-
 using namespace Phoenix;
 using namespace Phoenix::Math;
-
-class BufferElement
-{
-public:
-	BufferElement(unsigned short source,
-				  std::size_t offset,
-				  BufferElementSemantic semantic,
-				  BufferElementType type,
-				  unsigned short index=0)
-				  : mSourceID(source), mIndex(index), mOffset(offset), mSemantic(semantic), mType(type)
-	{}
-
-	unsigned short getSource() const { return mSourceID; }
-	unsigned short getIndex() const { return mIndex; }
-	std::size_t getOffset() const { return mOffset; }
-	BufferElementSemantic getSemantic() const { return mSemantic; }
-	BufferElementType getType() const { return mType; }
-
-protected:
-	unsigned short mSourceID, mIndex;
-	std::size_t mOffset;
-	BufferElementSemantic mSemantic;
-	BufferElementType mType;
-};
-
-class BufferElementGroup
-{
-public:
-	typedef std::list<BufferElement> ElementList;
-
-	void addElement(unsigned short source,
-					std::size_t offset,
-					BufferElementSemantic semantic,
-					BufferElementType type,
-					unsigned short index=0)
-	{
-		mElementList.push_back(BufferElement(source, offset, semantic, type, index));
-	}
-
-	const ElementList& getElements() { return mElementList; }
-protected:
-	ElementList mElementList;
-};
-
-struct VertexData
-{
-	std::size_t start, count;
-	BufferElementGroup *bufferElementGroup;
-
-	VertexData()
-		: start(0),
-		  count(0)
-	{
-		bufferElementGroup = new BufferElementGroup();
-	}
-
-	~VertexData()
-	{
-		delete bufferElementGroup;
-	}
-};
-
-struct IndexData
-{
-	std::size_t start, count;
-	HardwareBuffer* indexBuffer;	// make me shared_ptr
-};
-
-struct RenderOperation
-{
-	enum PrimitiveType
-	{
-	  POINTS,
-	  LINES,
-	  LINE_STRIP,
-	  TRIANGLES,
-	  TRIANGLE_STRIP,
-	  TRIANGLE_FAN
-	};
-
-	VertexData *vertexData;
-	IndexData *indexData;
-	PrimitiveType primitiveType;
-	bool indexed;
-};
-
-typedef std::map<unsigned short, HardwareBuffer*> VertexBufferList;
-VertexBufferList vbl;
-
-struct Renderer
-{
-	void render(const RenderOperation &rop)
-	{
-		void* buffer = 0;
-
-		const BufferElementGroup::ElementList& elmtList = rop.vertexData->bufferElementGroup->getElements();
-		BufferElementGroup::ElementList::const_iterator elem, elemEnd;
-		elemEnd = elmtList.end();
-
-		for (elem = elmtList.begin(); elem != elemEnd; ++elem)
-		{
-
-			HardwareBuffer* vertexBuffer = vbl[elem->getSource()];
-			assert(vertexBuffer != NULL);
-
-			if(1) // Use VBO
-			{
-				vertexBuffer->bind();
-				buffer = BUFFER_OFFSET(elem->getOffset());
-			}
-
-			// fixed-function & built in attribute support
-			switch(elem->getSemantic())
-			{
-			case POSITION:
-				glVertexPointer(getTypeCount(elem->getType()), getGLType(elem->getType()), 0, buffer);
-				glEnableClientState(GL_VERTEX_ARRAY);
-				break;
-			case NORMAL:
-				glNormalPointer(getGLType(elem->getType()),	0, buffer);
-				glEnableClientState(GL_NORMAL_ARRAY);
-				break;
-			case DIFFUSE:
-				glColorPointer(4, 
-					getGLType(elem->getType()), 0, buffer);
-				glEnableClientState(GL_COLOR_ARRAY);
-				break;
-			case SPECULAR:
-				if (GLEE_EXT_secondary_color)
-				{
-					glSecondaryColorPointerEXT(4, 
-						getGLType(elem->getType()), 0, buffer);
-					glEnableClientState(GL_SECONDARY_COLOR_ARRAY);
-				}
-				break;
-			case TEXTURE_COORDINATES:
-
-				/*if (mCurrentVertexProgram)
-				{
-					// Programmable pipeline - direct UV assignment
-					glClientActiveTextureARB(GL_TEXTURE0 + elem->getIndex());
-					glTexCoordPointer(
-						VertexElement::getTypeCount(elem->getType()), 
-						GLHardwareBufferManager::getGLType(elem->getType()),
-						static_cast<GLsizei>(vertexBuffer->getVertexSize()), 
-						pBufferData);
-					glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-				}
-				else
-				{
-					// fixed function matching to units based on tex_coord_set
-					for (i = 0; i < mDisabledTexUnitsFrom; i++)
-					{
-						// Only set this texture unit's texcoord pointer if it
-						// is supposed to be using this element's index
-						if (mTextureCoordIndex[i] == elem->getIndex() && i < mFixedFunctionTextureUnits)
-						{
-							if (multitexturing)
-								glClientActiveTextureARB(GL_TEXTURE0 + i);
-							glTexCoordPointer(
-								VertexElement::getTypeCount(elem->getType()), 
-								GLHardwareBufferManager::getGLType(elem->getType()),
-								static_cast<GLsizei>(vertexBuffer->getVertexSize()), 
-								pBufferData);
-							glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-						}
-					}
-				}*/
-				break;
-			default:
-				break;
-			};
-		}
-
-		// Find the correct type to render
-		GLint primType;
-
-		switch (rop.primitiveType)
-		{
-		case RenderOperation::POINTS:
-			primType = GL_POINTS;
-			break;
-		case RenderOperation::LINES:
-			primType = GL_LINES;
-			break;
-		case RenderOperation::LINE_STRIP:
-			primType = GL_LINE_STRIP;
-			break;
-		default:
-		case RenderOperation::TRIANGLES:
-			primType = GL_TRIANGLES;
-			break;
-		case RenderOperation::TRIANGLE_STRIP:
-			primType = GL_TRIANGLE_STRIP;
-			break;
-		case RenderOperation::TRIANGLE_FAN:
-			primType = GL_TRIANGLE_FAN;
-			break;
-		}
-
-		if (rop.indexed)
-		{
-			if(1) // Use VBO
-			{
-				rop.indexData->indexBuffer->bind();
-				buffer = BUFFER_OFFSET(rop.indexData->start * rop.indexData->indexBuffer->getSize());
-			}
-
-			GLenum indexType = GL_UNSIGNED_INT /*: GL_UNSIGNED_SHORT GL_UNSIGNED_INT*/;
-
-			do
-			{
-				glDrawElements(primType, rop.indexData->count, indexType, buffer);
-			} while (0);
-
-		}
-		else
-		{
-			do
-			{
-				glDrawArrays(primType, 0, rop.vertexData->count);
-			} while (0);
-		}
-
-		glDisableClientState(GL_VERTEX_ARRAY);
-		// only valid up to GL_MAX_TEXTURE_COORDS, which is recorded in mFixedFunctionTextureUnits
-		/*if (0) // multitexturing
-		{
-			for (int i = 0; i < mFixedFunctionTextureUnits; i++)
-			{
-				glClientActiveTextureARB(GL_TEXTURE0 + i);
-				glDisableClientState( GL_TEXTURE_COORD_ARRAY );
-			}
-			glClientActiveTextureARB(GL_TEXTURE0);
-		}
-		else*/
-		{
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		}
-		glDisableClientState(GL_NORMAL_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
-		if (GLEE_EXT_secondary_color)
-		{
-			glDisableClientState(GL_SECONDARY_COLOR_ARRAY);
-		}
-		// unbind any custom attributes
-		/*for (std::vector<GLuint>::iterator ai = attribsBound.begin(); ai != attribsBound.end(); ++ai)
-		{
-			glDisableVertexAttribArrayARB(*ai); 
-		}*/
-
-		glColor4f(1,1,1,1);
-		if (GLEE_EXT_secondary_color)
-		{
-			glSecondaryColor3fEXT(0.0f, 0.0f, 0.0f);
-		}
-	}
-};
 
 class CGLShaderObject
 {
@@ -822,12 +480,10 @@ class DemoWindow
 	Shay::ShayWorld s;
 	Phoenix::Camera c;
 	ObjectFactory<GameEntity*, std::string, GameEntity*(*)()> EntityFactory;
-	HardwareBuffer *vertexBuffer;
-	HardwareBuffer *indexBuffer;
+	HardwareBufferPtr vertexBuffer, indexBuffer;
 	gpuAtmosphericScattering atm;
 	bool mSwitchWorld;
 	RenderOperation rop;
-	Renderer renderer;
 	Model model;
 	SwmReader swmR;
 	ResourcePtr texture;
@@ -880,9 +536,14 @@ public:
 		{
 			atm.Update(c);
 		}
-		renderer.render(rop);
 
-		//glEnable(GL_TEXTURE_2D);
+		glEnable(GL_TEXTURE_2D);
+		static_cast<Texture*>(texture.get())->bind(0);
+		//Renderer::instance().setLightingEnabled(true);
+		Renderer::instance().render(rop);
+		//Renderer::instance().setLightingEnabled(false);
+		static_cast<Texture*>(texture.get())->unbind();
+		
 		static_cast<Texture*>(texture.get())->bind(0);
 		glPushMatrix();
 		glTranslatef(70.0, 35.0, 0.0);
@@ -984,23 +645,34 @@ public:
 protected:
 	void initializeImpl()
 	{
-		swmR.readFile("raider.swm", model);
+		swmR.readFile("Door.swm", model);
 		const std::vector<GLfloat> &mdlVertices = model.getVerticeVec();
-		vertexBuffer = new HardwareBuffer(sizeof(&mdlVertices[0]) * mdlVertices.size(), HardwareBuffer::STATIC_DRAW, HardwareBuffer::VERTEX);
-		vertexBuffer->upload(&mdlVertices[0]);
-		const std::vector<FaceGroup>& fg = model.getFaceGroupVec();
-		std::vector<GLuint> mdlIndices;
+		const std::vector<GLfloat> &mdlNormals = model.getVNormalVec();
+		const std::vector<GLfloat> &mdlTexCoords = model.getVTextureVec();
+
+		std::size_t totalSize, vertexSize, normalSize, texCoordSize;
+		vertexSize = sizeof(&mdlVertices[0]) * mdlVertices.size();
+		normalSize = sizeof(&mdlNormals[0]) * mdlNormals.size();
+		texCoordSize = sizeof(&mdlTexCoords[0]) * mdlTexCoords.size();
+		totalSize = vertexSize + normalSize + texCoordSize;
+
+		vertexBuffer = HardwareBufferPtr(new HardwareBuffer(totalSize, HardwareBuffer::STATIC_DRAW, HardwareBuffer::VERTEX));
+		vertexBuffer->upload(0, vertexSize, &mdlVertices[0]);
+		vertexBuffer->upload(vertexSize, normalSize, &mdlNormals[0]);
+		vertexBuffer->upload(vertexSize + normalSize, texCoordSize, &mdlTexCoords[0]);
+
+		//const std::vector<FaceGroup>& fg = model.getFaceGroupVec();
+		std::vector<int> mdlIndices = model.genIndices2();
+		/*
 		for(std::vector<FaceGroup>::const_iterator groupIter = fg.begin(); groupIter != fg.end(); ++groupIter)
 		{
 			for(std::vector<FaceCollection>::const_iterator faceIter = (*groupIter).faces.begin(); faceIter != (*groupIter).faces.end(); faceIter++ )
 			{
 				mdlIndices.insert(mdlIndices.end(), (*faceIter).v.begin(), (*faceIter).v.end()); 
 			}
-		}
-		indexBuffer = new HardwareBuffer(sizeof(&mdlIndices[0]) * mdlIndices.size(), HardwareBuffer::STATIC_DRAW, HardwareBuffer::INDEX);
+		}*/
+		indexBuffer = HardwareBufferPtr(new HardwareBuffer(sizeof(&mdlIndices[0]) * mdlIndices.size(), HardwareBuffer::STATIC_DRAW, HardwareBuffer::INDEX));
 		indexBuffer->upload(&mdlIndices[0]);
-
-		vbl[0] = vertexBuffer;
 
 		rop.indexData = new IndexData();
 		rop.indexData->indexBuffer = indexBuffer;
@@ -1010,7 +682,11 @@ protected:
 
 		rop.vertexData = new VertexData();
 		rop.vertexData->count = mdlVertices.size();
-		rop.vertexData->bufferElementGroup->addElement(0,0,POSITION,FLOAT3);
+		rop.vertexData->start = 0;
+		rop.vertexData->bufferElementGroup.addElement(0,0,POSITION,FLOAT3);
+		rop.vertexData->bufferElementGroup.addElement(0,vertexSize,NORMAL,FLOAT3);
+		rop.vertexData->bufferElementGroup.addElement(0,vertexSize + normalSize,TEXTURE_COORDINATES,FLOAT3);
+		rop.vertexData->bufferBinding[0] = vertexBuffer;
 
 		rop.primitiveType = RenderOperation::TRIANGLES;
 
@@ -1026,7 +702,7 @@ protected:
 		//c.rotate(Vector3f::Y, static_cast<Math::Units::Radians>(270 * Math::Units::degrees));
 
 		texture = TexturePtr(new Texture(NULL, "floor_texture", 0, TEXTURE_2D));
-		texture->setFilePath("floor_color_map.tga");
+		texture->setFilePath("Steel.tga");
 		texture->prepare();
 		texture->load();
 		atm.Start();
@@ -1034,8 +710,8 @@ protected:
 
 	void destroyImpl()
 	{
-		delete vertexBuffer;
-		delete indexBuffer;
+		delete rop.indexData;
+		delete rop.vertexData;
 		atm.Stop();
 	}
 };

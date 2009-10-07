@@ -302,12 +302,12 @@ namespace Phoenix
 	 * @bug: The threading policy does not really work.
 	 */
 	template
-		<
-			class T,
-			template <class> class CreationPolicy = CreateUsingNew,
-			template <class> class LifetimePolicy = DefaultLifetime/*,
-			template <class> class ThreadingModel = SingleThreadPolicy*/
-		>
+	<
+		class T,
+		template <class> class CreationPolicy = CreateUsingNew,
+		template <class> class LifetimePolicy = DefaultLifetime/*,
+		template <class> class ThreadingModel = SingleThreadPolicy*/
+	>
 	class Singleton
 		: private NonCopyable
 	{
@@ -316,6 +316,7 @@ namespace Phoenix
 
 		static T& instance()
 		{
+
 			if (!mInstance)
 			{
 				_LOCK_MUTEX(singletonMutex);
@@ -352,10 +353,10 @@ namespace Phoenix
 	 * In that very special case the client code takes care of the creation and destruction of the singleton entirely.
 	 */
 	template
-		<
-			class T,
-			template <class> class LifetimePolicy
-		>
+	<
+		class T,
+		template <class> class LifetimePolicy
+	>
 	class Singleton<T, CustomCreated, LifetimePolicy>
 		: private NonCopyable
 	{

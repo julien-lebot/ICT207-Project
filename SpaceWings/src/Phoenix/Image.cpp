@@ -11,7 +11,6 @@
 */
 
 #include <Phoenix/Image.hpp>
-#include <Phoenix/tgaLoader.h>
 
 #define deleteObject(A){ if(A){ delete   A; A = NULL; } }
 #define deleteArray(A) { if(A){ delete[] A; A = NULL; } }

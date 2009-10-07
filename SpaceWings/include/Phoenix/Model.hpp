@@ -179,13 +179,13 @@ namespace Phoenix
 		 */
 		const Phoenix::Possition getPossition () const { return pos; }
 
-		/*
-		 *
+		/* gets the size of the vertice vector
+		 * @return the size of the vertice vector
 		 */
 		const unsigned getVerticeSize() { return vertices.size(); }
 
 		/* returns if object is static
-		 * @return bool value 
+		 * @return bool value
 		 */
 		const bool isStatic () const { return pos.staticObj; }
 
@@ -193,6 +193,12 @@ namespace Phoenix
 		 * @return bool value
 		 */
 		const bool isEmpty () const { return (vertices.size() == 0) || (faceGroups.size() == 0); }
+
+		/// Loads the textures
+		void loadTextures();
+
+		std::vector<int> genIndices();
+		std::vector<int> genIndices2();
 	private:
 		/// vertice vector
 		std::vector<float> vertices;
