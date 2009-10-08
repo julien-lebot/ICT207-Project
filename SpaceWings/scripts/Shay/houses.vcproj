@@ -46,7 +46,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt&quot;;&quot;$(SolutionDir)\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glee-5.4&quot;"
-				PreprocessorDefinitions="PHOENIX_STATIC_LIB;_DEBUG;"
+				PreprocessorDefinitions="PHOENIX_STATIC_LIB;_DEBUG;_USE_BOOST_"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"

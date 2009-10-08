@@ -77,6 +77,12 @@ namespace Phoenix
 		 */
 		void writevNormal ( const std::vector<float>& vNormalVec );
 
+		/* writes the offset vectors to file
+		 * @param offSets the offset vector
+		 * @param names the offset names
+		 */
+		void writeMaterialOffsets ( const std::vector<int> offSets, const std::vector<std::string> names );
+
 		/* writes a FaceGroup vector to file
 		 * @param groupVec FaceGroup vector
 		 */

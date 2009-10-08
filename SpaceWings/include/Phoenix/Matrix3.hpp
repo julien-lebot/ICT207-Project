@@ -77,7 +77,7 @@ namespace Phoenix {
 						T f20, T f21, T f22)
 			{
 #if 0//defined(USE_INTRINSIC_ASM)
-				__m128* mat = static_cast<__m128*> (this);
+				__m128* mat = (__m128*)(this);
 				mat[0] = _mm_setr_ps(f00, f01, f02, 0.0);
 				mat[1] = _mm_setr_ps(f10, f11, f22, 0.0);
 				mat[2] = _mm_setr_ps(f20, f21, f22, 0.0);

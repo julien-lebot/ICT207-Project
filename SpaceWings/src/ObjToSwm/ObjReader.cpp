@@ -36,8 +36,8 @@ void ObjReader::readLines( std::ifstream& inFile, Model& model )
 				model.addVertice ( ( float ) atof ( ( t.getNext () ).c_str () ) );
 		else if ( prefix == "vt" )
 		{
-			model.addVTexture( ( float )atof( ( t.getNext () ).c_str() ) );
-			model.addVTexture( ( float )atof( ( t.getNext () ).c_str() ) );
+			while( !t.allFetched () )
+				model.addVTexture( ( float )atof( ( t.getNext () ).c_str() ) );
 		}
 		else if (prefix == "vn" )
 			while( !t.allFetched () )
@@ -86,6 +86,7 @@ void ObjReader::readLines( std::ifstream& inFile, Model& model )
 		delete m_activeCollection;
 		model.addFaceGroup(*m_activeGroup);
 		delete m_activeGroup;
+		model.convertObjModel();
 	}
 }
 

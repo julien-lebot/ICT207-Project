@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt&quot;;&quot;$(SolutionDir)\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glee-5.4&quot;"
-				PreprocessorDefinitions="PHOENIX_STATIC_LIB;_DEBUG;"
+				PreprocessorDefinitions="PHOENIX_STATIC_LIB;_DEBUG;_USE_BOOST_"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -339,6 +339,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\Phoenix\Exception.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\Phoenix\Factory.hpp"
 				>
 			</File>
@@ -368,6 +372,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\Phoenix\Log.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\Phoenix\LogManager.hpp"
 				>
 			</File>
 			<File
@@ -435,6 +443,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\Phoenix\StaticCheck.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\Phoenix\Texture.hpp"
 				>
 			</File>
@@ -475,6 +487,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Phoenix\Exception.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Phoenix\GameEntity.cpp"
 				>
 			</File>
@@ -488,6 +504,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Phoenix\Log.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Phoenix\LogManager.cpp"
 				>
 			</File>
 			<File

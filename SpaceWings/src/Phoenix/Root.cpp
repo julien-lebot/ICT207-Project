@@ -21,7 +21,10 @@ bool Phoenix::Root::mIdleFuncEnabled = false;
 
 template<> Root* Singleton<Phoenix::Root>::mInstance = NULL;
 template<> bool Singleton<Phoenix::Root>::mDestroyed = false;
+
+#if defined(_THREAD_SUPPORT)
 template<> boost::recursive_mutex Singleton<Phoenix::Root>::singletonMutex;
+#endif
 
 bool Root::initialize(const std::string& logFile,
 					  const std::string& cfgFile)
@@ -30,6 +33,12 @@ bool Root::initialize(const std::string& logFile,
 	int argc = 1;
 	char *argv = "";
 	glutInit(&argc, &argv);
+
+	LogManager::instance().setDefaultLog(logFile);
+
+	//LogManager::instance().getDefaultLog()->write(_PROJECT_NAME_ + std::string(" initializing ..."));
+
+	//LogManager::instance().getDefaultLog()->write(std::string("version ") + _VERSION_MAJOR_ + "." + _VERSION_MINOR_ + "." + _VERSION_PATCH_ + " " + "(" + _VERSION_NAME_ + ")");
 
 	mInitDone = true;
 	return true;

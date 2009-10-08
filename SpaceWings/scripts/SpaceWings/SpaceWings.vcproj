@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt&quot;;&quot;$(SolutionDir)\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glee-5.4&quot;"
-				PreprocessorDefinitions="PHOENIX_STATIC_LIB;_DEBUG;"
+				PreprocessorDefinitions="PHOENIX_STATIC_LIB;_DEBUG;_USE_BOOST_"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -327,6 +327,42 @@
 			>
 			<File
 				RelativePath="..\..\src\main.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Shaders"
+			>
+			<File
+				RelativePath="..\..\build\Debug Static\Win32\shaders\GroundFromAtmosphereFrag.glsl"
+				>
+			</File>
+			<File
+				RelativePath="..\..\build\Debug Static\Win32\shaders\GroundFromAtmosphereVert.glsl"
+				>
+			</File>
+			<File
+				RelativePath="..\..\build\Debug Static\Win32\shaders\GroundFromSpaceFrag.glsl"
+				>
+			</File>
+			<File
+				RelativePath="..\..\build\Debug Static\Win32\shaders\GroundFromSpaceVert.glsl"
+				>
+			</File>
+			<File
+				RelativePath="..\..\build\Debug Static\Win32\shaders\SkyFromAtmosphereFrag.glsl"
+				>
+			</File>
+			<File
+				RelativePath="..\..\build\Debug Static\Win32\shaders\SkyFromAtmosphereVert.glsl"
+				>
+			</File>
+			<File
+				RelativePath="..\..\build\Debug Static\Win32\shaders\SkyFromSpaceFrag.glsl"
+				>
+			</File>
+			<File
+				RelativePath="..\..\build\Debug Static\Win32\shaders\SkyFromSpaceVert.glsl"
 				>
 			</File>
 		</Filter>

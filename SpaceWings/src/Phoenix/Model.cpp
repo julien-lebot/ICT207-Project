@@ -55,68 +55,59 @@ const std::string Model::getStr ( const std::string& requestStr ) const
 }
 
 void Model::loadTextures()
-{/*
+{
+	/*
 	for (std::vector<Phoenix::Material>::iterator iter = mtlList.begin(); iter != mtlList.end(); ++iter)
 	{
 		(*iter).loadTextures();
 	}*/
 }
 
-std::vector<int> Model::genIndices()
+void Model::convertObjModel()
+
 {
-	std::vector<int> tempV,tempVn,tempVt, returnVec;
+	std::vector<int> tempV,tempVn,tempVt;
+	std::vector<int> returnVec;
 
 	for(std::vector<FaceGroup>::const_iterator groupIter = faceGroups.begin(); groupIter != faceGroups.end(); ++groupIter)
 	{
 		for(std::vector<FaceCollection>::const_iterator faceIter = (*groupIter).faces.begin(); faceIter != (*groupIter).faces.end(); ++faceIter )
 		{
-			tempV.insert(tempV.end(), (*faceIter).v.begin(), (*faceIter).v.end()); 
-			//materialOffsets.push_back(indices.size());
-			tempVn.insert(tempVn.end(), (*faceIter).vn.begin(), (*faceIter).vn.end()); 
-			tempVt.insert(tempVt.end(), (*faceIter).vt.begin(), (*faceIter).vt.end()); 
+			mtlOffsets.push_back(tempV.size());
+			mtlOffsetNames.push_back((*faceIter).mtlName);
+			tempV.insert(tempV.end(), (*faceIter).v.begin(), (*faceIter).v.end());
+			tempVt.insert(tempVt.end(), (*faceIter).vt.begin(), (*faceIter).vt.end());
+			tempVn.insert(tempVn.end(), (*faceIter).vn.begin(), (*faceIter).vn.end());
+			mtlOffsets.push_back(tempV.size());
 		}
 	}
-	
-	returnVec.insert(returnVec.end(), tempV.begin(), tempV.end()); 
-	returnVec.insert(returnVec.end(), tempVn.begin(), tempVn.end()); 
-	returnVec.insert(returnVec.end(), tempVt.begin(), tempVt.end()); 
 
-	return returnVec;
-}
-
-std::vector<int> Model::genIndices2()
-{
-	std::vector<int> tempV,tempVn,tempVt, returnVec;
-
-	for(std::vector<FaceGroup>::const_iterator groupIter = faceGroups.begin(); groupIter != faceGroups.end(); ++groupIter)
+	std::vector<float> tempVertice,tempVTexture, tempVNormals;
+	for(unsigned i = 0; i < tempV.size(); i++)
 	{
-		for(std::vector<FaceCollection>::const_iterator faceIter = (*groupIter).faces.begin(); faceIter != (*groupIter).faces.end(); ++faceIter )
-		{
-			for(std::vector<int>::const_iterator vIter = (*faceIter).v.begin(); vIter != (*faceIter).v.end(); )
-			{
-				tempV.push_back(*vIter++);
-				tempV.push_back(*vIter++);
-				tempV.push_back(*vIter++);
-			}
-			
-			for(std::vector<int>::const_iterator vnIter = (*faceIter).vn.begin(); vnIter != (*faceIter).vn.end(); )
-			{
-				tempVn.push_back(*vnIter++);
-				tempVn.push_back(*vnIter++);
-				tempVn.push_back(*vnIter++);
-			}
-			for(std::vector<int>::const_iterator vtIter = (*faceIter).vt.begin(); vtIter != (*faceIter).vt.end(); )
-			{
-				tempVt.push_back(*vtIter++);
-				tempVt.push_back(*vtIter++);
-				tempVt.push_back(*vtIter++);
-			}
-		}
+		tempVertice.push_back(vertices[tempV[i] * 3]);
+		tempVertice.push_back(vertices[tempV[i] * 3 + 1]);
+		tempVertice.push_back(vertices[tempV[i] * 3 + 2]);
+	}
+
+	vertices = tempVertice;
+
+	for(unsigned i = 0; i < tempVn.size(); i++)
+	{
+		tempVNormals.push_back(vNormals[tempVn[i] * 3]);
+		tempVNormals.push_back(vNormals[tempVn[i] * 3 + 1]);
+		tempVNormals.push_back(vNormals[tempVn[i] * 3 + 2]);
+	}
+
+	vNormals = tempVNormals;
+
+	for(unsigned i = 0; i < tempVt.size(); i++)
+	{
+		tempVTexture.push_back(vTextures[tempVt[i] * 3]);
+		tempVTexture.push_back(vTextures[tempVt[i] * 3 + 1]);
+		tempVTexture.push_back(0);
 	}
 	
-	returnVec.insert(returnVec.end(), tempV.begin(), tempV.end()); 
-	returnVec.insert(returnVec.end(), tempVn.begin(), tempVn.end()); 
-	returnVec.insert(returnVec.end(), tempVt.begin(), tempVt.end()); 
+	vTextures = tempVTexture;
 
-	return returnVec;
 }

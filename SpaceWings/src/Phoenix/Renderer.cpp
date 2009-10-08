@@ -19,7 +19,10 @@ using namespace Phoenix;
 // Instantiate singleton's specialized instance variables
 template<> Renderer* Singleton<Phoenix::Renderer>::mInstance = NULL;
 template<> bool Singleton<Phoenix::Renderer>::mDestroyed = false;
+
+#if defined(_THREAD_SUPPORT)
 template<> boost::recursive_mutex Singleton<Phoenix::Renderer>::singletonMutex;
+#endif
 
 unsigned short getTypeCount(BufferElementType etype)
 {

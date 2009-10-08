@@ -11,6 +11,8 @@
 #include <Phoenix/RenderOperation.hpp>
 #include <Phoenix/BufferElementGroup.hpp>
 #include <Phoenix/Renderer.hpp>
+#include <Phoenix/Tuple.hpp>
+#include <Phoenix/StaticCheck.hpp>
 #include <Shay/Shay.h>
 #include <fstream>
 
@@ -109,6 +111,33 @@ void gpuFogCoordPointer(const int stride = 0, const T* pointer = NULL)
 
 using namespace Phoenix;
 using namespace Phoenix::Math;
+
+class GpuProgramObject
+{
+public:
+	enum ObjectType
+	{
+		VERTEX_PROGRAM,
+		FRAGMENT_PROGRAM,
+		GEOMETRY_PROGRAM
+	};
+
+protected:
+	ObjectType mObjectType;
+};
+
+struct GpuUniformParameter
+{
+	GLint location;
+};
+
+class GpuProgram
+{
+protected:
+	GpuProgramObject* mVertexProgram;
+	GpuProgramObject* mFragmentProgram;
+	GpuProgramObject* mGeometryProgram;
+};
 
 class CGLShaderObject
 {
@@ -313,10 +342,10 @@ public:
 		m_ESun = 15.0f;		// Sun brightness constant
 		m_g = -0.95f;		// The Mie phase asymmetry factor
 
-		m_fInnerRadius = 10.0f * 10.0;
-		m_fOuterRadius = 10.25f * 10.0;
+		m_fInnerRadius = 10.0f;
+		m_fOuterRadius = 10.25f;
 		m_fScale = 1 / (m_fOuterRadius - m_fInnerRadius);
-		m_fScale *= 1000.0;
+		//m_fScale *= 1000.0;
 
 		m_fWavelength[0] = 0.650f;		// 650 nm for red
 		m_fWavelength[1] = 0.570f;		// 570 nm for green
@@ -373,7 +402,7 @@ public:
 		pGroundShader->SetUniformParameter3f("v3LightPos", m_vLightDirection.x, m_vLightDirection.y, m_vLightDirection.z);
 		pGroundShader->SetUniformParameter3f("v3InvWavelength", 1/m_fWavelength4[0], 1/m_fWavelength4[1], 1/m_fWavelength4[2]);
 		pGroundShader->SetUniformParameter1f("fCameraHeight", vCamera.magnitude());
-		pGroundShader->SetUniformParameter1f("fCameraHeight2", (vCamera.magnitude() * vCamera.magnitude()));
+		pGroundShader->SetUniformParameter1f("fCameraHeight2", vCamera.magnitudeSquared());
 		pGroundShader->SetUniformParameter1f("fInnerRadius", m_fInnerRadius);
 		pGroundShader->SetUniformParameter1f("fInnerRadius2", m_fInnerRadius*m_fInnerRadius);
 		pGroundShader->SetUniformParameter1f("fOuterRadius", m_fOuterRadius);
@@ -389,7 +418,7 @@ public:
 		pGroundShader->SetUniformParameter1f("g2", m_g*m_g);
 		pGroundShader->SetUniformParameter1i("nSamples", m_nSamples);
 		pGroundShader->SetUniformParameter1f("fSamples", m_nSamples);
-		pGroundShader->SetUniformParameter1i("s2Test", 0);
+		//pGroundShader->SetUniformParameter1i("s2Test", 0);
 		GLUquadricObj *pSphere = gluNewQuadric();
 		//m_tEarth.Enable();
 		gluSphere(pSphere, m_fInnerRadius, 100, 50);
@@ -408,7 +437,7 @@ public:
 		pSkyShader->SetUniformParameter3f("v3LightPos", m_vLightDirection.x, m_vLightDirection.y, m_vLightDirection.z);
 		pSkyShader->SetUniformParameter3f("v3InvWavelength", 1/m_fWavelength4[0], 1/m_fWavelength4[1], 1/m_fWavelength4[2]);
 		pSkyShader->SetUniformParameter1f("fCameraHeight", vCamera.magnitude());
-		pSkyShader->SetUniformParameter1f("fCameraHeight2", (vCamera.magnitude() * vCamera.magnitude()));
+		pSkyShader->SetUniformParameter1f("fCameraHeight2", vCamera.magnitudeSquared());
 		pSkyShader->SetUniformParameter1f("fInnerRadius", m_fInnerRadius);
 		pSkyShader->SetUniformParameter1f("fInnerRadius2", m_fInnerRadius*m_fInnerRadius);
 		pSkyShader->SetUniformParameter1f("fOuterRadius", m_fOuterRadius);
@@ -425,13 +454,14 @@ public:
 		pSkyShader->SetUniformParameter1i("nSamples", m_nSamples);
 		pSkyShader->SetUniformParameter1f("fSamples", m_nSamples);
 		//m_tOpticalDepth.Enable();
-		pSkyShader->SetUniformParameter1f("tex", 0);
+		//pSkyShader->SetUniformParameter1f("tex", 0);
 		glFrontFace(GL_CW);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
 		pSphere = gluNewQuadric();
 		gluSphere(pSphere, m_fOuterRadius, 100, 100);
 		gluDeleteQuadric(pSphere);
+		//glutSolidSphere(m_fOuterRadius, 100, 100);
 		glDisable(GL_BLEND);
 		glFrontFace(GL_CCW);
 		//m_tOpticalDepth.Disable();
@@ -645,7 +675,7 @@ public:
 protected:
 	void initializeImpl()
 	{
-		swmR.readFile("Door.swm", model);
+		swmR.readFile("Fighter.swm", model);
 		const std::vector<GLfloat> &mdlVertices = model.getVerticeVec();
 		const std::vector<GLfloat> &mdlNormals = model.getVNormalVec();
 		const std::vector<GLfloat> &mdlTexCoords = model.getVTextureVec();
@@ -662,23 +692,23 @@ protected:
 		vertexBuffer->upload(vertexSize + normalSize, texCoordSize, &mdlTexCoords[0]);
 
 		//const std::vector<FaceGroup>& fg = model.getFaceGroupVec();
-		std::vector<int> mdlIndices = model.genIndices2();
+		//std::vector<int> mdlIndices = model.genIndices2();
 		/*
 		for(std::vector<FaceGroup>::const_iterator groupIter = fg.begin(); groupIter != fg.end(); ++groupIter)
 		{
-			for(std::vector<FaceCollection>::const_iterator faceIter = (*groupIter).faces.begin(); faceIter != (*groupIter).faces.end(); faceIter++ )
-			{
-				mdlIndices.insert(mdlIndices.end(), (*faceIter).v.begin(), (*faceIter).v.end()); 
-			}
+		for(std::vector<FaceCollection>::const_iterator faceIter = (*groupIter).faces.begin(); faceIter != (*groupIter).faces.end(); faceIter++ )
+		{
+		mdlIndices.insert(mdlIndices.end(), (*faceIter).v.begin(), (*faceIter).v.end()); 
+		}
 		}*/
-		indexBuffer = HardwareBufferPtr(new HardwareBuffer(sizeof(&mdlIndices[0]) * mdlIndices.size(), HardwareBuffer::STATIC_DRAW, HardwareBuffer::INDEX));
-		indexBuffer->upload(&mdlIndices[0]);
+		//indexBuffer = HardwareBufferPtr(new HardwareBuffer(sizeof(&mdlIndices[0]) * mdlIndices.size(), HardwareBuffer::STATIC_DRAW, HardwareBuffer::INDEX));
+		//indexBuffer->upload(&mdlIndices[0]);
 
-		rop.indexData = new IndexData();
-		rop.indexData->indexBuffer = indexBuffer;
-		rop.indexData->count = mdlIndices.size();
-		rop.indexData->start = 0;
-		rop.indexed = true;
+		//rop.indexData = new IndexData();
+		//rop.indexData->indexBuffer = indexBuffer;
+		//rop.indexData->count = mdlIndices.size();
+		//rop.indexData->start = 0;
+		rop.indexed = false;
 
 		rop.vertexData = new VertexData();
 		rop.vertexData->count = mdlVertices.size();
@@ -702,7 +732,7 @@ protected:
 		//c.rotate(Vector3f::Y, static_cast<Math::Units::Radians>(270 * Math::Units::degrees));
 
 		texture = TexturePtr(new Texture(NULL, "floor_texture", 0, TEXTURE_2D));
-		texture->setFilePath("Steel.tga");
+		texture->setFilePath("maps/F03_512.tga");
 		texture->prepare();
 		texture->load();
 		atm.Start();
@@ -718,6 +748,13 @@ protected:
 
 int main(int argc, char *argv[])
 {
+	tr1::tuple<float, float, float> t;
+	
+	float m[3];
+	Vector3f v;
+	v = t;
+	std::cout << _PROJECT_NAME_ << "\n" << _VERSION_MAJOR_ << "." << _VERSION_MINOR_ << "." << _VERSION_PATCH_ << "\n" << _VERSION_ << "\n" << _VERSION_NAME_ << "\n" << _VERSION_SUFFIX_ << "\n" << _COMPILER_STR_ << "\n" << _COMPILER_VER_ << "\n" << _PLATFORM_STR_ << "\n" _ARCH_TYPE_STR_ << std::endl;
+	std::cout << sizeof(Vector3f) << " " << sizeof(m) << " " << sizeof(t) << std::endl;
 	Root::instance().initialize();
 	Root::instance().addWindow(WindowPtr(new DemoWindow("Demo !", Resolution_us(800, 600), false)));
 	Root::instance().setIdle2ActiveWindow();

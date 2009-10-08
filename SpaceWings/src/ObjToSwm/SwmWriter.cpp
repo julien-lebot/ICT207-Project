@@ -13,7 +13,7 @@ void SwmWriter::writeFile ( const std::string& fileName, const Model& model )
 	writeVertice ( model.getVerticeVec () );
 	writeVTexture ( model.getVTextureVec () );
 	writevNormal ( model.getVNormalVec () );
-	writeFaceGroup ( model.getFaceGroupVec () );
+	writeMaterialOffsets( model.getMtlOffsets(), model.getMtlOffsetsNames());
 	writeMaterial ( model.getMtlListVec () );
 
 	outFile.close ();
@@ -28,13 +28,6 @@ void SwmWriter::writeFloatVec ( const std::vector<float>& vec, const unsigned li
 			outFile << ( *iter++ ) << " ";
 		outFile << std::endl;
 	}
-}
-
-void SwmWriter::writeIntVec ( const std::vector<int>& vec, const unsigned tabN )
-{
-	outFile << tab ( tabN );
-	for ( std::vector<int>::const_iterator iter = vec.begin (); iter != vec.end ();)
-			outFile << (* iter++ ) << " ";
 }
 
 void SwmWriter::writePossition ( const Possition pos )
@@ -80,30 +73,18 @@ void SwmWriter::writevNormal ( const std::vector<float>& vNormalVec )
 	outFile << endTag( "vnormal" ) << std::endl;
 }
 
-void SwmWriter::writeFaces ( const std::vector<FaceCollection>& faceVec )
+void SwmWriter::writeMaterialOffsets ( const std::vector<int> offSets, const std::vector<std::string> names )
 {
-	for ( std::vector<FaceCollection>::const_iterator faceColIter = faceVec.begin (); faceColIter != faceVec.end (); faceColIter++ ){
-		outFile << tab ( 1 ) << startTag ( "face" ) << std::endl;
-		outFile << tab ( 2 ) << ( *faceColIter ).mtlName << std::endl;
-		writeIntVec ( ( *faceColIter ).v, 2 );
-		outFile << std::endl;
-		writeIntVec ( ( *faceColIter ).vn, 2 );
-		outFile << std::endl;
-		writeIntVec ( ( *faceColIter ).vt, 2 );
-		outFile << std::endl;
-		outFile << tab ( 1 ) << endTag( "face" ) << std::endl;
-	}
-}
-
-void SwmWriter::writeFaceGroup ( const std::vector<FaceGroup>& groupVec )
-{
-	for ( std::vector<FaceGroup>::const_iterator groupIter = groupVec.begin (); groupIter != groupVec.end (); groupIter++ )
+	outFile << startTag( "offset" ) << std::endl;
+	unsigned i = 0;
+	std::vector<std::string>::const_iterator iter = names.begin ();
+	while( i < offSets.size())
 	{
-		outFile << startTag( "group" ) << std::endl;
-		outFile << tab(1) << ( *groupIter ).groupName << std::endl;	
-		writeFaces ( ( *groupIter ).faces );
-		outFile << endTag( "group" ) << std::endl;
+		outFile << tab ( 1 ) << offSets[i++] << " ";
+		outFile << offSets[i++];
+		outFile << " " << (*iter++) << std::endl;
 	}
+	outFile << endTag( "offset" ) << std::endl;
 }
 
 void SwmWriter::writeMaterial ( const std::vector<Phoenix::Material>& mtlVec )

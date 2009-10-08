@@ -144,6 +144,16 @@ namespace Phoenix
 		 */
 		void addMaterial ( const Phoenix::Material& m ) { mtlList.push_back(m); }
 
+		/* adds a offset to the offset list
+		 * @param i offset to add
+		 */
+		void addOffset (int i) { mtlOffsets.push_back ( i ); }
+
+		/* adds a offset material name to the material offset list
+		 * @param i material offset name to add
+		 */
+		void addMtlOffset (std::string str) { mtlOffsetNames.push_back ( str ); }
+
 		/* gets the vertice vector
 		 * @return reference to  vertice vector
 		 */
@@ -197,8 +207,18 @@ namespace Phoenix
 		/// Loads the textures
 		void loadTextures();
 
-		std::vector<int> genIndices();
-		std::vector<int> genIndices2();
+		/// converts loaded obj info to our swm format that is none indexed.
+		void convertObjModel();
+
+		/* returns a vector with material offsets
+		 * @return vector containing material offsets 
+		 */
+		const std::vector<int>& getMtlOffsets () const { return mtlOffsets; }
+
+		/* returns a vector with material offsets names
+		 * @return vector containing material offsets names
+		 */
+		const std::vector<std::string>& getMtlOffsetsNames () const { return mtlOffsetNames; }
 	private:
 		/// vertice vector
 		std::vector<float> vertices;
@@ -208,6 +228,12 @@ namespace Phoenix
 
 		/// vertice texture vector
 		std::vector<float> vTextures;
+
+		/// material offsets
+		std::vector<int> mtlOffsets;
+
+		/// materials offset names to be used for each offset
+		std::vector<std::string> mtlOffsetNames;
 
 		/// facegroup vector
 		std::vector<Phoenix::FaceGroup> faceGroups;

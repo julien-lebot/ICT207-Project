@@ -39,8 +39,8 @@ void SwmReader::parseFile ( std::ifstream& inFile, Model& model )
 			parseVTexture ( inFile, model );
 		else if ( tag == "<vnormal>" )
 			parseVNormal ( inFile, model );
-		else if ( tag == "<group>" )
-			parseGroup ( inFile, model );
+		else if ( tag == "<offset>" )
+			parseOffset ( inFile, model );
 		else if ( tag == "<material>" )
 			parseMaterial ( inFile, model );
 	}
@@ -98,7 +98,7 @@ void SwmReader::parseVTexture ( std::ifstream& inFile, Model& model )
 
 	do
 	{
-		for(int i = 0; i < 3; i++)
+		for(unsigned i = 0; i < 2; i++)
 			model.addVTexture ( ( float ) atof ( m_token.getNext ().c_str () ) );
 		setNextTokens ( inFile  );
 	}while ( !isEndTag() );
@@ -117,40 +117,16 @@ void SwmReader::parseVNormal ( std::ifstream& inFile, Model& model )
 	}while ( !isEndTag() );
 }
 
-void SwmReader::parseGroup ( std::ifstream& inFile, Model& model )
+void SwmReader::parseOffset ( std::ifstream& inFile, Model& model )
 {
-	FaceGroup tempFG;
-	
-	setNextTokens( inFile , 0);
-	tempFG.groupName = m_token.getNext();
-
-	parseFace( inFile, tempFG );
-
-	model.addFaceGroup(tempFG);
-}
-
-void SwmReader::parseFace ( std::ifstream& inFile, FaceGroup& fg )
-{
-	setNextTokens(inFile , 1);
-
 	do
 	{
-		FaceCollection tempFC;
-		tempFC.mtlName = m_token.getNext ();
-		setNextTokens ( inFile ,0 );
-		for ( unsigned i = 0; i < m_token.size(); i++ )
-			tempFC.v.push_back( atoi( m_token.getNext ().c_str () ) );
-		setNextTokens ( inFile ,0 );
-		for ( unsigned i = 0; i < m_token.size(); i++ )
-			tempFC.vn.push_back( atoi( m_token.getNext ().c_str () ) );
-		setNextTokens ( inFile ,0 );
-		for ( unsigned i = 0; i < m_token.size(); i++ )
-			tempFC.vt.push_back( atoi( m_token.getNext ().c_str () ) );
-		setNextTokens ( inFile , 1 );
-		fg.faces.push_back(tempFC);
-		if ( m_token.getNext () == "<face>" )		
-			setNextTokens ( inFile  );
-	}while ( (m_token.getElement ( 0 ) != "</group>") );
+		model.addOffset ( atoi ( m_token.getNext ().c_str () ) );
+		model.addOffset ( atoi ( m_token.getNext ().c_str () ) );
+		model.addMtlOffset ( m_token.getNext () );
+	
+		setNextTokens(inFile , 0);
+	}while ( !isEndTag() );
 }
 
 void SwmReader::parseMaterial ( std::ifstream& inFile, Model& model )

@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)\include&quot;"
-				PreprocessorDefinitions="PHOENIX_STATIC_LIB_;_DEBUG;"
+				PreprocessorDefinitions="PHOENIX_STATIC_LIB_;_DEBUG;_USE_BOOST_"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"

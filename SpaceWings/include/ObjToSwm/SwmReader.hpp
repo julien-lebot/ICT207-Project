@@ -75,18 +75,11 @@ namespace Phoenix
 		void parseVNormal ( std::ifstream& inFile, Phoenix::Model& model );
 
 		/*
-		 * parse the group section of the file
+		 * parse the offset section of the file
 		 * @param inFile ifstream object to parse from
 		 * @param model object to store in
 		 */
-		void parseGroup ( std::ifstream& inFile, Phoenix::Model& model );
-		
-		/*
-		 * parse the face section of the file
-		 * @param inFile ifstream object to parse from
-		 * @param FaceGroup object to store group in
-		 */
-		void parseFace ( std::ifstream& inFile, Phoenix::FaceGroup& fg ) ;
+		void parseOffset ( std::ifstream& inFile, Phoenix::Model& model );
 		
 		/*
 		 * parse the material section of the file

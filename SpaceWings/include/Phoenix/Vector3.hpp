@@ -13,6 +13,7 @@
 
 #include <Phoenix/Base.h>
 #include <Phoenix/Math.hpp>
+#include <Phoenix/Tuple.hpp>
 #include <Phoenix/VectorCommon.hpp>
 
 #include <cassert>
@@ -27,7 +28,9 @@ namespace Phoenix {
 		 * so technically it's similar to a 4D vector, but some operations can only
 		 * be performed on 3D vectors and not 4D ones.
 		 *
-		 * Note: Maybe this should be aligned on a 32bytes memory boundary for better performance on x86 ? J.L.
+		 * @remarks Maybe this should be aligned on a 32bytes memory boundary for better performance on x86 ? J.L.
+		 * @remarks This class practically forbids implicit instantiation to avoid bad surprises.
+		 * (there are a lot of float[3] in a program that don't necessarily have the same semantic as a vector!)
 		 *
 		 * @param T The template type should be a real quantity such as float or double.
 		 */
@@ -37,7 +40,70 @@ namespace Phoenix {
 		public:
 			T x, y, z;
 
-			// Here is the equation:  magnitude = sqrt(V.x^2 + V.y^2 + V.z^2) : Where V is the vector
+			/**
+			* @brief Returns the magnitude squared of that vector.
+			* Here is the equation:  magnitude = (V.x^2 + V.y^2 + V.z^2) : Where V is the vector
+			* @return A scalar magnitude squared of the vector.
+			*/
+			T magnitudeSquared()
+			{
+				T *val = &x;
+#if defined(USE_SSE)
+				T result = 0.0f;
+
+				__asm
+				{
+					mov		eax, dword ptr [val]
+
+					movaps	xmm0, [eax]
+
+					// x^2 y^2 z^2 w^2
+					mulps	xmm0, xmm0
+
+					// xmm1 = x^2, y^2, z^2, w^2
+					movaps	xmm1, xmm0
+
+					// xmm0 = z^2, w^2, x^2, y^2
+					shufps	xmm0, xmm0, SHUFFLE(VEC_Z, VEC_W, VEC_X, VEC_Y)
+
+					// xmm0 = (x^2 + z^2), (y^2 + w^2), (z^2 + x^2), (w^2 + y^2)
+					addss	xmm0, xmm1
+
+					// xmm1 = y^2, x^2, w^2, z^2
+					shufps	xmm1, xmm1, SHUFFLE(VEC_Y, VEC_X, VEC_W, VEC_Z)
+
+					// xmm0 = (x^2 + z^2) + y^2, (y^2 + w^2) + x^2, (z^2 + x^2) + w^2, (w^2 + y^2) + z^2
+					addss	xmm0, xmm1
+
+					movss	dword ptr [result], xmm0
+				}
+
+				return result;
+#elif defined(USE_INTRINSIC_ASM)
+				__m128 m0, m1;
+				__m128 *__mVec = (__m128*)val;
+
+				// Squares the vector
+				m0 = _mm_mul_ps(*__mVec, *__mVec);
+				m1 = m0;
+
+				m0 = _mm_shuffle_ps(m0, m0, SHUFFLE(VEC_Z, VEC_W, VEC_X, VEC_Y));
+				m0 = _mm_add_ss(m0, m1);
+
+				m1 = _mm_shuffle_ps(m1, m1, SHUFFLE(VEC_Y, VEC_X, VEC_W, VEC_Z));
+				m0 = _mm_add_ss(m0, m1);
+
+				return _mm_cvtss_f32(m0);
+#else
+				return x*x + y*y + z*z;
+#endif
+			}
+
+			/**
+			 * @brief Returns the magnitude of that vector.
+			 * Here is the equation:  magnitude = sqrt(V.x^2 + V.y^2 + V.z^2) : Where V is the vector
+			 * @return A scalar magnitude of the vector.
+			 */
 			T magnitude()
 			{
 				T *val = &x;
@@ -48,30 +114,30 @@ namespace Phoenix {
 				{
 					mov		eax, dword ptr [val]
 
-						movaps	xmm0, [eax]
+					movaps	xmm0, [eax]
 
 					// x^2 y^2 z^2 w^2
 					mulps	xmm0, xmm0
 
-						// xmm1 = x^2, y^2, z^2, w^2
-						movaps	xmm1, xmm0
+					// xmm1 = x^2, y^2, z^2, w^2
+					movaps	xmm1, xmm0
 
-						// xmm0 = z^2, w^2, x^2, y^2
-						shufps	xmm0, xmm0, SHUFFLE(VEC_Z, VEC_W, VEC_X, VEC_Y)
+					// xmm0 = z^2, w^2, x^2, y^2
+					shufps	xmm0, xmm0, SHUFFLE(VEC_Z, VEC_W, VEC_X, VEC_Y)
 
-						// xmm0 = (x^2 + z^2), (y^2 + w^2), (z^2 + x^2), (w^2 + y^2)
-						addss	xmm0, xmm1
+					// xmm0 = (x^2 + z^2), (y^2 + w^2), (z^2 + x^2), (w^2 + y^2)
+					addss	xmm0, xmm1
 
-						// xmm1 = y^2, x^2, w^2, z^2
-						shufps	xmm1, xmm1, SHUFFLE(VEC_Y, VEC_X, VEC_W, VEC_Z)
+					// xmm1 = y^2, x^2, w^2, z^2
+					shufps	xmm1, xmm1, SHUFFLE(VEC_Y, VEC_X, VEC_W, VEC_Z)
 
-						// xmm0 = (x^2 + z^2) + y^2, (y^2 + w^2) + x^2, (z^2 + x^2) + w^2, (w^2 + y^2) + z^2
-						addss	xmm0, xmm1
+					// xmm0 = (x^2 + z^2) + y^2, (y^2 + w^2) + x^2, (z^2 + x^2) + w^2, (w^2 + y^2) + z^2
+					addss	xmm0, xmm1
 
-						// xmm0 = sqrt(x^2 + z^2 + y^2), ...
-						sqrtss	xmm0, xmm0
+					// xmm0 = sqrt(x^2 + z^2 + y^2), ...
+					sqrtss	xmm0, xmm0
 
-						movss	dword ptr [result], xmm0
+					movss	dword ptr [result], xmm0
 				}
 
 				return result;
@@ -98,6 +164,7 @@ namespace Phoenix {
 #endif
 			}
 
+			/// Normalize the vector so that it has unit length.
 			void normalize()
 			{
 				T invSqrtVec = rsqroot(((x * x) + 
@@ -108,6 +175,7 @@ namespace Phoenix {
 				z *= invSqrtVec;
 			}
 			
+			/// Inlined default constructor
 			_INLINE Vector3()
 			: x(0.0f),
 			  y(0.0f),
@@ -115,6 +183,7 @@ namespace Phoenix {
 			{
 			}
 
+			/// Inline constructor that takes 3 scalars
 			_INLINE Vector3(const T fX, const T fY, const T fZ)
 			: x(fX),
 			  y(fY),
@@ -122,6 +191,7 @@ namespace Phoenix {
 			{
 			}
 
+			/// Inline constructor that takes an array of 3 scalars
 			_INLINE explicit Vector3(const T coords[3])
 			: x(coords[0]),
 			  y(coords[1]),
@@ -129,11 +199,20 @@ namespace Phoenix {
 			{
 			}
 
+			/// Inline constructor that takes an array of 3 integers
 			_INLINE explicit Vector3(const int coords[3])
 			{
 				x = static_cast<T>(coords[0]);
 				y = static_cast<T>(coords[1]);
 				z = static_cast<T>(coords[2]);
+			}
+
+			/// Inline constructor that takes a tuple of 3 scalars
+			_INLINE explicit Vector3(const tr1::tuple<T,T,T>& coords)
+			: x(coords.get<0>()),
+			  y(coords.get<1>()),
+			  z(coords.get<2>())
+			{
 			}
 
 			_INLINE explicit Vector3(T* const r)
@@ -191,6 +270,15 @@ namespace Phoenix {
 				y = rhs.y;
 				z = rhs.z;
 #endif
+				return *this;
+			}
+
+			_INLINE Vector3<T>& operator =(const tr1::tuple<T,T,T>& rhs)
+			{
+				x = rhs.get<0>();
+				y =	rhs.get<1>();
+				z =	rhs.get<2>();
+
 				return *this;
 			}
 

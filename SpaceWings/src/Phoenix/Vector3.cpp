@@ -9,6 +9,7 @@
 */
 
 #include <Phoenix/Vector3.hpp>
+#include <Phoenix/StaticCheck.hpp>
 
 namespace Phoenix {
 	namespace Math {
@@ -35,5 +36,12 @@ namespace Phoenix {
 
 		const Vector3<float> Vector3<float>::UNIT(1, 1, 1);
 		const Vector3<double> Vector3<double>::UNIT(1, 1, 1);
+
+		// Little neat function that secretly test the size of our vector to make sure (at compile time) that is has the appropriate memory alignment !
+		static void compile_time_check()
+		{
+			PHOENIX_STATIC_CHECK(sizeof(Vector3<float>)==16,Vector3f_memory_not_boundary_aligned);
+			PHOENIX_STATIC_CHECK(sizeof(Vector3<double>)==32,Vector3d_memory_not_boundary_aligned);
+		}
 	}
 }

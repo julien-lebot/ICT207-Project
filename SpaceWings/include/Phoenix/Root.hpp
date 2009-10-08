@@ -14,6 +14,7 @@
 #include <Phoenix/Base.h>
 #include <Phoenix/Window.hpp>
 #include <Phoenix/Singleton.hpp>
+#include <Phoenix/LogManager.hpp>
 
 namespace Phoenix
 {
@@ -65,6 +66,9 @@ namespace Phoenix
 
 		/// In case the idle event dispatching is enabled, tells the system that the current active window will handle the idle events from now on.
 		void setIdle2ActiveWindow(void);
+
+		/// Get a reference to the log manager. This is a convenience method
+		LogManager& getLogManager() { return LogManager::instance(); }
 
 	private:
 		/// Private default constructor
