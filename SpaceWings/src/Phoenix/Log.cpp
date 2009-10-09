@@ -75,11 +75,48 @@ void Log::write(const std::string& message, const LoggingLevel loggingLevel)
 		mOutput << timeStamp;
 
 		if (mPrintSeverity)
-			mOutput << "::" << getLiteralSeverity(loggingLevel);
+			mOutput << "::" << getLiteralSeverity(loggingLevel) << " ";
 
 		mOutput << message << std::endl;
 
 		// Make sure our garbage is out
 		mOutput.flush();
 	}
+}
+
+Log::Stream Log::prepareForStreaming(const Log::LoggingLevel loggingLevel)
+{
+	Stream stream(this,loggingLevel);
+	return stream;
+}
+
+Log::Stream::Stream(Log* log, const Log::LoggingLevel loggingLevel)
+: mLog(log), mLoggingLevel(loggingLevel) {}
+
+Log::Stream::~Stream()
+{
+	if (mStringStream.tellp() > 0)
+		flush();
+}
+
+Log::Stream* Log::Stream::flush()
+{
+	mLog->write(mStringStream.str(), mLoggingLevel);
+	mStringStream.str("");
+	return this;
+}
+
+Log::Stream::Stream(const Stream& rhs)
+: mLog(rhs.mLog),
+  mLoggingLevel(rhs.mLoggingLevel),
+  mStringStream(rhs.mStringStream.str())
+{
+}
+
+Log::Stream& Log::Stream::operator=(const Stream& rhs)
+{
+	mLog = rhs.mLog;
+	mLoggingLevel = rhs.mLoggingLevel;
+	mStringStream.str(rhs.mStringStream.str());
+	return *this;
 }

@@ -31,20 +31,6 @@ namespace Phoenix
 
 		/// Binds the source ID of the elements with an actual hardware buffer. This is because multiple elements can share the same buffer.
 		HardwareBufferMap bufferBinding;
-
-		/*
-		VertexData()
-		: start(0),
-		 count(0)
-		{
-			bufferElementGroup = new BufferElementGroup();
-		}
-
-		~VertexData()
-		{
-			delete bufferElementGroup;
-		}
-		*/
 	};
 
 	struct IndexData

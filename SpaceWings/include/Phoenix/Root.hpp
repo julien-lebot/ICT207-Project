@@ -14,6 +14,7 @@
 #include <Phoenix/Base.h>
 #include <Phoenix/Window.hpp>
 #include <Phoenix/Singleton.hpp>
+#include <Phoenix/CPUInfo.hpp>
 #include <Phoenix/LogManager.hpp>
 
 namespace Phoenix
@@ -114,6 +115,9 @@ namespace Phoenix
 
 		/// Whether or not the initialization has been done
 		bool mInitDone;
+
+		/// Information about the CPU
+		CPUInfo mCPUInfo;
 	};
 }
 

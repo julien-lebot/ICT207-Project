@@ -122,16 +122,28 @@ namespace Phoenix
 
 		const Matrix4_t& getViewMatrix();
 
+		virtual void rotate(float headingDegrees, float pitchDegrees, float rollDegrees);
+
 		void doLook();
 	protected:
 		Vector3_t mPos;
 
+		/// The view matrix
 		Matrix4_t mViewMatrix;
+
+		/// The projection matrix
+		Matrix4_t mProjMatrix;
+
+		/// The view projection matrix (view * proj)
+		Matrix4_t mViewProjMatrix;
 
 		/// Camera orientation, quaternion style
 		Quaternion_t mOrientation;
 
 		Vector3_t mUp, mRight, mView;
+
+		/// The camera local axis
+		Vector3_t mXAxis, mYAxis, mZAxis;
 
 		/// Whether to yaw around a fixed axis.
 		bool mYawFixed;

@@ -613,7 +613,7 @@ namespace Phoenix {
 			static const Vector3<T> MINUS_Z;
 			static const Vector3<T> UNIT;
 
-			inline friend std::ostream& operator <<(std::ostream& os, const Vector3<T>& vec)
+			_INLINE friend std::ostream& operator <<(std::ostream& os, const Vector3<T>& vec)
 			{
 				os << "Vector3(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
 				return os;

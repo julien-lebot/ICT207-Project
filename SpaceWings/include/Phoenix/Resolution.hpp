@@ -12,6 +12,7 @@
 #define __Resolution_hpp__
 
 #include <Phoenix/Base.h>
+#include <iostream>
 
 namespace Phoenix
 {
@@ -49,6 +50,13 @@ namespace Phoenix
 
 		/// Get the height
 		const T& getHeight() const { return mHeight; }
+
+		friend std::ostream& operator <<(std::ostream& os, const Resolution<T>& res)
+		{
+			os << res.mWidth << "x" << res.mHeight;
+			return os;
+		}
+
 	private:
 		T mWidth, mHeight;
 	};

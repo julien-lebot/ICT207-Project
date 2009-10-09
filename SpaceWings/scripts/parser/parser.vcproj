@@ -60,7 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ObjToSwm.lib"
+				AdditionalDependencies="Phoenix.lib ObjToSwm.lib"
 				OutputFile="$(SolutionDir)\build\$(ConfigurationName)\$(PlatformName)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt\lib&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1&quot;;&quot;$(SolutionDir)\build\$(ConfigurationName)\$(PlatformName)&quot;"
 				GenerateDebugInformation="true"

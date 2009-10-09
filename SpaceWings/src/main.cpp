@@ -554,6 +554,9 @@ public:
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		c.doLook();
+		//glMatrixMode(GL_MODELVIEW);
+		//glLoadIdentity();
+		//glMultMatrixf(&c.getViewMatrix()[0][0]);
 		
 		if (!mSwitchWorld)
 		{
@@ -564,7 +567,7 @@ public:
 		}
 		else
 		{
-			atm.Update(c);
+			//atm.Update(c);
 		}
 
 		glEnable(GL_TEXTURE_2D);
@@ -573,14 +576,14 @@ public:
 		Renderer::instance().render(rop);
 		//Renderer::instance().setLightingEnabled(false);
 		static_cast<Texture*>(texture.get())->unbind();
-		
+		/*
 		static_cast<Texture*>(texture.get())->bind(0);
 		glPushMatrix();
 		glTranslatef(70.0, 35.0, 0.0);
 		drawFlatPatch(16.0f,16.0f,256.0f);
 		glPopMatrix();
 		static_cast<Texture*>(texture.get())->unbind();
-
+		*/
 		/*
 		texture.bind(0);
 		glColor4f(1, 1, 1, 1);
@@ -615,7 +618,7 @@ public:
 	void onKeyboard(unsigned char key, int x, int y)
 	{
 		float factor = 1.0f;
-		if (!mSwitchWorld)
+		if (mSwitchWorld)
 			factor = 100.0f;
 		else
 			factor = 1.0f;
@@ -637,15 +640,19 @@ public:
 			break;
 
 		case 'i':	//Rotate up
+			//c.rotate(0,10,0);
 			c.pitch(static_cast<Units::Radians>(10 * Units::degrees));
 			break;
 		case 'k':	//Rotate down
+			//c.rotate(0,-10,0);
 			c.pitch(static_cast<Units::Radians>(-10 * Units::degrees));
 			break;
 		case 'j':	//Rotate left
+			//c.rotate(10,0,0);
 			c.rotate(Vector3f::Y, static_cast<Units::Radians>(10 * Units::degrees));
 			break;
 		case 'l':	//Rotate right
+			//c.rotate(-10,0,0);
 			c.rotate(Vector3f::Y, static_cast<Units::Radians>(-10 * Units::degrees));
 			break;
 
@@ -675,7 +682,7 @@ public:
 protected:
 	void initializeImpl()
 	{
-		swmR.readFile("Fighter.swm", model);
+		swmR.readFile("ViperMKVII.swm", model);
 		const std::vector<GLfloat> &mdlVertices = model.getVerticeVec();
 		const std::vector<GLfloat> &mdlNormals = model.getVNormalVec();
 		const std::vector<GLfloat> &mdlTexCoords = model.getVTextureVec();
@@ -691,16 +698,6 @@ protected:
 		vertexBuffer->upload(vertexSize, normalSize, &mdlNormals[0]);
 		vertexBuffer->upload(vertexSize + normalSize, texCoordSize, &mdlTexCoords[0]);
 
-		//const std::vector<FaceGroup>& fg = model.getFaceGroupVec();
-		//std::vector<int> mdlIndices = model.genIndices2();
-		/*
-		for(std::vector<FaceGroup>::const_iterator groupIter = fg.begin(); groupIter != fg.end(); ++groupIter)
-		{
-		for(std::vector<FaceCollection>::const_iterator faceIter = (*groupIter).faces.begin(); faceIter != (*groupIter).faces.end(); faceIter++ )
-		{
-		mdlIndices.insert(mdlIndices.end(), (*faceIter).v.begin(), (*faceIter).v.end()); 
-		}
-		}*/
 		//indexBuffer = HardwareBufferPtr(new HardwareBuffer(sizeof(&mdlIndices[0]) * mdlIndices.size(), HardwareBuffer::STATIC_DRAW, HardwareBuffer::INDEX));
 		//indexBuffer->upload(&mdlIndices[0]);
 
@@ -731,8 +728,8 @@ protected:
 		//c.setDirection(Vector3f(3999.0, 10450.0, 20620.0));
 		//c.rotate(Vector3f::Y, static_cast<Math::Units::Radians>(270 * Math::Units::degrees));
 
-		texture = TexturePtr(new Texture(NULL, "floor_texture", 0, TEXTURE_2D));
-		texture->setFilePath("maps/F03_512.tga");
+		texture = TexturePtr(new Texture(NULL, "ViperMKVII", 0, TEXTURE_2D));
+		texture->setFilePath("ViperMKVII.dds");
 		texture->prepare();
 		texture->load();
 		atm.Start();
@@ -748,13 +745,6 @@ protected:
 
 int main(int argc, char *argv[])
 {
-	tr1::tuple<float, float, float> t;
-	
-	float m[3];
-	Vector3f v;
-	v = t;
-	std::cout << _PROJECT_NAME_ << "\n" << _VERSION_MAJOR_ << "." << _VERSION_MINOR_ << "." << _VERSION_PATCH_ << "\n" << _VERSION_ << "\n" << _VERSION_NAME_ << "\n" << _VERSION_SUFFIX_ << "\n" << _COMPILER_STR_ << "\n" << _COMPILER_VER_ << "\n" << _PLATFORM_STR_ << "\n" _ARCH_TYPE_STR_ << std::endl;
-	std::cout << sizeof(Vector3f) << " " << sizeof(m) << " " << sizeof(t) << std::endl;
 	Root::instance().initialize();
 	Root::instance().addWindow(WindowPtr(new DemoWindow("Demo !", Resolution_us(800, 600), false)));
 	Root::instance().setIdle2ActiveWindow();

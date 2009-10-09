@@ -44,16 +44,17 @@ void ObjReader::readLines( std::ifstream& inFile, Model& model )
 				model.addvNormals ( ( float ) atof ( ( t.getNext () ).c_str () ) );
 		else if ( prefix == "g" )
 		{	
-			if ( m_activeGroup )
+			if ( !m_activeGroup )
 			{
-				addFaceCol( (*m_activeCollection) );
-				delete m_activeCollection;
-				m_activeCollection = new FaceCollection;
-				model.addFaceGroup(*m_activeGroup);
-				delete m_activeGroup;
+				m_activeGroup = new FaceGroup;
+				( *m_activeGroup ).groupName = t.getNext ();
+				//addFaceCol( (*m_activeCollection) );
+				//delete m_activeCollection;
+				//m_activeCollection = new FaceCollection;
+				//model.addFaceGroup(*m_activeGroup);
+				//delete m_activeGroup;
 			}
-			m_activeGroup = new FaceGroup;
-			( *m_activeGroup ).groupName = t.getNext ();
+			
 		}
 		else if ( prefix == "mtllib" )
 		{
@@ -101,8 +102,8 @@ void ObjReader::readFaceLine ( Token& t ) const
 		while( !t2.allFetched () )
 		{
 			tempV.push_back ( ( atoi ( t2.getNext ().c_str () ) ) - 1 );
-			tempVn.push_back ( ( atoi ( t2.getNext ().c_str () ) ) - 1 );
 			tempVt.push_back ( ( atoi ( t2.getNext ().c_str() ) ) - 1 );
+			tempVn.push_back ( ( atoi ( t2.getNext ().c_str () ) ) - 1 );
 		}
 	}
 	
@@ -144,7 +145,7 @@ void ObjReader::addFaceCol(FaceCollection& fc) const
 		faceLstIter++;
 	}
 	
-	if (found == false)
+	if (found == false && !fc.v.empty())
 		(*m_activeGroup).faces.push_back(fc);
 }
 

@@ -10,7 +10,7 @@
 			>
 			<DebugSettings
 				Command="$(TargetPath)"
-				WorkingDirectory="C:\Users\Administrator\Documents\Visual Studio 2008\Projects\Murdoch\ICT207\SpaceWings\build\Debug Static\Win32"
+				WorkingDirectory="$(TargetDir)"
 				CommandArguments=""
 				Attach="false"
 				DebuggerType="3"

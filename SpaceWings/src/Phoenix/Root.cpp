@@ -35,10 +35,17 @@ bool Root::initialize(const std::string& logFile,
 	glutInit(&argc, &argv);
 
 	LogManager::instance().setDefaultLog(logFile);
-
-	//LogManager::instance().getDefaultLog()->write(_PROJECT_NAME_ + std::string(" initializing ..."));
-
-	//LogManager::instance().getDefaultLog()->write(std::string("version ") + _VERSION_MAJOR_ + "." + _VERSION_MINOR_ + "." + _VERSION_PATCH_ + " " + "(" + _VERSION_NAME_ + ")");
+	Log::Stream str = LogManager::instance().getDefaultLog()->prepareForStreaming();
+	str << _PROJECT_NAME_ << " initializing ...";
+	str.flush();
+	str << "version " << _VERSION_MAJOR_ << "." << _VERSION_MINOR_ << "." << _VERSION_PATCH_ << " (" << _VERSION_NAME_ << ")";
+	str.flush();
+	str << "compiled with " << _COMPILER_STR_ << " version " << _COMPILER_VER_ << " for " << _PLATFORM_STR_ << " " << _ARCH_TYPE_STR_ << "bits (" << __TIMESTAMP__ << ")";
+	str.flush();
+	str << "Detected processor: " << mCPUInfo.getCPUString();
+	str.flush();
+	str << "Features: " << mCPUInfo.featuresAsString();
+	str.flush();
 
 	mInitDone = true;
 	return true;
@@ -70,10 +77,13 @@ void Root::addWindow(WindowPtr window, bool autoConfigure)
 	glutPassiveMotionFunc(CallBackPassiveMotionFunc);
 	glutReshapeFunc(CallBackReshapeFunc); 
 	glutVisibilityFunc(CallBackVisibilityFunc);
+
+	LogManager::instance().getDefaultLog()->prepareForStreaming() << "Added window \"" << window->getName() << "\" (" << window->getResolution() << ")";
 }
 
 void Root::shutdown()
 {
+	LogManager::instance().getDefaultLog()->write("Shuting down...");
 }
 
 bool Root::isInitialised()

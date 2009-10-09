@@ -335,6 +335,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\Phoenix\CPUInfo.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\Phoenix\Empty.hpp"
 				>
 			</File>
@@ -483,6 +487,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Phoenix\CPUInfo.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Phoenix\DDSCodec.cpp"
 				>
 			</File>
@@ -559,7 +567,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Window.cpp"
+				RelativePath="..\..\src\Phoenix\Window.cpp"
 				>
 			</File>
 		</Filter>

@@ -15,6 +15,7 @@
 #include <Phoenix/Base.h>
 #include <fstream>
 #include <string>
+#include <sstream>
 
 namespace Phoenix
 {
@@ -33,6 +34,31 @@ namespace Phoenix
 			LL_WARNING = 3,	// Use for logging warnings
 			LL_INFO = 2,		// Use for logging key informational events
 			LL_NOTICE = 1		// Slightly less than Info, but not debug spew
+		};
+
+		class Stream
+		{
+			friend class Log;
+		private:
+			Log* mLog;
+			LoggingLevel mLoggingLevel;
+			std::stringstream mStringStream;
+		private:
+			Stream(Log* log, const LoggingLevel loggingLevel);
+		public:
+			Stream(const Stream& rhs);
+			Stream& operator=(const Stream& rhs);
+			~Stream();
+
+			/// @copydoc ostream::flush
+			Stream* flush();
+
+			template <typename T>
+			Stream& operator<< (const T& value)
+			{
+				mStringStream << value;
+				return *this;
+			}
 		};
 
 		/**
@@ -61,6 +87,12 @@ namespace Phoenix
 			const bool printSeverity = true,
 			const LoggingLevel minLoggingLevel = LL_INFO);
 
+		/**
+		 * Prepares the log for streaming with operator <<. This basically returns an object that will wrap the operator <<.
+		 * @param loggingLevel The severity of this message.
+		 */
+		Stream prepareForStreaming(const LoggingLevel loggingLevel = LL_INFO);
+
 		/// Concrete destructor. Don't subclass this class just yet. Maybe in the future if need arises.
 		~Log();
 	protected:
@@ -81,6 +113,9 @@ namespace Phoenix
 
 		/// The output stream
 		std::ofstream mOutput;
+
+		/// Flag to allow the use of operator <<
+		bool mIsStreaming;
 
 		/**
 		* Default constructor: blank constructor.
