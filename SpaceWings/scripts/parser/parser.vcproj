@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="parser"
 	ProjectGUID="{E4F30526-F6FB-40E8-B7FE-DDCB6E53FFD6}"
 	RootNamespace="parser"
@@ -60,9 +60,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Phoenix.lib ObjToSwm.lib"
+				AdditionalDependencies="Phoenix.lib ObjToSwm.lib GLee.lib"
 				OutputFile="$(SolutionDir)\build\$(ConfigurationName)\$(PlatformName)\$(ProjectName).exe"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt\lib&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1&quot;;&quot;$(SolutionDir)\build\$(ConfigurationName)\$(PlatformName)&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt\lib&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1&quot;;&quot;$(SolutionDir)\build\$(ConfigurationName)\$(PlatformName)&quot;;&quot;$(SolutionDir)\..\Shared\Library\glee-5.4&quot;"
+				IgnoreDefaultLibraryNames="LIBC.lib"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>

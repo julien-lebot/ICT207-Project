@@ -29,10 +29,10 @@ namespace Phoenix
 		bool load ();
 		void genIndicesBuffer( const std::vector<FaceGroup>& fg);
 		void display();
-		void setPossition( float x, float y, float z ) { m_pos.x = x; m_pos.y = y; m_pos.z = z; }
+		void setPosition( float x, float y, float z ) { m_pos.x = x; m_pos.y = y; m_pos.z = z; }
 	protected:
 		std::string modelFile;
-		Possition m_pos;
+		Position m_pos;
 
 		HardwareBuffer *verticeBuffer;
 		HardwareBuffer *indexBuffer;

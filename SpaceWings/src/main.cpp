@@ -272,6 +272,14 @@ public:
 		return it->second;
 	}
 
+	/*
+	void BindTexture(const char *pszParameter, unsigned int nID)
+	{
+	GLint n = GetUniformParameterID(pszParameter);
+	glBindTexture(GL_TEXTURE_2D, nID);
+	glUniform1iARB(n, nID);
+	}
+	*/
 	void SetUniformParameter1i(const char *pszParameter, int n1)
 	{
 		glUniform1iARB(GetUniformParameterID(pszParameter), n1);
@@ -334,11 +342,10 @@ public:
 		m_ESun = 15.0f;		// Sun brightness constant
 		m_g = -0.95f;		// The Mie phase asymmetry factor
 
-		float mFactor = 1.0f;
-		m_fInnerRadius = 10.0f * mFactor;
-		m_fOuterRadius = 10.25f * mFactor;
+		m_fInnerRadius = 10.0f;
+		m_fOuterRadius = 10.25f;
 		m_fScale = 1 / (m_fOuterRadius - m_fInnerRadius);
-		m_fScale *= mFactor;
+		//m_fScale *= 1000.0;
 
 		m_fWavelength[0] = 0.650f;		// 650 nm for red
 		m_fWavelength[1] = 0.570f;		// 570 nm for green
@@ -454,6 +461,7 @@ public:
 		pSphere = gluNewQuadric();
 		gluSphere(pSphere, m_fOuterRadius, 100, 100);
 		gluDeleteQuadric(pSphere);
+		//glutSolidSphere(m_fOuterRadius, 100, 100);
 		glDisable(GL_BLEND);
 		glFrontFace(GL_CCW);
 		//m_tOpticalDepth.Disable();
@@ -482,13 +490,19 @@ void setCamera(const Vector3f &pos,
 			  0, 1, 0);
 }
 
-class RenderObject
-{
-public:
-	virtual RenderOperation& getRenderOperation() = 0;
-	virtual Material& getMaterial() = 0;
-protected:
-};
+GLfloat vertices[] = {1,1,1,  -1,1,1,  -1,-1,1,  1,-1,1,
+                      1,1,1,  1,-1,1,  1,-1,-1,  1,1,-1,
+                      1,1,1,  1,1,-1,  -1,1,-1,  -1,1,1,
+                      -1,1,1,  -1,1,-1,  -1,-1,-1,  -1,-1,1,
+                      -1,-1,-1,  1,-1,-1,  1,-1,1,  -1,-1,1,
+                      1,-1,-1,  -1,-1,-1,  -1,1,-1,  1,1,-1};
+
+GLubyte indices[] = {0,1,2,3,
+                     4,5,6,7,
+                     8,9,10,11,
+                     12,13,14,15,
+                     16,17,18,19,
+                     20,21,22,23};
 
 class DemoWindow
 	: public Window
@@ -539,25 +553,49 @@ public:
 	void onDisplay()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glMultMatrixf(&c.getProjectionMatrix()[0][0]);
-
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		glMultMatrixf(&c.getViewMatrix()[0][0]);
+		c.doLook();
+		//glMatrixMode(GL_MODELVIEW);
+		//glLoadIdentity();
+		//glMultMatrixf(&c.getViewMatrix()[0][0]);
 		
-		atm.Update(c);
-
-		//glClearColor(97.0/255.0, 140.0/255.0, 185.0/255.0, 1.0);
-		glPushMatrix();
-		s.DrawBackdrop();
-		glPopMatrix();
+		if (!mSwitchWorld)
+		{
+			glClearColor(97.0/255.0, 140.0/255.0, 185.0/255.0, 1.0);
+			glPushMatrix();
+			//s.DrawBackdrop();
+			glPopMatrix();
+		}
+		else
+		{
+			//atm.Update(c);
+		}
 
 		glEnable(GL_TEXTURE_2D);
 		static_cast<Texture*>(texture.get())->bind(0);
+		//Renderer::instance().setLightingEnabled(true);
 		Renderer::instance().render(rop);
+		//Renderer::instance().setLightingEnabled(false);
 		static_cast<Texture*>(texture.get())->unbind();
+		/*
+		static_cast<Texture*>(texture.get())->bind(0);
+		glPushMatrix();
+		glTranslatef(70.0, 35.0, 0.0);
+		drawFlatPatch(16.0f,16.0f,256.0f);
+		glPopMatrix();
+		static_cast<Texture*>(texture.get())->unbind();
+		*/
+		/*
+		texture.bind(0);
+		glColor4f(1, 1, 1, 1);
+		float backRect[4] = { 50 - 24, 50 - 128, 196, 180 };
+		glBegin (GL_QUADS);
+		glTexCoord2f(-1.0, -1.0); glVertex2f(-1.0 * backRect[2], -1.0 * backRect[3]);
+		glTexCoord2f( 1.0, -1.0); glVertex2f( 1.0 * backRect[2], -1.0 * backRect[3]);
+		glTexCoord2f( 1.0,  1.0); glVertex2f( 1.0 * backRect[2],  1.0 * backRect[3]);
+		glTexCoord2f(-1.0,  1.0); glVertex2f(-1.0 * backRect[2],  1.0 * backRect[3]);
+		glEnd();
+		texture.unbind();
+		*/
 
 		glutSwapBuffers();
 	}
@@ -573,7 +611,7 @@ public:
 		float aspectRatio = static_cast<float>(w) / static_cast<float>(h);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		c.perspective(60, aspectRatio, 1.0, 100000.0);
+		gluPerspective(60.0, aspectRatio, 1.0, 100000.0);
 		glMatrixMode(GL_MODELVIEW);
 	}
 
@@ -589,29 +627,33 @@ public:
 		{
 
 		case 'w':	//Forward
-			c.move(0,0,factor);
+			c.moveRelative(Vector3f(0,0,factor));
 			break;
 		case 's':	//Backward
-			c.move(0,0,-factor);
+			c.moveRelative(Vector3f(0,0,-factor));
 			break;
 		case 'a':	//Strafe left
-			c.move(-factor,0,0);
+			c.moveRelative(Vector3f(factor,0,0));
 			break;
 		case 'd':	//Strafe right
-			c.move(factor,0,0);
+			c.moveRelative(Vector3f(-factor,0,0));
 			break;
 
 		case 'i':	//Rotate up
-			c.rotate(0,M_PI/180.0,0);
+			//c.rotate(0,10,0);
+			c.pitch(static_cast<Units::Radians>(10 * Units::degrees));
 			break;
 		case 'k':	//Rotate down
-			c.rotate(0,-M_PI/180.0,0);
+			//c.rotate(0,-10,0);
+			c.pitch(static_cast<Units::Radians>(-10 * Units::degrees));
 			break;
 		case 'j':	//Rotate left
-
+			//c.rotate(10,0,0);
+			c.rotate(Vector3f::Y, static_cast<Units::Radians>(10 * Units::degrees));
 			break;
 		case 'l':	//Rotate right
-
+			//c.rotate(-10,0,0);
+			c.rotate(Vector3f::Y, static_cast<Units::Radians>(-10 * Units::degrees));
 			break;
 
 		case 'p':	//Print current coordinates
@@ -622,13 +664,13 @@ public:
 			if (!mSwitchWorld)
 			{
 				//c.move(Vector3f(0.0, 0.0, -25.0));
-				//c.setPosition(Vector3f(0.0, 0.0, -150.0));
-				//c.setDirection(Vector3f(0.0, 0.0, 0.0));
+				c.setPosition(Vector3f(0.0, 0.0, -150.0));
+				c.setDirection(Vector3f(0.0, 0.0, 0.0));
 			}
 			else
 			{
-				//c.setPosition(Vector3f(4000.0, 10450.0, 20620.0));
-				//c.setDirection(Vector3f(3999.0, 10450.0, 20620.0));
+				c.setPosition(Vector3f(4000.0, 10450.0, 20620.0));
+				c.setDirection(Vector3f(3999.0, 10450.0, 20620.0));
 			}
 			mSwitchWorld = !mSwitchWorld;
 			break;
@@ -638,22 +680,9 @@ public:
 	}
 
 protected:
-
 	void initializeImpl()
 	{
-		 c.setPosition(Vector3f(0.0f, 0.0f, 150.0f));
-/*
-		float lightAmbient[] = { 0.2f, 0.3f, 0.6f, 1.0f };
-		float lightDiffuse[] = { 0.2f, 0.3f, 0.6f, 1.0f };
-
-		glEnable(GL_LIGHTING);
-		glEnable(GL_LIGHT0);
-
-		glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
-*/
-
-		swmR.readFile("ViperMKVII.swm", model);
+		swmR.readFile("ViperMKII.swm", model);
 		const std::vector<GLfloat> &mdlVertices = model.getVerticeVec();
 		const std::vector<GLfloat> &mdlNormals = model.getVNormalVec();
 		const std::vector<GLfloat> &mdlTexCoords = model.getVTextureVec();
@@ -693,19 +722,17 @@ protected:
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_TEXTURE_2D);
-
+		//s.myinit();
 		//c.move(Vector3f(0.0, 10450.0, 0.0));
 		//c.setPosition(Vector3f(4000.0, 10450.0, 20620.0));
 		//c.setDirection(Vector3f(3999.0, 10450.0, 20620.0));
 		//c.rotate(Vector3f::Y, static_cast<Math::Units::Radians>(270 * Math::Units::degrees));
 
 		texture = TexturePtr(new Texture(NULL, "ViperMKVII", 0, TEXTURE_2D));
-		texture->setFilePath("ViperMKVII.dds");
+		texture->setFilePath("F03_512.tga");
 		texture->prepare();
-		std::cout << static_cast<Texture*> (texture.get())->getID() << std::endl;
 		texture->load();
 		atm.Start();
-				s.myinit();
 	}
 
 	void destroyImpl()

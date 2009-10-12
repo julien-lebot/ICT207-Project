@@ -1,8 +1,8 @@
-#include <Phoenix\model.hpp>
+#include <Phoenix/Model.hpp>
 
 using namespace Phoenix;
 
-void Model::setPossition ()
+void Model::setPosition ()
 {
 	if(getBoolInput ( "Will this be a static object?" ) )
 	{	
@@ -12,9 +12,9 @@ void Model::setPossition ()
 	else
 	{
 		setStatic ( false );
-		pos.x = ( float ) atof ( ( getStr ( "Enter possition on x axis" ) ).c_str () );
-		pos.y = ( float ) atof ( ( getStr ( "Enter possition on y axis" ) ).c_str () );
-		pos.z = ( float ) atof ( ( getStr ( "Enter possition on z axis" ) ).c_str () );
+		pos.x = ( float ) atof ( ( getStr ( "Enter position on x axis" ) ).c_str () );
+		pos.y = ( float ) atof ( ( getStr ( "Enter position on y axis" ) ).c_str () );
+		pos.z = ( float ) atof ( ( getStr ( "Enter position on z axis" ) ).c_str () );
 	}
 }
 void Model::setCollision ()
@@ -84,28 +84,29 @@ void Model::convertObjModel()
 	std::vector<float> tempVertice,tempVTexture, tempVNormals;
 	for(unsigned i = 0; i < tempV.size(); i++)
 	{
-		tempVertice.push_back(vertices[tempV[i] * 3]);
-		tempVertice.push_back(vertices[tempV[i] * 3 + 1]);
-		tempVertice.push_back(vertices[tempV[i] * 3 + 2]);
+		tempVertice.push_back(vertices[tempV[i] * FLOATS_PER_LINE]);
+		tempVertice.push_back(vertices[tempV[i] * FLOATS_PER_LINE + 1]);
+		tempVertice.push_back(vertices[tempV[i] * FLOATS_PER_LINE + 2]);
 	}
 
 	vertices = tempVertice;
 
 	for(unsigned i = 0; i < tempVn.size(); i++)
 	{
-		tempVNormals.push_back(vNormals[tempVn[i] * 3]);
-		tempVNormals.push_back(vNormals[tempVn[i] * 3 + 1]);
-		tempVNormals.push_back(vNormals[tempVn[i] * 3 + 2]);
+		tempVNormals.push_back(vNormals[tempVn[i] * FLOATS_PER_LINE]);
+		tempVNormals.push_back(vNormals[tempVn[i] * FLOATS_PER_LINE + 1]);
+		tempVNormals.push_back(vNormals[tempVn[i] * FLOATS_PER_LINE + 2]);
 	}
 
 	vNormals = tempVNormals;
 
 	for(unsigned i = 0; i < tempVt.size()  ; i++)
 	{
-		tempVTexture.push_back(vTextures[tempVt[i] * 3]);
-		tempVTexture.push_back(vTextures[tempVt[i] * 3 + 1]);
+		tempVTexture.push_back(vTextures[tempVt[i] * FLOATS_PER_LINE]);
+		tempVTexture.push_back(vTextures[tempVt[i] * FLOATS_PER_LINE + 1]);
 		tempVTexture.push_back(0);
 	}
 	
 	vTextures = tempVTexture;
 }
+

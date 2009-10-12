@@ -10,7 +10,7 @@
 			>
 			<DebugSettings
 				Command="$(TargetPath)"
-				WorkingDirectory="D:\uni\ict207\SpaceWings\build\Debug Static\Win32"
+				WorkingDirectory="$(SolutionDir)\build\Debug Static\Win32"
 				CommandArguments=""
 				Attach="false"
 				DebuggerType="3"
