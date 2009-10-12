@@ -37,7 +37,7 @@ void ObjReader::readLines( std::ifstream& inFile, Model& model )
 		else if ( prefix == "vt" )
 		{
 			while( !t.allFetched () )
-				model.addVTexture( ( float )atof( ( t.getNext () ).c_str() ) );
+				model.addVTexture ( ( float ) atof ( ( t.getNext () ).c_str () ) );
 		}
 		else if (prefix == "vn" )
 			while( !t.allFetched () )
@@ -48,13 +48,7 @@ void ObjReader::readLines( std::ifstream& inFile, Model& model )
 			{
 				m_activeGroup = new FaceGroup;
 				( *m_activeGroup ).groupName = t.getNext ();
-				//addFaceCol( (*m_activeCollection) );
-				//delete m_activeCollection;
-				//m_activeCollection = new FaceCollection;
-				//model.addFaceGroup(*m_activeGroup);
-				//delete m_activeGroup;
 			}
-			
 		}
 		else if ( prefix == "mtllib" )
 		{
@@ -68,11 +62,8 @@ void ObjReader::readLines( std::ifstream& inFile, Model& model )
 		{
 			if ( m_activeCollection )
 			{
-				if ( ( *m_activeCollection ).mtlName != "" )
-				{	
-					addFaceCol( (*m_activeCollection) );
-					delete m_activeCollection;
-				}
+				addFaceCol( (*m_activeCollection) );
+				delete m_activeCollection;
 			}
 			m_activeCollection = new FaceCollection;
 			( *m_activeCollection ).mtlName = t.getNext ();
@@ -81,13 +72,13 @@ void ObjReader::readLines( std::ifstream& inFile, Model& model )
 			readFaceLine(t);
 	}
 
+	// If the file being currently read is not a material file; clean up and add the group and collection to model.
 	if(!inFileIsMtl)
 	{
 		addFaceCol( (*m_activeCollection) );
 		delete m_activeCollection;
 		model.addFaceGroup(*m_activeGroup);
 		delete m_activeGroup;
-		model.convertObjModel();
 	}
 }
 

@@ -11,6 +11,7 @@
 
 #include <string>
 #include <Phoenix/Color.hpp>
+#include <Phoenix/Texture.hpp>
 
 namespace Phoenix
 {
@@ -37,6 +38,7 @@ namespace Phoenix
 			materialDiffuse = rhs.materialDiffuse;
 			materialSpecular = rhs.materialSpecular;
 			transparency = rhs.transparency;
+			shininess = rhs.shininess;
 			illumination = rhs.illumination;
 			ambientMap = rhs.ambientMap;
 			diffuseMap = rhs.diffuseMap;
@@ -157,6 +159,13 @@ namespace Phoenix
 		* @return filename string
 		*/
 		const std::string getBumpMap () const { return bumpMap; }
+
+		void loadTextures()
+		{
+			diffuseTexture = TexturePtr(new Texture(NULL, diffuseMap, 0, TEXTURE_2D));
+			diffuseTexture->setFilePath(diffuseMap);
+			diffuseTexture->prepare();
+		}
 	private:
 		/// Name of the material
 		std::string materialName;
@@ -190,6 +199,9 @@ namespace Phoenix
 
 		/// bump map filename
 		std::string bumpMap;
+
+		/// diffuse texture
+		ResourcePtr diffuseTexture;
 	};
 }
 

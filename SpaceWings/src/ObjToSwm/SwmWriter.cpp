@@ -8,7 +8,7 @@ void SwmWriter::writeFile ( const std::string& fileName, const Model& model )
 
 	std::cout << "Writing to " << fileName << std::endl;
 
-	writePossition ( model.getPossition () );
+	writePosition ( model.getPosition () );
 	writeCollision ( model.getCollision() );
 	writeVertice ( model.getVerticeVec () );
 	writeVTexture ( model.getVTextureVec () );
@@ -19,20 +19,33 @@ void SwmWriter::writeFile ( const std::string& fileName, const Model& model )
 	outFile.close ();
 }
 
-void SwmWriter::writeFloatVec ( const std::vector<float>& vec, const unsigned lineCount , const unsigned tabN )
+void SwmWriter::writeFloatVec ( const std::vector<float>& vec, const unsigned numPerLine , const unsigned tabN )
 {
-	for ( std::vector<float>::const_iterator iter = vec.begin (); iter != vec.end ();)
+	if ( vec.size() % numPerLine != 0 )
+		std::cout << "Warning! Uneven float vector!"; 
+	unsigned count = 0;
+	std::vector<float>::const_iterator iter = vec.begin ();
+
+	outFile << tab ( tabN );
+	while ( iter != vec.end() )
 	{
-		outFile << tab ( tabN );
-		for ( unsigned i = 0; i < lineCount; i++ )
-			outFile << ( *iter++ ) << " ";
-		outFile << std::endl;
+		if ( count == numPerLine )
+		{
+			outFile << std::endl << tab ( tabN );
+			count = 0;
+		}
+		else if ( count != 0 )
+			outFile << " ";
+
+		outFile << ( *iter++ ) << " ";
+		count++;
 	}
+	outFile << std::endl;
 }
 
-void SwmWriter::writePossition ( const Possition pos )
+void SwmWriter::writePosition ( const Position pos )
 {
-	outFile << startTag( "possition" ) << std::endl;
+	outFile << startTag( "position" ) << std::endl;
 
 	outFile << tab ( 1 ) << "static ";
 	if ( pos.staticObj )
@@ -41,7 +54,7 @@ void SwmWriter::writePossition ( const Possition pos )
 		outFile << "false" << std::endl;
 	outFile << tab ( 1 ) << pos.x << " " << pos.y << " " << pos.z << std::endl;
 	
-	outFile << endTag( "possition" ) << std::endl;
+	outFile << endTag( "position" ) << std::endl;
 }
 
 void SwmWriter::writeCollision( const Collision col )
@@ -62,7 +75,7 @@ void SwmWriter::writeVertice ( const std::vector<float>& verticeVec )
 void SwmWriter::writeVTexture ( const std::vector<float>& vTextureVec )
 {
 	outFile << startTag( "vtexture" ) << std::endl;
-	writeFloatVec( vTextureVec,2 , 1  );
+	writeFloatVec( vTextureVec, 3 , 1  );
 	outFile << endTag( "vtexture" ) << std::endl;
 }
 
@@ -101,8 +114,8 @@ void SwmWriter::writeMaterial ( const std::vector<Phoenix::Material>& mtlVec )
 		outFile << tab ( 1 ) << "illumination " << ( *mtlIter ).getIllum () << std::endl;
 		outFile << tab ( 1 ) << "ambientMap " << ( *mtlIter ).getAmbientMap () << std::endl;
 		outFile << tab ( 1 ) << "diffuseMap " << ( *mtlIter ).getDiffuseMap () << std::endl;
-		outFile << tab ( 1 ) << "specularMap " << ( *mtlIter ).getAmbientMap () << std::endl;
-		outFile << tab ( 1 ) << "bumpMap " << ( *mtlIter ).getAmbientMap () << std::endl;
+		outFile << tab ( 1 ) << "specularMap " << ( *mtlIter ).getSpecularMap () << std::endl;
+		outFile << tab ( 1 ) << "bumpMap " << ( *mtlIter ).getBumpMap () << std::endl;
 		outFile << endTag( "material" ) << std::endl;
 	}
 }
@@ -112,7 +125,7 @@ const std::string SwmWriter::tab ( const unsigned n ) const
 	std::string returnStr;
 	
 	for( unsigned i = 0; i < n; i++ )
-		returnStr += "        ";
+		returnStr += "    ";
 	
 	return returnStr;
 };

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="Phoenix"
 	ProjectGUID="{0F4FDF75-92CE-47F5-BEFE-1BB5545EB29B}"
 	RootNamespace="EngineFounation"
@@ -499,10 +499,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\Phoenix\GameEntity.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\Phoenix\HardwareBuffer.cpp"
 				>
 			</File>
@@ -532,10 +528,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Phoenix\Model.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\Phoenix\PlayerEntity.cpp"
 				>
 			</File>
 			<File
