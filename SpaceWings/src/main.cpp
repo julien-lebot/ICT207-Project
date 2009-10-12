@@ -682,7 +682,7 @@ public:
 protected:
 	void initializeImpl()
 	{
-		swmR.readFile("ViperMKVII.swm", model);
+		swmR.readFile("ViperMKII.swm", model);
 		const std::vector<GLfloat> &mdlVertices = model.getVerticeVec();
 		const std::vector<GLfloat> &mdlNormals = model.getVNormalVec();
 		const std::vector<GLfloat> &mdlTexCoords = model.getVTextureVec();
@@ -729,7 +729,7 @@ protected:
 		//c.rotate(Vector3f::Y, static_cast<Math::Units::Radians>(270 * Math::Units::degrees));
 
 		texture = TexturePtr(new Texture(NULL, "ViperMKVII", 0, TEXTURE_2D));
-		texture->setFilePath("ViperMKVII.dds");
+		texture->setFilePath("F03_512.tga");
 		texture->prepare();
 		texture->load();
 		atm.Start();

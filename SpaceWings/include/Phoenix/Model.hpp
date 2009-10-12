@@ -15,6 +15,8 @@
 #include <Phoenix\Color.hpp>
 #include <Phoenix\Material.hpp>
 
+#define FLOATS_PER_LINE 3
+
 namespace Phoenix
 {
 	struct Collision
@@ -25,7 +27,7 @@ namespace Phoenix
 		float radius;
 	};
 
-	struct Possition
+	struct Position
 	{
 	public:
 		bool staticObj;
@@ -98,13 +100,13 @@ namespace Phoenix
 		/// Destructor
 		~Model () {}
 
-		/// Sets the possition part of object from user input
-		void setPossition ();
+		/// Sets the position part of object from user input
+		void setPosition ();
 
-		/* Get a instance of Possition structure and saves it in the object
-		 * @param p Possition object to store
+		/* Get a instance of position structure and saves it in the object
+		 * @param p position object to store
 		 */
-		void setPossition ( const Phoenix::Possition& p ) { pos = p; }
+		void setPosition ( const Phoenix::Position& p ) { pos = p; }
 
 		/// sets the collision part of object from user input
 		void setCollision ();
@@ -187,7 +189,7 @@ namespace Phoenix
 		/* gets the vertice texture vector
 		 * @return vertice texture vector
 		 */
-		const Phoenix::Possition getPossition () const { return pos; }
+		const Phoenix::Position getPosition () const { return pos; }
 
 		/* gets the size of the vertice vector
 		 * @return the size of the vertice vector
@@ -244,8 +246,8 @@ namespace Phoenix
 		/// collisoin structure
 		Phoenix::Collision col;
 
-		/// possition structure
-		Phoenix::Possition pos;
+		/// position structure
+		Phoenix::Position pos;
 
 		/* gets bool input from the user
 		 * @param query - question to ask user

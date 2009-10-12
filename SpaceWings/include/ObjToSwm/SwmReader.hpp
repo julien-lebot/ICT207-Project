@@ -40,7 +40,7 @@ namespace Phoenix
 		void parseFile ( std::ifstream& inFile, Phoenix::Model& model );
 		
 		/*
-		 * parse the possition section of the file
+		 * parse the position section of the file
 		 * @param inFile ifstream object to parse from
 		 * @param model object to store in
 		 */
