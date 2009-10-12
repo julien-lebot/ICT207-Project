@@ -1,2 +1,4 @@
 *.obj
 SpaceWings/build/*
+SpaceWings/Spacewings.ncb
+Shared
