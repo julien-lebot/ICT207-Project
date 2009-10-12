@@ -52,10 +52,10 @@ namespace Phoenix
 		 */
 		const std::string tab ( const unsigned n ) const;
 
-		/* writes position part of file
-		 * @param pos a position structure
+		/* writes possition part of file
+		 * @param pos a Possition structure
 		 */
-		void writePosition ( const Phoenix::Position pos );
+		void writePossition ( const Phoenix::Possition pos );
 		
 		/* writes collision part of file
 		 * @param col Collision struct

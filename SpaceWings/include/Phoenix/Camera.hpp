@@ -25,6 +25,13 @@ namespace Phoenix
 {
 	class Camera
 	{
+		enum CameraBehavior
+		{
+			CAMERA_BEHAVIOR_FIRST_PERSON,
+			CAMERA_BEHAVIOR_SPECTATOR,
+			CAMERA_BEHAVIOR_FLIGHT,
+			CAMERA_BEHAVIOR_ORBIT
+		};
 	public:
 		typedef Math::Vector3f Vector3_t;
 		typedef Math::Quaternionf Quaternion_t;
@@ -34,121 +41,138 @@ namespace Phoenix
 		Camera();
 		virtual ~Camera();
 
-		/**
-		* Sets the camera's position.
-		*/
-		void setPosition(const Vector3_t& vec);
+		void lookAt(const Vector3_t &target);
+		void lookAt(const Vector3_t &eye, const Vector3_t &target, const Vector3_t &up);
+		void move(float dx, float dy, float dz);
+		void move(const Vector3_t &direction, const Vector3_t &amount);
+		void perspective(float fovx, float aspect, float znear, float zfar);
+		void rotate(float headingDegrees, float pitchDegrees, float rollDegrees);
+		void rotateSmoothly(float headingDegrees, float pitchDegrees, float rollDegrees);
+		void undoRoll();
+		void updatePosition(const Vector3_t &direction, float elapsedTimeSec);
+		void zoom(float zoom, float minZoom, float maxZoom);
 
-		/** Retrieves the camera's position.
-		*/
-		const Vector3_t& getPosition() const;
+		// Getter methods.
 
-		/** Moves the camera's position by the vector offset provided along world axes.
-		*/
-		void move(const Vector3_t& vec);
+		_INLINE const Vector3_t &Camera::getAcceleration() const
+		{ return m_acceleration; }
 
-		/** Moves the camera's position by the vector offset provided along it's own axes (relative to orientation).
-		*/
-		void moveRelative(const Vector3_t& vec);
+		_INLINE Camera::CameraBehavior Camera::getBehavior() const
+		{ return m_behavior; }
 
-		/** Sets the camera's direction vector.
-		*/
-		void setDirection(const Vector3_t& vec);
+		_INLINE const Vector3_t &Camera::getCurrentVelocity() const
+		{ return m_currentVelocity; }
 
-		/* Gets the camera's direction.
-		*/
-		Vector3_t getDirection() const;
+		_INLINE const Vector3_t &Camera::getPosition() const
+		{ return m_eye; }
 
-		/** Gets the camera's up vector.
-		*/
-		Vector3_t getUp() const;
+		_INLINE float Camera::getOrbitMinZoom() const
+		{ return m_orbitMinZoom; }
 
-		/** Gets the camera's right vector.
-		*/
-		Vector3_t getRight() const;
+		_INLINE float Camera::getOrbitMaxZoom() const
+		{ return m_orbitMaxZoom; }
 
-		/** Points the camera at a location in worldspace.
-		@remarks
-		This is a helper method to automatically generate the
-		direction vector for the camera, based on it's current position
-		and the supplied look-at point.
-		@param
-		targetPoint A vector specifying the look at point.
-		*/
-		void lookAt(const Vector3_t& targetPoint);
+		_INLINE float Camera::getOrbitOffsetDistance() const
+		{ return m_orbitOffsetDistance; }
 
-		/** Rolls the camera anticlockwise, around its local z axis.
-		*/
-		void roll(const Math::Units::Radians& angle);
+		_INLINE const Quaternion_t &Camera::getOrientation() const
+		{ return m_orientation; }
 
-		/** Rotates the camera anticlockwise around it's local y axis.
-		*/
-		void yaw(const Math::Units::Radians& angle);
+		_INLINE float Camera::getRotationSpeed() const
+		{ return m_rotationSpeed; }
 
-		/** Pitches the camera up/down anticlockwise around it's local z axis.
-		*/
-		void pitch(const Math::Units::Radians& angle);
+		_INLINE const Matrix4_t &Camera::getProjectionMatrix() const
+		{ return m_projMatrix; }
 
-		/** Rotate the camera around an arbitrary axis.
-		*/
-		void rotate(const Vector3_t& axis, const Math::Units::Radians& angle);
+		_INLINE const Vector3_t &Camera::getVelocity() const
+		{ return m_velocity; }
 
-		/** Rotate the camera around an arbitrary axis using a Quaternion.
-		*/
-		void rotate(const Quaternion_t& q);
+		_INLINE const Vector3_t &Camera::getViewDirection() const
+		{ return m_viewDir; }
 
-		/** Tells the camera whether to yaw around it's own local Y axis or a 
-		fixed axis of choice.
-		@remarks
-		This method allows you to change the yaw behaviour of the camera
-		- by default, the camera yaws around a fixed Y axis. This is 
-		often what you want - for example if you're making a first-person 
-		shooter, you really don't want the yaw axis to reflect the local 
-		camera Y, because this would mean a different yaw axis if the 
-		player is looking upwards rather than when they are looking
-		straight ahead. You can change this behaviour by calling this 
-		method, which you will want to do if you are making a completely
-		free camera like the kind used in a flight simulator. 
-		@param
-		useFixed If true, the axis passed in the second parameter will 
-		always be the yaw axis no matter what the camera orientation. 
-		If false, the camera yaws around the local Y.
-		@param
-		fixedAxis The axis to use if the first parameter is true.
-		*/
-		void setFixedYawAxis(bool useFixed, const Vector3_t& fixedAxis = Vector3_t::Y);
+		_INLINE const Matrix4_t &Camera::getViewMatrix() const
+		{ return m_viewMatrix; }
 
+		_INLINE const Matrix4_t &Camera::getViewProjectionMatrix() const
+		{ return m_viewProjMatrix; }
+
+		_INLINE const Vector3_t &Camera::getXAxis() const
+		{ return m_xAxis; }
+
+		_INLINE const Vector3_t &Camera::getYAxis() const
+		{ return m_yAxis; }
+
+		_INLINE const Vector3_t &Camera::getZAxis() const
+		{ return m_zAxis; }
+
+		_INLINE bool Camera::preferTargetYAxisOrbiting() const
+		{ return m_preferTargetYAxisOrbiting; }
+
+		// Setter methods.
+
+		void setAcceleration(const Vector3_t &acceleration);
+		void setBehavior(CameraBehavior newBehavior);
+		void setCurrentVelocity(const Vector3_t &currentVelocity);
+		void setCurrentVelocity(float x, float y, float z);
+		void setOrbitMaxZoom(float orbitMaxZoom);
+		void setOrbitMinZoom(float orbitMinZoom);
+		void setOrbitOffsetDistance(float orbitOffsetDistance);
+		void setOrbitPitchMaxDegrees(float orbitPitchMaxDegrees);
+		void setOrbitPitchMinDegrees(float orbitPitchMinDegrees);
+		void setOrientation(const Quaternion_t &newOrientation);
+		void setPosition(const Vector3_t &newEye);
+		void setPreferTargetYAxisOrbiting(bool preferTargetYAxisOrbiting);
+		void setRotationSpeed(float rotationSpeed);
+		void setVelocity(const Vector3_t &velocity);
+		void setVelocity(float x, float y, float z);
+
+	private:
+		void rotateFirstPerson(float headingDegrees, float pitchDegrees);
+		void rotateFlight(float headingDegrees, float pitchDegrees, float rollDegrees);
+		void rotateOrbit(float headingDegrees, float pitchDegrees, float rollDegrees);
+		void updateVelocity(const Vector3_t &direction, float elapsedTimeSec);
 		void updateViewMatrix();
 
-		const Matrix4_t& getViewMatrix();
+		static const float DEFAULT_ROTATION_SPEED;
+		static const float DEFAULT_FOVX;
+		static const float DEFAULT_ZNEAR;
+		static const float DEFAULT_ZFAR;
+		static const float DEFAULT_ORBIT_MIN_ZOOM;
+		static const float DEFAULT_ORBIT_MAX_ZOOM;
+		static const float DEFAULT_ORBIT_OFFSET_DISTANCE;
+		static const Vector3_t WORLD_XAXIS;
+		static const Vector3_t WORLD_YAXIS;
+		static const Vector3_t WORLD_ZAXIS;
 
-		virtual void rotate(float headingDegrees, float pitchDegrees, float rollDegrees);
-
-		void doLook();
-	protected:
-		Vector3_t mPos;
-
-		/// The view matrix
-		Matrix4_t mViewMatrix;
-
-		/// The projection matrix
-		Matrix4_t mProjMatrix;
-
-		/// The view projection matrix (view * proj)
-		Matrix4_t mViewProjMatrix;
-
-		/// Camera orientation, quaternion style
-		Quaternion_t mOrientation;
-
-		Vector3_t mUp, mRight, mView;
-
-		/// The camera local axis
-		Vector3_t mXAxis, mYAxis, mZAxis;
-
-		/// Whether to yaw around a fixed axis.
-		bool mYawFixed;
-		/// Fixed axis to yaw around
-		Vector3_t mYawFixedAxis;
+		CameraBehavior m_behavior;
+		bool m_preferTargetYAxisOrbiting;
+		float m_accumPitchDegrees;
+		float m_savedAccumPitchDegrees;
+		float m_rotationSpeed;
+		float m_fovx;
+		float m_aspectRatio;
+		float m_znear;
+		float m_zfar;
+		float m_orbitMinZoom;
+		float m_orbitMaxZoom;
+		float m_orbitOffsetDistance;
+		float m_firstPersonYOffset;
+		Vector3_t m_eye;
+		Vector3_t m_savedEye;
+		Vector3_t m_target;
+		Vector3_t m_targetYAxis;
+		Vector3_t m_xAxis;
+		Vector3_t m_yAxis;
+		Vector3_t m_zAxis;
+		Vector3_t m_viewDir;
+		Vector3_t m_acceleration;
+		Vector3_t m_currentVelocity;
+		Vector3_t m_velocity;
+		Quaternion_t m_orientation;
+		Quaternion_t m_savedOrientation;
+		Matrix4_t m_viewMatrix;
+		Matrix4_t m_projMatrix;
+		Matrix4_t m_viewProjMatrix;
 	};
 }
 

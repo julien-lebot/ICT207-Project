@@ -42,7 +42,9 @@ bool Root::initialize(const std::string& logFile,
 	str.flush();
 	str << "compiled with " << _COMPILER_STR_ << " version " << _COMPILER_VER_ << " for " << _PLATFORM_STR_ << " " << _ARCH_TYPE_STR_ << "bits (" << __TIMESTAMP__ << ")";
 	str.flush();
-	str << "Detected processor: " << mCPUInfo.getCPUString();
+	str << "Detected " << mCPUInfo.getNumLogicalCPUs() << " logical CPU core(s).";
+	str.flush();
+	str << mCPUInfo.getCPUString();
 	str.flush();
 	str << "Features: " << mCPUInfo.featuresAsString();
 	str.flush();

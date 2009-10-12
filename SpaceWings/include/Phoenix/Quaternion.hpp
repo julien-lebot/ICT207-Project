@@ -260,6 +260,22 @@ namespace Phoenix
 				z = fSin*rkAxis.z;
 			}
 
+			void fromAngleAxis(const qType rfAngle,
+							   const Math::Vector3<qType>& rkAxis)
+			{
+				// assert:  axis[] is unit length
+				//
+				// The quaternion representing the rotation is
+				//   q = cos(A/2)+sin(A/2)*(x*i+y*j+z*k)
+
+				qType fHalfAngle = 0.5*rfAngle;
+				qType fSin = sin(fHalfAngle);
+				w = cos(fHalfAngle);
+				x = fSin*rkAxis.x;
+				y = fSin*rkAxis.y;
+				z = fSin*rkAxis.z;
+			}
+
 			qType norm() const
 			{
 				return w*w+x*x+y*y+z*z;

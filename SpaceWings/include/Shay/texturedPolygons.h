@@ -30,7 +30,7 @@ public:
 	//----------------------------------------------------------------------------------
 
 	// returns texture
-	GLuint GetTexture (const int & tempIndex) {return m_texture[tempIndex];}
+	GLuint GetTexture (const int & tempIndex) {/*return m_texture[tempIndex];*/return (GLuint)tempIndex;}
 
 	// loads a raw image file into memory
 	Phoenix::tr1::shared_ptr<unsigned char> LoadTexture(char *filename, int imgWidth, int imgHeight);
@@ -39,7 +39,7 @@ public:
 	void SetTextureCount(const int &textureNo);
 
 	// creates texture and set required values for texture mapping
-	void CreateTexture(int textureNo, Phoenix::tr1::shared_ptr<unsigned char> image, int imgWidth, int imgHeight);
+	void CreateTexture(int &textureNo, Phoenix::tr1::shared_ptr<unsigned char> image, int imgWidth, int imgHeight);
 
 	// calls function to creates display list to contain image
 	void CreateDisplayList(const int &XYZ, const int &listNo, 

@@ -35,9 +35,9 @@ ZY_PLAIN
 };
 
 // TEXTURES
-enum Textures {
+int
 // Grass Textures
-GRASS = 1,
+GRASS,
 GRASS_2,
 GRASS_HILL,
 // Pavement Textures
@@ -281,10 +281,7 @@ LIGHT_SUPPORT_2,
  MAP,
  WELCOME,
  EXIT,
- NO_EXIT
- };
-unsigned int textures[NO_EXIT];
-// 223 Next
+ NO_EXIT;
 
 Camera cam;
 TexturedPolygons tp;
@@ -295,7 +292,7 @@ ShayWorld::ShayWorld()
 	: frameCount(0),
 	  lastClock(0),
 	  DisplayMap(false),
-	  DisplayWelcome(true),
+	  DisplayWelcome(false),
 	  DisplayExit(false),
 	  lightsOn(true),
 	  displayECL(true),
@@ -309,12 +306,12 @@ void ShayWorld::myinit()
 {
 	// set background (sky colour)
 	glClearColor(97.0/255.0, 140.0/255.0, 185.0/255.0, 1.0);
-
+/*
 	// set perpsective
 	gluLookAt(0.0, 1.75, 0.0, 
 		0.0, 1.75, -1,
 		0.0f,1.0f,0.0f);
-
+*/
 	// settings for glut cylinders
 	glu_cylinder = gluNewQuadric();
 	gluQuadricTexture(glu_cylinder, GL_TRUE );
@@ -762,12 +759,9 @@ void ShayWorld::CreateTextures()
 	tp.CreateTexture(WINDOW_LIB_DOOR_1, ImagePtr(tp.LoadTexture("data/windows/windowLibDoor1.raw", 256, 256)), 256, 256);
 	tp.CreateTexture(WINDOW_LIB_DOOR_2, ImagePtr(tp.LoadTexture("data/windows/windowLibDoor2.raw", 512, 256)), 512, 256);
 	tp.CreateTexture(WINDOW_LIB_LONG, ImagePtr(tp.LoadTexture("data/windows/windowLibLong.raw", 256, 128)), 256, 128);
-	tp.CreateTexture(217, ImagePtr(tp.LoadTexture("data/map.raw", 256, 256)), 256, 256);
-	tp.CreateTexture(218, ImagePtr(tp.LoadTexture("data/welcome.raw", 512, 512)), 512, 512);
-	tp.CreateTexture(219, ImagePtr(tp.LoadTexture("data/thanks.raw", 512, 512)), 512, 512);
 
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);	
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);	
+	//glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 }
 
 //--------------------------------------------------------------------------------------

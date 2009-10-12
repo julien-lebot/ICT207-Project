@@ -52,8 +52,10 @@ Phoenix::tr1::shared_ptr<unsigned char> TexturedPolygons::LoadRawImageFile(char*
 
 void TexturedPolygons::SetTextureCount(const int &textureNo)
 {
+	/*
 	m_texture = new GLuint[textureNo];
 	glGenTextures(textureNo, &m_texture[0]);
+	*/
 }
 
 //--------------------------------------------------------------------------------------
@@ -62,20 +64,23 @@ void TexturedPolygons::SetTextureCount(const int &textureNo)
 
 void TexturedPolygons::Clear()
 {
+	/*
 	m_texture = NULL;
 	if (m_texture == NULL)
 	{
 		delete [] m_texture;
 	}
+	*/
 }
 
 //--------------------------------------------------------------------------------------
 //  Creates texture and set required values for texture mapping
 //--------------------------------------------------------------------------------------
 
-void TexturedPolygons::CreateTexture(int textureNo, Phoenix::tr1::shared_ptr<unsigned char> image, int imgWidth, int imgHeight)
+void TexturedPolygons::CreateTexture(int &textureNo, Phoenix::tr1::shared_ptr<unsigned char> image, int imgWidth, int imgHeight)
 {
-	glBindTexture(GL_TEXTURE_2D, m_texture[textureNo]);
+	glGenTextures(1, (GLuint*)&textureNo);
+	glBindTexture(GL_TEXTURE_2D, textureNo);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, imgWidth, imgHeight, GL_RGB, GL_UNSIGNED_BYTE, image.get());

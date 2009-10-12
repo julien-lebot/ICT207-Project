@@ -38,7 +38,6 @@ namespace Phoenix
 			materialDiffuse = rhs.materialDiffuse;
 			materialSpecular = rhs.materialSpecular;
 			transparency = rhs.transparency;
-			shininess = rhs.shininess;
 			illumination = rhs.illumination;
 			ambientMap = rhs.ambientMap;
 			diffuseMap = rhs.diffuseMap;

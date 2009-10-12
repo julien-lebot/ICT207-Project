@@ -29,7 +29,7 @@ void SwmReader::parseFile ( std::ifstream& inFile, Model& model )
 
 		tag = m_token.getElement ( 0 );
 
-		if ( tag == "<position>")
+		if ( tag == "<possition>")
 			parsePos ( inFile, model );
 		else if ( tag == "<collision>" )
 			parseCol ( inFile, model );
@@ -48,7 +48,7 @@ void SwmReader::parseFile ( std::ifstream& inFile, Model& model )
 
 void SwmReader::parsePos ( std::ifstream& inFile, Model& model )
 {
-	Position tempPos;
+	Possition tempPos;
 	
 	setNextTokens ( inFile  );
 	if (m_token.getElement ( 1 ) == "true" )
@@ -61,7 +61,7 @@ void SwmReader::parsePos ( std::ifstream& inFile, Model& model )
 	tempPos.y = ( float ) atof( m_token.getNext ().c_str () );
 	tempPos.z = ( float ) atof( m_token.getNext ().c_str () );
 
-	model.setPosition ( tempPos );
+	model.setPossition ( tempPos );
 }
 
 void SwmReader::parseCol ( std::ifstream& inFile, Model& model )
@@ -98,7 +98,7 @@ void SwmReader::parseVTexture ( std::ifstream& inFile, Model& model )
 
 	do
 	{
-		for(unsigned i = 0; i < 3; i++)
+		for(unsigned i = 0; i < 2; i++)
 			model.addVTexture ( ( float ) atof ( m_token.getNext ().c_str () ) );
 		setNextTokens ( inFile  );
 	}while ( !isEndTag() );
