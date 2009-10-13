@@ -2,10 +2,6 @@
 
 SpaceWings/build/*
 
-SpaceWings/scripts/*
-
-!SpaceWings/Scripts/*/*.vcproj
-
 SpaceWings/Spacewings.ncb
 
 Shared
