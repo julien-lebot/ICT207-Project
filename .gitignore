@@ -4,13 +4,17 @@ SpaceWings/build/*
 
 SpaceWings/Spacewings.ncb
 
+SpaceWings/scripts/*
+
+!SpaceWings/scripts/*.vcproj
+
 Shared
 
 *.idb
 
 *.pdb
 
-BuildLog.htm
+*.htm
 
 *.manifest
 
