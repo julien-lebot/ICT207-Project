@@ -24,7 +24,7 @@ namespace Phoenix
 	class TextureManager;
 	class HardwareBufferManager;
 
-	class Renderer
+	class _PhoenixExport Renderer
 	: public Singleton<Renderer>
 	{
 		friend struct CreateUsingNew<Renderer>;

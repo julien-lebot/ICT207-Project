@@ -4,6 +4,8 @@ SpaceWings/build/*
 
 SpaceWings/SpaceWings.ncb
 
+SpaceWings/SpaceWings.suo
+
 SpaceWings/scripts/*
 
 !SpaceWings/scripts/*.vcproj

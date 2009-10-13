@@ -24,7 +24,7 @@
 
 namespace Phoenix
 {
-	class CPUInfo
+	class _PhoenixExport CPUInfo
 	{
 	public:
 		/// Enumeration of all known CPU features

@@ -46,7 +46,7 @@ namespace Phoenix
 	/**
 	 * @brief A class representing a group of elements in a vertex buffer.
 	 */
-	class BufferElementGroup
+	class _PhoenixExport BufferElementGroup
 	{
 	public:
 

@@ -324,7 +324,7 @@ public:
 	{
 		m_nPolygonMode = GL_FILL;
 		m_vLight = Vector3f(1000, 1000, 1000);
-		m_vLightDirection = m_vLight / m_vLight.magnitude();
+		m_vLightDirection = m_vLight * (1.0f / m_vLight.magnitude());
 
 		m_nSamples = 2;		// Number of sample rays to use in integral equation
 		m_Kr = 0.0025f;		// Rayleigh scattering constant
@@ -554,10 +554,9 @@ public:
 		s.DrawBackdrop();
 		glPopMatrix();
 
-		glEnable(GL_TEXTURE_2D);
 		static_cast<Texture*>(texture.get())->bind(0);
 		Renderer::instance().render(rop);
-		static_cast<Texture*>(texture.get())->unbind();
+		//static_cast<Texture*>(texture.get())->unbind();
 
 		glutSwapBuffers();
 	}
@@ -705,7 +704,7 @@ protected:
 		std::cout << static_cast<Texture*> (texture.get())->getID() << std::endl;
 		texture->load();
 		atm.Start();
-				s.myinit();
+		s.myinit();
 	}
 
 	void destroyImpl()

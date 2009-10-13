@@ -8,11 +8,12 @@
 #ifndef OBJREADER_HPP
 #define OBJREADER_HPP
 
+#include <Phoenix/Base.h>
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <ObjToSwm\Token.hpp>
-#include <ObjToSwm\ModelFileReader.hpp>
+#include <ObjToSwm/Token.hpp>
+#include <ObjToSwm/ModelFileReader.hpp>
 
 /*
  * @brief Class reading obj 3d files into a Model Class
@@ -22,7 +23,7 @@
  */
 namespace Phoenix 
 {
-	class ObjReader : public ModelFileReader
+	class _PhoenixExport ObjReader : public ModelFileReader
 	{
 	public:
 		/// Default constructor

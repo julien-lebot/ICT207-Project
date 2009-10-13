@@ -47,7 +47,7 @@
 				RuntimeLibrary="1"
 				WarningLevel="3"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4996"
+				DisableSpecificWarnings="4996;4251"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -79,7 +79,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release|Win32"
+			Name="Release Static|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
@@ -106,10 +106,12 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt&quot;;&quot;$(SolutionDir)\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glee-5.4&quot;"
+				PreprocessorDefinitions="PHOENIX_STATIC_LIB;NDEBUG;_USE_BOOST_"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4996;4251"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -125,6 +127,153 @@
 				AdditionalDependencies="Phoenix.lib"
 				OutputFile="$(SolutionDir)\build\$(ConfigurationName)\$(PlatformName)\$(ProjectName).exe"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt\lib&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1&quot;;&quot;$(SolutionDir)\build\$(ConfigurationName)\$(PlatformName)&quot;"
+				GenerateDebugInformation="true"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug DLL|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt&quot;;&quot;$(SolutionDir)\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glee-5.4&quot;"
+				PreprocessorDefinitions="PHOENIX_NONCLIENT_BUILD;NDEBUG;_USE_BOOST_"
+				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="1"
+				WarningLevel="3"
+				DebugInformationFormat="4"
+				DisableSpecificWarnings="4996;4251"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Phoenix.lib"
+				OutputFile="$(SolutionDir)\build\$(ConfigurationName)\$(PlatformName)\$(ProjectName).dll"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt\lib&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1\lib&quot;;&quot;$(SolutionDir)\build\$(ConfigurationName)\$(PlatformName)&quot;;&quot;$(SolutionDir)\..\Shared\Library\glee-5.4&quot;"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release DLL|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt&quot;;&quot;$(SolutionDir)\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glee-5.4&quot;"
+				PreprocessorDefinitions="NDEBUG;_USE_BOOST_"
+				RuntimeLibrary="2"
+				EnableFunctionLevelLinking="true"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+				DisableSpecificWarnings="4996;4251"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="Phoenix.lib"
+				OutputFile="$(SolutionDir)\build\$(ConfigurationName)\$(PlatformName)\$(ProjectName).exe"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt\lib&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1\lib&quot;;&quot;$(SolutionDir)\build\$(ConfigurationName)\$(PlatformName)&quot;;&quot;$(SolutionDir)\..\Shared\Library\glee-5.4&quot;"
 				GenerateDebugInformation="true"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"

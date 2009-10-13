@@ -23,7 +23,7 @@
 
 namespace Phoenix
 {
-	class Camera
+	class _PhoenixExport Camera
 	{
 		enum CameraBehavior
 		{

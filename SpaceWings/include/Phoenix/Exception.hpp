@@ -12,6 +12,7 @@
 #define __Exception_hpp__
 
 #include <Phoenix/Base.h>
+#include <string>
 #include <exception>
 
 namespace Phoenix

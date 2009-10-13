@@ -9,11 +9,12 @@
 #ifndef SWMREADER_HPP
 #define SWMREADER_HPP
 
+#include <Phoenix/Base.h>
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <ObjToSwm\Token.hpp>
-#include <ObjToSwm\ModelFileReader.hpp>
+#include <ObjToSwm/Token.hpp>
+#include <ObjToSwm/ModelFileReader.hpp>
 
 /*
  * @breif Class that reads swm files into a Model class
@@ -23,7 +24,7 @@
  */
 namespace Phoenix
 {
-	class SwmReader : public ModelFileReader
+	class _PhoenixExport SwmReader : public ModelFileReader
 	{
 	public:
 		/*

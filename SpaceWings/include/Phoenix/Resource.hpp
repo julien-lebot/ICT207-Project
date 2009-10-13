@@ -33,7 +33,7 @@ namespace Phoenix
 	/// The handle type
 	typedef unsigned int ResourceHandleType;
 
-	class Resource
+	class _PhoenixExport Resource
 	{
 	public:
 		/**
