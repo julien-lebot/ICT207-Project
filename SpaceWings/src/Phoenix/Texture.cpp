@@ -167,7 +167,7 @@ void Texture::bind(const int textureUnit)
   if(textureUnit > -1)
     glActiveTextureARB(GL_TEXTURE0_ARB + textureUnit);
 
-  glBindTexture(mTarget, mID);
+  glBindTexture(GL_TEXTURE_2D, mID);
 
   mCurrtUnit = textureUnit;
 }

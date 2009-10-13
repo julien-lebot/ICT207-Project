@@ -192,11 +192,11 @@ public:
 		char *psz;
 		int nBytes, bSuccess;
 
-		printf("Compiling GLSL vertex shader %s", pszVertexShader);
+		printf("Compiling GLSL vertex shader %s\n", pszVertexShader);
 		std::ifstream ifVertexShader(pszVertexShader, std::ios::binary);
 		if(!ifVertexShader)
 		{
-			printf("Failed to open %s", pszVertexShader);
+			printf("Failed to open %s\n", pszVertexShader);
 			return false;
 		}
 		ifVertexShader.seekg(0, std::ios::end);
@@ -212,15 +212,15 @@ public:
 		delete psz;
 		if(!bSuccess)
 		{
-			printf("Failed to compile vertex shader %s", pszVertexShader);
+			printf("Failed to compile vertex shader %s\n", pszVertexShader);
 			return false;
 		}
 
-		printf("Compiling GLSL fragment shader %s", pszFragmentShader);
+		printf("Compiling GLSL fragment shader %s\n", pszFragmentShader);
 		std::ifstream ifFragmentShader(pszFragmentShader, std::ios::binary);
 		if(!ifFragmentShader)
 		{
-			printf("Failed to open %s", pszFragmentShader);
+			printf("Failed to open %s\n", pszFragmentShader);
 			return false;
 		}
 		ifFragmentShader.seekg(0, std::ios::end);
@@ -235,7 +235,7 @@ public:
 		delete psz;
 		if(!bSuccess)
 		{
-			printf("Failed to compile fragment shader %s", pszFragmentShader);
+			printf("Failed to compile fragment shader %s\n", pszFragmentShader);
 			return false;
 		}
 
@@ -246,7 +246,7 @@ public:
 		glGetObjectParameterivARB(m_hProgram, GL_OBJECT_LINK_STATUS_ARB, &bSuccess);
 		if(!bSuccess)
 		{
-			printf("Failed to link shaders %s and %s", pszVertexShader, pszFragmentShader);
+			printf("Failed to link shaders %s and %s\n", pszVertexShader, pszFragmentShader);
 			return false;
 		}
 		return true;
@@ -562,7 +562,7 @@ public:
 		{
 			glClearColor(97.0/255.0, 140.0/255.0, 185.0/255.0, 1.0);
 			glPushMatrix();
-			//s.DrawBackdrop();
+			s.DrawBackdrop();
 			glPopMatrix();
 		}
 		else
@@ -618,7 +618,7 @@ public:
 	void onKeyboard(unsigned char key, int x, int y)
 	{
 		float factor = 1.0f;
-		if (mSwitchWorld)
+		if (!mSwitchWorld)
 			factor = 100.0f;
 		else
 			factor = 1.0f;
@@ -682,7 +682,7 @@ public:
 protected:
 	void initializeImpl()
 	{
-		swmR.readFile("ViperMKII.swm", model);
+		swmR.readFile("models/Door.swm", model);
 		const std::vector<GLfloat> &mdlVertices = model.getVerticeVec();
 		const std::vector<GLfloat> &mdlNormals = model.getVNormalVec();
 		const std::vector<GLfloat> &mdlTexCoords = model.getVTextureVec();
@@ -722,14 +722,14 @@ protected:
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_TEXTURE_2D);
-		//s.myinit();
+		s.myinit();
 		//c.move(Vector3f(0.0, 10450.0, 0.0));
-		//c.setPosition(Vector3f(4000.0, 10450.0, 20620.0));
-		//c.setDirection(Vector3f(3999.0, 10450.0, 20620.0));
+		c.setPosition(Vector3f(4000.0, 10450.0, 20620.0));
+		c.setDirection(Vector3f(3999.0, 10450.0, 20620.0));
 		//c.rotate(Vector3f::Y, static_cast<Math::Units::Radians>(270 * Math::Units::degrees));
 
 		texture = TexturePtr(new Texture(NULL, "ViperMKVII", 0, TEXTURE_2D));
-		texture->setFilePath("F03_512.tga");
+		texture->setFilePath("maps/Steel.tga");
 		texture->prepare();
 		texture->load();
 		atm.Start();
