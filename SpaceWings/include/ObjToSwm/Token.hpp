@@ -9,6 +9,7 @@
 #ifndef TOKEN_HPP
 #define TOKEN_HPP
 
+#include <Phoenix/Base.h>
 #include <vector>
 #include <string>
 
@@ -17,7 +18,7 @@
  *
  * Tokenize and store tokens
  */
-class Token
+class _PhoenixExport Token
 {
 public:
 	/// Default constructor

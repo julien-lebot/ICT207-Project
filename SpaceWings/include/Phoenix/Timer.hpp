@@ -15,7 +15,7 @@
 
 namespace Phoenix
 {
-	class Timer
+	class _PhoenixExport Timer
 	{
 	public:
 		/**

@@ -19,7 +19,8 @@
 
 namespace Phoenix
 {
-	class Texture : public Resource
+	class _PhoenixExport Texture
+	: public Resource
 	{
 		public:
 			Texture(const ResourceManager* const creator,

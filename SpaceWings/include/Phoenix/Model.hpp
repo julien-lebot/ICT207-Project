@@ -57,7 +57,7 @@ namespace Phoenix
 	*
 	* Class is used to store models used in the game.
 	*/
-	class Model
+	class _PhoenixExport Model
 	{
 	public:
 		/// Default constructor

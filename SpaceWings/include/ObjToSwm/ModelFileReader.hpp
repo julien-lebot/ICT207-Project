@@ -9,14 +9,15 @@
 #ifndef MODELFILEREADER_HPP
 #define MODELFILEREADER_HPP
 
-#include <Phoenix\NonCopyable.hpp>
-#include <Phoenix\model.hpp>
-#include <Phoenix\Material.hpp>
+#include <Phoenix/Base.h>
+#include <Phoenix/NonCopyable.hpp>
+#include <Phoenix/model.hpp>
+#include <Phoenix/Material.hpp>
 #include <string>
 
 namespace Phoenix
 {
-	class ModelFileReader : public NonCopyable
+	class _PhoenixExport ModelFileReader : public NonCopyable
 	{
 	public:
 		virtual void readFile( const std::string& fileName , Phoenix::Model& model) {}

@@ -35,7 +35,7 @@ namespace Phoenix {
 		 * @param T The template type should be a real quantity such as float or double.
 		 */
 		template <typename T>
-		class _MEM_ALIGN_VS(16) Vector3
+		class _PhoenixExport _MEM_ALIGN_VS(16) Vector3
 		{
 		public:
 			T x, y, z;
@@ -318,12 +318,12 @@ namespace Phoenix {
 					z - rhs.z);
 			}
 
-			_INLINE Vector3<T> operator *(const T fScalar) const
+			_INLINE Vector3<T> operator *(const T scalar) const
 			{
 				return Vector3<T>(
-					x * fScalar,
-					y * fScalar,
-					z * fScalar);
+					x * scalar,
+					y * scalar,
+					z * scalar);
 			}
 
 			_INLINE Vector3<T> operator *(const Vector3<T>& rhs) const

@@ -9,12 +9,13 @@
 #ifndef SWMWRITER_HPP
 #define SWMWRITER_HPP
 
+#include <Phoenix/Base.h>
 #include <vector>
 #include <fstream>
 #include <string>
 #include <iostream>
-#include <Phoenix\model.hpp>
-#include <ObjToSwm\ModelFileWriter.hpp>
+#include <Phoenix/model.hpp>
+#include <ObjToSwm/ModelFileWriter.hpp>
 
 /*
  * @brief Class that write a Model object to a swm file
@@ -24,7 +25,7 @@
 
 namespace Phoenix
 {
-	class SwmWriter : public ModelFileWriter
+	class _PhoenixExport SwmWriter : public ModelFileWriter
 	{
 	public:		
 		/* read file into Model class

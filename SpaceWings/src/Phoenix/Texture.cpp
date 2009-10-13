@@ -167,7 +167,7 @@ void Texture::bind(const int textureUnit)
   if(textureUnit > -1)
     glActiveTextureARB(GL_TEXTURE0_ARB + textureUnit);
 
-  glBindTexture(mTarget, mID);
+  glBindTexture(getGLTextureTarget(), mID);
 
   mCurrtUnit = textureUnit;
 }
@@ -179,7 +179,7 @@ void Texture::unbind()
     if(mCurrtUnit > -1)
       glActiveTextureARB(GL_TEXTURE0_ARB + mCurrtUnit);
 
-    glDisable(mTarget);
+    glDisable(getGLTextureTarget());
   }
 }
 

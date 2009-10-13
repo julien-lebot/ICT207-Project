@@ -47,7 +47,7 @@
 				RuntimeLibrary="1"
 				WarningLevel="3"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4996"
+				DisableSpecificWarnings="4996;4251"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -117,12 +117,12 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt&quot;;&quot;$(SolutionDir)\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glee-5.4&quot;"
-				PreprocessorDefinitions="PHOENIX_STATIC_LIB"
+				PreprocessorDefinitions="PHOENIX_STATIC_LIB;NDEBUG;_USE_BOOST_"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4996"
+				DisableSpecificWarnings="4996;4251"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -196,11 +196,12 @@
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt&quot;;&quot;$(SolutionDir)\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glee-5.4&quot;"
+				PreprocessorDefinitions="NDEBUG;_USE_BOOST_"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				WarningLevel="3"
 				DebugInformationFormat="3"
-				DisableSpecificWarnings="4996"
+				DisableSpecificWarnings="4996;4251"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -272,12 +273,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt&quot;;&quot;$(SolutionDir)\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1\include&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glee-5.4&quot;"
+				PreprocessorDefinitions="_DEBUG;_USE_BOOST_"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				WarningLevel="3"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="4996"
+				DisableSpecificWarnings="4996;4251"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -290,9 +292,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Phoenix.lib ShaysWorld.lib"
+				AdditionalDependencies="Phoenix.lib ShaysWorld.lib GLee.lib ObjToSwm.lib"
 				OutputFile="$(SolutionDir)\build\$(ConfigurationName)\$(PlatformName)\$(ProjectName).exe"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt\lib&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1\lib&quot;;&quot;$(SolutionDir)\build\$(ConfigurationName)\$(PlatformName)&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)\..\Shared\Library\boost_1_36_0_pblt\lib&quot;;&quot;$(SolutionDir)\..\Shared\Library\GLUT&quot;;&quot;$(SolutionDir)\..\Shared\Library\glew-1.5.1\lib&quot;;&quot;$(SolutionDir)\build\$(ConfigurationName)\$(PlatformName)&quot;;&quot;$(SolutionDir)\..\Shared\Library\glee-5.4&quot;"
+				IgnoreDefaultLibraryNames="LIBC.lib"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -366,6 +369,22 @@
 				>
 			</File>
 		</Filter>
+		<File
+			RelativePath="..\..\src\Phoenix\GameEntity.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\include\Phoenix\GameEntity.hpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\Phoenix\PlayerEntity.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\include\Phoenix\PlayerEntity.hpp"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

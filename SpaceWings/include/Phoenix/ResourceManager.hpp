@@ -105,7 +105,7 @@ namespace Phoenix
 		ResourceHandleType mNextHandle;
 	};
 
-	class ResourceManager
+	class _PhoenixExport ResourceManager
 	: private NonCopyable
 	{
 	public:
