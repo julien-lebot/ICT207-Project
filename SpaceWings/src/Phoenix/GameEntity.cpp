@@ -16,7 +16,7 @@ bool GameEntity::load()
 		swmR.readFile ( modelFile, model );
 
 		if (model.isStatic())
-			m_pos = model.getPossition();
+			m_pos = model.getPosition();
 		
 		std::vector<GLfloat> vertices = model.getVerticeVec();
 

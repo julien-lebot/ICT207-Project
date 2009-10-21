@@ -53,6 +53,9 @@ public:
 	/// returns next string
 	const std::string getNext ();
 
+	/// returns the rest of the string
+	const std::string getRest ();
+
 	/* returns element number n or a blank element if vector i empty
 	 * @param n element index
 	 * @return the n'th element in the Token object
