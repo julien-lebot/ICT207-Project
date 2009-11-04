@@ -1,4 +1,4 @@
-#include <ObjToSwm\swmWriter.hpp>
+#include <ObjToSwm/swmWriter.hpp>
 
 using namespace Phoenix;
 
@@ -13,7 +13,7 @@ void SwmWriter::writeFile ( const std::string& fileName, const Model& model )
 	writeVertice ( model.getVerticeVec () );
 	writeVTexture ( model.getVTextureVec () );
 	writevNormal ( model.getVNormalVec () );
-	writeMaterialOffsets( model.getMtlOffsets(), model.getMtlOffsetsNames());
+	writeMaterialOffsets( model.getMtlOffsets(), model.getMtlOffsetNames());
 	writeMaterial ( model.getMtlListVec () );
 
 	outFile.close ();

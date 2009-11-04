@@ -196,14 +196,14 @@ Phoenix::Material ObjReader::readNewMaterial ( std::ifstream& inFile, Token& t )
 		else if ( prefix == "illum" )
 			tempMtl.setIllum ( atoi ( ( ( t.getNext() ).c_str() ) ) );
 		else if ( prefix == "map_Ka" )
-			tempMtl.setAmbientMap ( t.getNext () );
+			tempMtl.setAmbientMap ( t.getRest () );
 		else if ( prefix == "map_Kd" )
-			tempMtl.setDiffuseMap ( t.getNext () );
+			tempMtl.setDiffuseMap ( t.getRest () );
 		else if ( prefix == "map_Ks" )
-			tempMtl.setSpecularMap ( t.getNext() );
+			tempMtl.setSpecularMap ( t.getRest () );
 		else if ( prefix == "map_bump" )
-			tempMtl.setBumpMap ( t.getNext () );
-	}while ( !inFile.eof () && prefix != "" );
+			tempMtl.setBumpMap ( t.getRest () );
+	}while ( !inFile.eof () && prefix != " " );
 
 	return tempMtl;
 }

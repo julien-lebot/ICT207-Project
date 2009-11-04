@@ -2,6 +2,7 @@
 #define __Shay_h__
 
 #include <Phoenix/Base.h>
+#include <Shay/Camera.h>
 
 namespace Shay
 {
@@ -41,6 +42,9 @@ namespace Shay
 
 		// objects
 		clock_t lastClock;
+		
+		//Shay camera
+		Camera cam;
 
 	public:
 		// Stores raw image file

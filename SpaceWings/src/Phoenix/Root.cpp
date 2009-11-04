@@ -9,6 +9,7 @@
 */
 
 #include <Phoenix/Root.hpp>
+#include <Shay/Shay.h>
 
 using namespace Phoenix;
 
@@ -58,7 +59,7 @@ void Root::enterMainLoop()
 	glutMainLoop();
 }
 
-void Root::addWindow(WindowPtr window, bool autoConfigure)
+void Root::addWindow(WindowPtr window, bool autoConfigure) //mSwitchWorld/s add by Terje
 {
 	// Make sure the window is initialized or face a core dump
 	if (!window->isInitialised())

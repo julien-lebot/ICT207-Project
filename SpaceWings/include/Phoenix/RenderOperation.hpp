@@ -13,6 +13,7 @@
 
 #include <Phoenix/Base.h>
 #include <Phoenix/HarwareBufferData.hpp>
+#include <Phoenix/Material.hpp>
 
 namespace Phoenix
 {
@@ -27,7 +28,10 @@ namespace Phoenix
 			TRIANGLE_STRIP,
 			TRIANGLE_FAN
 		};
-
+		std::vector<int> mtlOffsets;				//added by Terje
+		std::vector<std::string> mtlOffsetNames;	//added by Terje
+		std::vector<Phoenix::Material> mtlList;		//added by Terje
+		
 		VertexData *vertexData;
 		IndexData *indexData;
 		PrimitiveType primitiveType;

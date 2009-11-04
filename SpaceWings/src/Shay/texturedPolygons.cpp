@@ -15,11 +15,9 @@
 
 Phoenix::tr1::shared_ptr<unsigned char> TexturedPolygons::LoadTexture(char* filename, int imgWidth, int imgHeight)
 {
-	//
 	Phoenix::tr1::shared_ptr<unsigned char> image;
 	image = LoadRawImageFile(filename, imgWidth, imgHeight);
 	// inform user if file loaded
-	std::cout << "Loading image file " << filename << "...\n";
 	return image;
 }
 

@@ -27,7 +27,7 @@ namespace Phoenix
 
 		/// Copy constructor
 		Material (const Phoenix::Material& rhs)
-			: materialName(rhs.materialName), materialAmbient(rhs.materialAmbient), materialDiffuse(rhs.materialDiffuse), materialSpecular(rhs.materialSpecular), transparency(rhs.transparency), illumination(rhs.illumination), ambientMap(rhs.ambientMap), diffuseMap(rhs.diffuseMap), specularMap(rhs.specularMap), bumpMap(rhs.bumpMap)
+			: materialName(rhs.materialName), materialAmbient(rhs.materialAmbient), materialDiffuse(rhs.materialDiffuse), materialSpecular(rhs.materialSpecular), transparency(rhs.transparency), shininess(rhs.shininess), illumination(rhs.illumination), ambientMap(rhs.ambientMap), diffuseMap(rhs.diffuseMap), specularMap(rhs.specularMap), bumpMap(rhs.bumpMap)
 		{}
 
 		/// Assignment operator
@@ -160,11 +160,17 @@ namespace Phoenix
 		*/
 		const std::string getBumpMap () const { return bumpMap; }
 
+		const ResourcePtr & getDiffuseTexture() const {return diffuseTexture;}
+
 		void loadTextures()
 		{
+			if(diffuseMap == "")
+				diffuseMap = "default.tga";
+			
 			diffuseTexture = TexturePtr(new Texture(NULL, diffuseMap, 0, TEXTURE_2D));
-			diffuseTexture->setFilePath(diffuseMap);
+			diffuseTexture->setFilePath("maps/" + diffuseMap);
 			diffuseTexture->prepare();
+			diffuseTexture->load();
 		}
 	private:
 		/// Name of the material

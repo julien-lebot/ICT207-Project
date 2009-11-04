@@ -277,7 +277,27 @@ void Renderer::render(const RenderOperation &rop)
 		do
 		{
 			// rop.vertexData->start
-			glDrawArrays(primType, 0, rop.vertexData->count);
+			std::vector<int>::const_iterator offsetIter = rop.mtlOffsets.begin ();					//Added by Terje
+			std::vector<std::string>::const_iterator mtlOffsetIter = rop.mtlOffsetNames.begin ();	//Added by Terje
+			std::vector<Phoenix::Material>::const_iterator mtlIter;									//Added by Terje
+		
+			while ( offsetIter != rop.mtlOffsets.end () )											//While loop added by Terje
+			{
+				mtlIter = rop.mtlList.begin();
+				while((*mtlIter).getName() != *mtlOffsetIter && mtlIter != rop.mtlList.end())
+				{
+					mtlIter++;
+				}
+				//static_cast<Texture*>(texture.get())->bind(0);
+				static_cast<Texture*>((*mtlIter).getDiffuseTexture().get())->bind(0);
+				int offset1 = *(offsetIter++);
+				int offset2 = *(offsetIter++);
+				
+				glDrawArrays (primType,offset1, offset2 );
+				mtlOffsetIter++;
+			}
+			
+			//glDrawArrays(primType, 0, rop.vertexData->count);
 		} while (0);
 	}
 

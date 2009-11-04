@@ -276,6 +276,29 @@ namespace Phoenix
 				z = fSin*rkAxis.z;
 			}
 
+			/// convert quaternion to angle-axis.
+
+			void angleAxis(float &angle, Vector3f &axis) const
+			{
+				const float squareLength = x*x + y*y + z*z;
+				
+				if (squareLength>(0.00001f*0.00001f))
+				{
+					angle = 2.0f * (float) acos(w);
+					const float inverseLength = 1.0f / (float) pow(squareLength, 0.5f);
+					axis.x = x * inverseLength;
+					axis.y = y * inverseLength;
+					axis.z = z * inverseLength;
+				}
+				else
+				{
+					angle = 0.0f;
+					axis.x = 1.0f;
+					axis.y = 0.0f;
+					axis.z = 0.0f;
+				}
+			}
+
 			qType norm() const
 			{
 				return w*w+x*x+y*y+z*z;

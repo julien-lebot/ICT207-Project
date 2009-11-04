@@ -48,8 +48,23 @@ namespace Phoenix
 
 		bool is_string(const boost::any & operand) const
 		{
-			return boost::any_cast<std::string>(&operand);
+			try
+			{
+				boost::any_cast<std::string>(operand);
+				return true;
+			}
+			catch(const boost::bad_any_cast &)
+			{
+				return false;
+			}
 		}
+		
+		/*
+		bool is_string(const boost::any & operand) const
+		{
+		return boost::any_cast<std::string>(&operand);
+		}
+		*/
 
 		ConfigOption &addPossibleValue(const boost::any& val)
 		{

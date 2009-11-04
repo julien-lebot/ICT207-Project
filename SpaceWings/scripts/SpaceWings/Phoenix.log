@@ -1,6 +1,6 @@
-[12:18:45]::[INFO] Phoenix initializing ...
-[12:18:45]::[INFO] version 1.0.1 (Cuber)
-[12:18:45]::[INFO] compiled with Microsoft Visual C/C++ version 1500 for Microsoft Windows 32bits (Tue Oct 13 02:00:33 2009)
-[12:18:45]::[INFO] Detected 4 logical CPU core(s).
-[12:18:45]::[INFO] GenuineIntel: Intel(R) Core(TM)2 Quad CPU    Q6600  @ 2.40GHz
-[12:18:45]::[INFO] Features: SSE3 DTES64 MONITOR DS_CPL VMX EST TM2 SSSE3 CX16 ETPRD PDCM OSXSAVE AVX FPU VME DE TSC MSR PAE MCE CX8 APIC MTRR MCA CMOV PAT PSE36 PSN CLF DTES ACPI FXSR SSE SSE2 SS HTT 
+[06:41:21]::[INFO] Phoenix initializing ...
+[06:41:21]::[INFO] version 1.0.1 (Cuber)
+[06:41:21]::[INFO] compiled with Microsoft Visual C/C++ version 1500 for Microsoft Windows 32bits (Sun Nov  1 19:28:35 2009)
+[06:41:21]::[INFO] Detected 2 logical CPU core(s).
+[06:41:21]::[INFO] GenuineIntel: Intel(R) Core(TM)2 Duo CPU     T7500  @ 2.20GHz
+[06:41:21]::[INFO] Features: SSE3 DTES64 MONITOR DS_CPL VMX EST TM2 SSSE3 CX16 ETPRD PDCM OSXSAVE AVX FPU VME DE TSC MSR PAE MCE CX8 APIC MTRR MCA CMOV PAT PSE36 PSN CLF DTES ACPI FXSR SSE SSE2 SS HTT 

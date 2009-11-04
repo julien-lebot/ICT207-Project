@@ -35,7 +35,7 @@ namespace Phoenix {
 		 * @param T The template type should be a real quantity such as float or double.
 		 */
 		template <typename T>
-		class _PhoenixExport _MEM_ALIGN_VS(16) Vector3
+		class Vector3
 		{
 		public:
 			T x, y, z;

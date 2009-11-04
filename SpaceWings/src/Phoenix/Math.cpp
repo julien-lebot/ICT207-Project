@@ -107,6 +107,27 @@ float arcosine(const Units::Radians &value)
 	return acos((float)value.value());
 }
 
+float convertPolar (const float &tempX, const float &tempY)
+{
+	float angle;
+	if (tempX == 0.0)					// check if x is close to zero
+	{
+		if (tempY > 0.0)
+			angle = PI / 2.0;
+		else
+			angle = 3.0 * PI / 2.0;
+	}
+	else {
+		angle = atan (tempY / tempX);
+		if (tempX < 0.0)
+			angle += PI;
+		if (angle > 2 * PI)
+			angle -= (2.0 * PI);
+	}
+
+	return (angle);
+}
+
 }
 
 }

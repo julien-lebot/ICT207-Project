@@ -48,6 +48,8 @@ namespace Phoenix {
 			#undef DEFINE_ANGLE_UNIT
 		} // namespace Units
 
+		const float PI = 3.1415926535897932384626433832795;
+
 		/** 
 		 * @brief Returns the same number if it is a power of
 		 * two. Returns a larger integer if it is not a 
@@ -57,6 +59,7 @@ namespace Phoenix {
 		 * @param power The absolute value of the power.
 		 * @return An unsigned int that represents the absolute closest value to the power of two of the argument.
 		 */
+
 		unsigned int getClosestPow2(unsigned int power);
 
 		// These functions probably need some re-working as they are made to work with floats only atm
@@ -69,6 +72,7 @@ namespace Phoenix {
 		float arctangent(const Units::Radians &value);
 		float arcsine(const Units::Radians &value);
 		float arcosine(const Units::Radians &value);
+		float convertPolar (const float &tempX, const float &tempY);
 
 		/// Equality between 2 floating point numbers using tolerance
 		template <typename T>

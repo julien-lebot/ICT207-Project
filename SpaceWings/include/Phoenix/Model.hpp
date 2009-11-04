@@ -12,8 +12,8 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include <Phoenix\Color.hpp>
-#include <Phoenix\Material.hpp>
+#include <Phoenix/Color.hpp>
+#include <Phoenix/Material.hpp>
 
 #define FLOATS_PER_LINE 3
 
@@ -57,7 +57,7 @@ namespace Phoenix
 	*
 	* Class is used to store models used in the game.
 	*/
-	class _PhoenixExport Model
+	class Model
 	{
 	public:
 		/// Default constructor
@@ -204,7 +204,7 @@ namespace Phoenix
 		/* returns if object is empty
 		 * @return bool value
 		 */
-		const bool isEmpty () const { return (vertices.size() == 0) || (faceGroups.size() == 0); }
+		const bool isEmpty () const { return (vertices.size() == 0) && (faceGroups.size() == 0); }
 
 		/// Loads the textures
 		void loadTextures();
@@ -220,7 +220,9 @@ namespace Phoenix
 		/* returns a vector with material offsets names
 		 * @return vector containing material offsets names
 		 */
-		const std::vector<std::string>& getMtlOffsetsNames () const { return mtlOffsetNames; }
+		const std::vector<std::string>& getMtlOffsetNames () const { return mtlOffsetNames; }
+
+		const int getVerticeCount() { return mtlOffsets.back(); }
 	private:
 		/// vertice vector
 		std::vector<float> vertices;

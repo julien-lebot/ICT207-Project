@@ -532,6 +532,8 @@ void ShayWorld::DeleteImageFromMemory(unsigned char* tempImage)
 //--------------------------------------------------------------------------------------
 void ShayWorld::CreateTextures()
 {
+	std::cout << "Loading Shay's World textures..." << std::endl;
+	
 	//glGenTextures(sizeof(textures), (GLuint *)&textures);
 	glEnable(GL_DEPTH_TEST);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -4312,7 +4314,6 @@ void ShayWorld::IncrementFrameCount()
 		lastClock = clock();
 	}
 }
-
 
 //--------------------------------------------------------------------------------------
 //  Main Display Function

@@ -1,4 +1,4 @@
-#include <ObjToSwm\SwmReader.hpp>
+#include <ObjToSwm/SwmReader.hpp>
 
 using namespace Phoenix;
 
@@ -119,6 +119,8 @@ void SwmReader::parseVNormal ( std::ifstream& inFile, Model& model )
 
 void SwmReader::parseOffset ( std::ifstream& inFile, Model& model )
 {
+	setNextTokens(inFile , 0);
+
 	do
 	{
 		model.addOffset ( atoi ( m_token.getNext ().c_str () ) );
@@ -165,16 +167,20 @@ void SwmReader::parseMaterial ( std::ifstream& inFile, Model& model )
 	tempMtl.setIllum( atoi ( ( ( m_token.getElement( 1 ) ).c_str() ) ) );
 
 	setNextTokens ( inFile );
-	tempMtl.setAmbientMap ( m_token.getElement ( 1 ) );
+	m_token.getNext();
+	tempMtl.setAmbientMap ( m_token.getRest() );
 
 	setNextTokens ( inFile );
-	tempMtl.setDiffuseMap ( m_token.getElement ( 1 ) );
+	m_token.getNext();
+	tempMtl.setDiffuseMap ( m_token.getRest() );
 
 	setNextTokens ( inFile );
-	tempMtl.setSpecularMap ( m_token.getElement ( 1 ) ); 
+	m_token.getNext();
+	tempMtl.setSpecularMap ( m_token.getRest() ); 
 
 	setNextTokens ( inFile );
-	tempMtl.setBumpMap ( m_token.getElement ( 1 ) );
+	m_token.getNext();
+	tempMtl.setBumpMap ( m_token.getRest() );
 
 	model.addMaterial(tempMtl);
 }

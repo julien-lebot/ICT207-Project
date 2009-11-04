@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="Phoenix"
 	ProjectGUID="{0F4FDF75-92CE-47F5-BEFE-1BB5545EB29B}"
 	RootNamespace="EngineFounation"
@@ -17,7 +17,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug Static|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)build\$(ConfigurationName)\$(PlatformName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="2"
@@ -218,7 +218,7 @@
 		</Configuration>
 		<Configuration
 			Name="Debug DLL|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\build\$(ConfigurationName)\$(PlatformName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="2"
@@ -344,6 +344,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\Phoenix\EntityManager.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\Phoenix\Exception.hpp"
 				>
 			</File>
@@ -353,6 +357,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\Phoenix\Filesystem.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\Phoenix\GameLogicIntegrator.hpp"
 				>
 			</File>
 			<File
@@ -369,6 +377,10 @@
 			</File>
 			<File
 				RelativePath="..\..\include\Phoenix\Image.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\Phoenix\Input.hpp"
 				>
 			</File>
 			<File
@@ -400,11 +412,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\include\Phoenix\NetworkManager.hpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\include\Phoenix\NonCopyable.hpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\include\Phoenix\Quaternion.hpp"
+				RelativePath="..\..\include\Phoenix\PhysicsStructs.hpp"
 				>
 			</File>
 			<File
@@ -488,7 +504,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\Phoenix\EntityManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\Phoenix\Exception.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Phoenix\GameLogicIntegrator.cpp"
 				>
 			</File>
 			<File
@@ -521,6 +545,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\Phoenix\Model.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\Phoenix\NetworkManager.cpp"
 				>
 			</File>
 			<File

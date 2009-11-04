@@ -1,6 +1,6 @@
-#include <ObjToSwm\token.hpp>
+#include <ObjToSwm/token.hpp>
 
-
+using namespace Phoenix;
 
 void Token::tokenizeStr ( std::string str,const std::string delim )
 {
@@ -34,4 +34,17 @@ const std::string Token::getNext ()
 		return " ";
 	else
 		return tokens[current++];
+}
+
+const std::string Token::getRest ()
+{
+	std::string str = "";
+	
+	while ( !allFetched () ) {
+		str.append ( tokens[current++] );
+		if ( !allFetched () )
+			str.append ( " " );
+	}
+
+	return str;
 }
